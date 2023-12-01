@@ -9,7 +9,6 @@ process.on("uncaughtException", error => {
   console.error(error);
   process.exit(1);
 });
-
 let server: Server;
 
 async function main() {
