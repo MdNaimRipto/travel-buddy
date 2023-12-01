@@ -9,7 +9,6 @@ process.on("uncaughtException", error => {
   console.error(error);
   process.exit(1);
 });
-
 let server: Server;
 
 async function main() {
@@ -18,6 +17,7 @@ async function main() {
     const uri = config.database_url;
     await mongoose.connect(`${uri}`);
     console.log(`🛢 Database Connected Successfully`);
+    
 
     app.listen(port, () => {
       console.log(`Server is running on  http://localhost:${port}`);
