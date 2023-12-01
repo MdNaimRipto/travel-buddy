@@ -18,6 +18,7 @@ async function main() {
     const uri = config.database_url;
     await mongoose.connect(`${uri}`);
     console.log(`🛢 Database Connected Successfully`);
+    console.log(`iqbal`);
 
     app.listen(port, () => {
       console.log(`Server is running on  http://localhost:${port}`);
