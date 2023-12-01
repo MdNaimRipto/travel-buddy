@@ -2,11 +2,11 @@ export interface IUser {
   userName: string;
   email: string;
   contactNumber: string;
-  profileImage: string;
   password: string;
+  profileImage: string;
   role: "hotelOwner" | "customer";
   uid: string;
-  Location: {
+  location: {
     street: string;
     city: string;
     district: string;
@@ -14,7 +14,25 @@ export interface IUser {
   };
 }
 
-export interface IAutUser {
+export interface IUserWithoutPassword {
+  _id: string;
+  userName: string;
+  email: string;
+  contactNumber: string;
+  profileImage: string;
+  role: "hotelOwner" | "customer";
+  uid: string;
+  location: {
+    street: string;
+    city: string;
+    district: string;
+    country: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface IAuthUser {
   token: string;
   userData: string;
 }
