@@ -42,16 +42,21 @@ const loginUserZodSchema = z.object({
 
 const userUpdateZodSchema = z.object({
   body: z.object({
-    name: z.string().optional(),
+    userName: z.string().optional(),
     email: z.string().optional(),
     contactNumber: z.string().optional(),
     password: z.string().optional(),
-    userProfile: z.string().optional(),
-    street: z.string().optional(),
-    city: z.string().optional(),
-    district: z.string().optional(),
-    userRole: z.string().optional(),
+    profileImage: z.string().optional(),
+    role: z.string().optional(),
     uid: z.string().optional(),
+    location: z
+      .object({
+        street: z.string().optional(),
+        city: z.string().optional(),
+        district: z.string().optional(),
+        country: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 
