@@ -1,11 +1,12 @@
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
-import { IAuthUser, IUser } from "./users.interface";
+import { IAuthUser, ILoginUser, IUser } from "./users.interface";
 import { Users } from "./users.schema";
 import { encryptData, generateUID } from "./users.utils";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import config from "../../../config/config";
 import { Secret } from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 const userRegister = async (payload: IUser): Promise<IAuthUser> => {
   const { email, contactNumber, role } = payload;
@@ -21,18 +22,21 @@ const userRegister = async (payload: IUser): Promise<IAuthUser> => {
   // Check UID Exists or Not
   const isUIDExists = await Users.findOne({ uid: uid });
   if (isUIDExists) {
-    throw new ApiError(httpStatus.CONFLICT, "User Already Exists");
+    throw new ApiError(
+      httpStatus.CONFLICT,
+      "Something went wrong! Please try again",
+    );
   }
   // Save UID
   payload.uid = uid as string;
 
   const user = await Users.create(payload);
 
-  const { _id } = user;
+  const { uid: userUid } = user;
 
   const accessToken = jwtHelpers.createToken(
     {
-      id: _id,
+      id: userUid,
     },
     config.jwt_secret as Secret,
     config.jwt_expires_in as string,
@@ -46,4 +50,35 @@ const userRegister = async (payload: IUser): Promise<IAuthUser> => {
   };
 };
 
-export const UserService = { userRegister };
+const userLogin = async (payload: ILoginUser): Promise<IAuthUser> => {
+  const { email, password } = payload;
+
+  const isExists = await Users.findOne({ email: email });
+
+  if (!isExists) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Email Or Password");
+  }
+
+  const checkPassword = await bcrypt.compare(password, isExists.password);
+
+  if (!checkPassword) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Email Or Password");
+  }
+
+  const accessToken = jwtHelpers.createToken(
+    {
+      id: isExists.uid,
+    },
+    config.jwt_secret as Secret,
+    config.jwt_expires_in as string,
+  );
+
+  const encryptedUserData = encryptData(isExists as any);
+
+  return {
+    token: accessToken,
+    userData: encryptedUserData,
+  };
+};
+
+export const UserService = { userRegister, userLogin };
