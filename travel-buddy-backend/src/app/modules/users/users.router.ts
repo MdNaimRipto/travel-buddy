@@ -11,4 +11,20 @@ router.post(
   UserController.userRegister,
 );
 
+router.post(
+  "/login",
+  zodValidationRequest(UserValidation.loginUserZodSchema),
+  UserController.userLogin,
+);
+
+router.patch(
+  "/updateUser/:id",
+  zodValidationRequest(UserValidation.userUpdateZodSchema),
+  UserController.updatedUser,
+);
+
+router.get("/findUser", UserController.findUserForForgotPassword);
+
+router.patch("/forgotPassword", UserController.forgotPassword);
+
 export const UserRouter = router;
