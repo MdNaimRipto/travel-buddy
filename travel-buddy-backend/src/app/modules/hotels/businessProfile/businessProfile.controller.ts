@@ -21,6 +21,18 @@ const createBusinessProfile = catchAsync(
   },
 );
 
+// Get Business Profile
+const getBusinessProfile = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await BusinessProfileService.getBusinessProfile(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Profile Successfully Found",
+    data: result,
+  });
+});
+
 // Update Profile images
 const updateProfileImages = catchAsync(async (req: Request, res: Response) => {
   const { ...profileData } = req.body;
@@ -53,4 +65,5 @@ export const BusinessProfileController = {
   createBusinessProfile,
   updateProfileImages,
   uploadNewImage,
+  getBusinessProfile,
 };

@@ -38,6 +38,18 @@ const createProfile = async (
   return result;
 };
 
+const getBusinessProfile = async (
+  id: string,
+): Promise<IBusinessProfile | null> => {
+  const result = await BusinessProfile.findOne({ hotelOwnerId: id });
+  if (!result) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      "Business Profile not found! please create one first",
+    );
+  }
+  return result;
+};
 const updateProfileImages = async (
   payload: IUpdateProfileImages,
 ): Promise<IBusinessProfile | null> => {
@@ -82,4 +94,5 @@ export const BusinessProfileService = {
   createProfile,
   updateProfileImages,
   uploadNewImage,
+  getBusinessProfile,
 };
