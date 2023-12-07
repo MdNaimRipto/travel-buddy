@@ -4,6 +4,17 @@ export interface IBusinessProfile {
   hotelName: string;
   hotelLocation: string;
   totalReservations: number;
-  hotelImages: [string];
+  hotelImages: string[];
   reservationsLeft: number;
+}
+
+export interface IUpdateProfileImages {
+  hotelId: string;
+  img: string;
+  imgNo: number;
+}
+
+export interface IUploadNewImage {
+  hotelId: string;
+  img: string;
 }
