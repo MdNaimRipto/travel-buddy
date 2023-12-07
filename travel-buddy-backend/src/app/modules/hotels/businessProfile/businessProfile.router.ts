@@ -11,6 +11,11 @@ router.post(
   BusinessProfileController.createBusinessProfile,
 );
 
+router.get(
+  "/getBusinessProfile/:id",
+  BusinessProfileController.getBusinessProfile,
+);
+
 router.patch(
   "/updateProfileImages",
   BusinessProfileController.updateProfileImages,
