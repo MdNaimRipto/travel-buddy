@@ -2,12 +2,14 @@ import httpStatus from "http-status";
 import ApiError from "../../../../errors/ApiError";
 import {
   IBusinessProfile,
+  IUpdateBusinessProfile,
   IUpdateProfileImages,
   IUploadNewImage,
 } from "./businessProfile.interface";
 import { BusinessProfile } from "./businessProfile.schema";
 import { generateHotelId } from "./businessProfile.utils";
 
+// * Create Business Profile
 const createProfile = async (
   payload: IBusinessProfile,
 ): Promise<IBusinessProfile> => {
@@ -38,6 +40,7 @@ const createProfile = async (
   return result;
 };
 
+// * Get Business Profile
 const getBusinessProfile = async (
   id: string,
 ): Promise<IBusinessProfile | null> => {
@@ -50,6 +53,70 @@ const getBusinessProfile = async (
   }
   return result;
 };
+
+// * Update Business Profile
+const updateBusinessProfile = async (
+  payload: IUpdateBusinessProfile,
+): Promise<IBusinessProfile | null> => {
+  const { hotelId: id, ownerId, updateData } = payload;
+
+  const {
+    hotelId,
+    hotelImages,
+    hotelOwnerId,
+    totalReservations,
+    reservationsLeft,
+  } = updateData;
+
+  const isHotelExists = await BusinessProfile.findOne({ hotelId: id });
+  if (!isHotelExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Hotel Profile Not Found!");
+  }
+
+  if (isHotelExists.hotelOwnerId !== ownerId) {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "Something Went Wrong! Please Try Again",
+    );
+  }
+
+  if (
+    hotelId !== undefined ||
+    hotelOwnerId !== undefined ||
+    reservationsLeft !== undefined ||
+    hotelImages !== undefined
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Something Went Wrong! Please Try Again",
+    );
+  }
+
+  if (totalReservations) {
+    const currentReservationLeft = isHotelExists.reservationsLeft;
+    const previousTotalReservation = isHotelExists.totalReservations;
+    if (previousTotalReservation > totalReservations) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Total Reservation Cannot be Less Then Previous Total Reservations!",
+      );
+    }
+    const addedTotalReservations = totalReservations - previousTotalReservation;
+    updateData.reservationsLeft =
+      currentReservationLeft + addedTotalReservations;
+  }
+
+  const result = await BusinessProfile.findOneAndUpdate(
+    { hotelId: id },
+    updateData,
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
+// * Upload Profile Images
 const updateProfileImages = async (
   payload: IUpdateProfileImages,
 ): Promise<IBusinessProfile | null> => {
@@ -72,6 +139,7 @@ const updateProfileImages = async (
   return result;
 };
 
+// * Upload New Image
 const uploadNewImage = async (
   payload: IUploadNewImage,
 ): Promise<IBusinessProfile | null> => {
@@ -92,7 +160,8 @@ const uploadNewImage = async (
 
 export const BusinessProfileService = {
   createProfile,
+  getBusinessProfile,
+  updateBusinessProfile,
   updateProfileImages,
   uploadNewImage,
-  getBusinessProfile,
 };

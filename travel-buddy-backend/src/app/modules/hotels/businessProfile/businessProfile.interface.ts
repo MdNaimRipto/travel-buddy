@@ -8,6 +8,12 @@ export interface IBusinessProfile {
   reservationsLeft: number;
 }
 
+export interface IUpdateBusinessProfile {
+  hotelId: string;
+  ownerId: string;
+  updateData: Partial<IBusinessProfile>;
+}
+
 export interface IUpdateProfileImages {
   hotelId: string;
   img: string;

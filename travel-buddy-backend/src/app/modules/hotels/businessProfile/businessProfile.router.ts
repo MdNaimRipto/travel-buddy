@@ -17,6 +17,11 @@ router.get(
 );
 
 router.patch(
+  "/updateBusinessProfile",
+  BusinessProfileController.updateBusinessProfile,
+);
+
+router.patch(
   "/updateProfileImages",
   BusinessProfileController.updateProfileImages,
 );
