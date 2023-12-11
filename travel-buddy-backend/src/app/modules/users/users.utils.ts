@@ -8,9 +8,9 @@ export function generateUID(userRole: "hotelOwner" | "customer") {
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let uid;
   if (userRole === "customer") {
-    uid = "c#00";
+    uid = "c00";
   } else if (userRole === "hotelOwner") {
-    uid = "ho#00";
+    uid = "ho00";
   }
 
   for (let i = 0; i < uidLength; i++) {

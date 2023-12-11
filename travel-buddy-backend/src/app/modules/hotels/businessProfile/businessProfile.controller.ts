@@ -21,19 +21,33 @@ const createBusinessProfile = catchAsync(
   },
 );
 
-// Get Business Profile
+//* Get Business Profile
 const getBusinessProfile = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await BusinessProfileService.getBusinessProfile(id);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
-    message: "Profile Successfully Found",
+    message: "Profile Retrieved Successfully",
     data: result,
   });
 });
 
-// Update Profile images
+// * Update Business Profile
+const updateBusinessProfile = catchAsync(
+  async (req: Request, res: Response) => {
+    const { ...payload } = req.body;
+    const result = await BusinessProfileService.updateBusinessProfile(payload);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Profile Updated Successfully",
+      data: result,
+    });
+  },
+);
+
+//* Update Profile images
 const updateProfileImages = catchAsync(async (req: Request, res: Response) => {
   const { ...profileData } = req.body;
 
@@ -47,7 +61,7 @@ const updateProfileImages = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// Upload New Image
+//* Upload New Image
 const uploadNewImage = catchAsync(async (req: Request, res: Response) => {
   const { ...profileData } = req.body;
 
@@ -63,7 +77,8 @@ const uploadNewImage = catchAsync(async (req: Request, res: Response) => {
 
 export const BusinessProfileController = {
   createBusinessProfile,
+  getBusinessProfile,
+  updateBusinessProfile,
   updateProfileImages,
   uploadNewImage,
-  getBusinessProfile,
 };
