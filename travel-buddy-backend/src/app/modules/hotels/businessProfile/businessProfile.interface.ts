@@ -5,7 +5,6 @@ export interface IBusinessProfile {
   hotelLocation: string;
   totalReservations: number;
   hotelImages: string[];
-  reservationsLeft: number;
 }
 
 export interface IUpdateBusinessProfile {

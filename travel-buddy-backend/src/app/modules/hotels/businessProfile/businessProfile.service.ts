@@ -34,8 +34,6 @@ const createProfile = async (
   const hotelId = generateHotelId();
   payload.hotelId = hotelId;
 
-  payload.reservationsLeft = totalReservations;
-
   const result = await BusinessProfile.create(payload);
   return result;
 };
@@ -60,13 +58,7 @@ const updateBusinessProfile = async (
 ): Promise<IBusinessProfile | null> => {
   const { hotelId: id, ownerId, updateData } = payload;
 
-  const {
-    hotelId,
-    hotelImages,
-    hotelOwnerId,
-    totalReservations,
-    reservationsLeft,
-  } = updateData;
+  const { hotelId, hotelImages, hotelOwnerId, totalReservations } = updateData;
 
   const isHotelExists = await BusinessProfile.findOne({ hotelId: id });
   if (!isHotelExists) {
@@ -83,7 +75,6 @@ const updateBusinessProfile = async (
   if (
     hotelId !== undefined ||
     hotelOwnerId !== undefined ||
-    reservationsLeft !== undefined ||
     hotelImages !== undefined
   ) {
     throw new ApiError(
@@ -93,7 +84,6 @@ const updateBusinessProfile = async (
   }
 
   if (totalReservations) {
-    const currentReservationLeft = isHotelExists.reservationsLeft;
     const previousTotalReservation = isHotelExists.totalReservations;
     if (previousTotalReservation > totalReservations) {
       throw new ApiError(
@@ -101,9 +91,6 @@ const updateBusinessProfile = async (
         "Total Reservation Cannot be Less Then Previous Total Reservations!",
       );
     }
-    const addedTotalReservations = totalReservations - previousTotalReservation;
-    updateData.reservationsLeft =
-      currentReservationLeft + addedTotalReservations;
   }
 
   const result = await BusinessProfile.findOneAndUpdate(
