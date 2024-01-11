@@ -33,7 +33,7 @@ export const reservationsSchema = new Schema<IReservations>(
     },
     images: [{ type: String, required: true, min: 5 }],
     features: [{ type: String, required: true }],
-    additionalFacilities: [{ type: String, required: true }],
+    additionalFacilities: [{ type: String, required: true, default: [] }],
   },
   {
     timestamps: true,

@@ -103,7 +103,7 @@ const updateBusinessProfile = async (
   return result;
 };
 
-// * Upload Profile Images
+// * Update Profile Images
 const updateProfileImages = async (
   payload: IUpdateProfileImages,
 ): Promise<IBusinessProfile | null> => {

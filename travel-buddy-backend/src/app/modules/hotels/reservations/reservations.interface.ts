@@ -24,7 +24,16 @@ export interface IUpdateReservation {
   updateData: Partial<IReservations>;
 }
 
+export type IUpdatableArrayKey = "features" | "additionalFacilities" | "images";
+
+export interface IUploadArrayData {
+  key: IUpdatableArrayKey;
+  reservationId: string;
+  data: string;
+}
+
 export interface IUpdateArrayData {
+  key: IUpdatableArrayKey;
   reservationId: string;
   data: string;
   dataNo: number;
