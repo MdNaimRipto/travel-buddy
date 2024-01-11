@@ -4,6 +4,8 @@ import httpStatus from "http-status";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
 import pathNotFoundErrorHandler from "./errors/pathNotFoundErrorHandler";
 import { Routers } from "./app/routes/router";
+import Pusher from "pusher";
+import config from "./config/config";
 
 const app: Application = express();
 
@@ -11,6 +13,15 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ? Pusher Configuration
+export const pusher = new Pusher({
+  appId: config.pusher_app_id,
+  key: config.pusher_key,
+  secret: config.pusher_secret,
+  cluster: "ap2",
+  useTLS: true,
+});
 
 app.get("/", async (req: Request, res: Response) => {
   res.status(httpStatus.OK).send({

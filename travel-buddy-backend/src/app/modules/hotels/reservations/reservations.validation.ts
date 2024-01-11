@@ -43,11 +43,13 @@ const reservationZodSchema = z.object({
         required_error: "Features Are Required",
       }),
     ),
-    additionalFacilities: z.array(
-      z.string({
-        required_error: "Additional Facilities Are Required",
-      }),
-    ),
+    additionalFacilities: z
+      .array(
+        z.string({
+          required_error: "Additional Facilities Are Required",
+        }),
+      )
+      .default([]),
   }),
 });
 

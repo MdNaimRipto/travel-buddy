@@ -80,10 +80,40 @@ const updateReservations = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Upload New Array Data
+const uploadNewArrayData = catchAsync(async (req: Request, res: Response) => {
+  const { ...updateData } = req.body;
+
+  const result = await ReservationsService.uploadNewArrayData(updateData);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "New Data Added",
+    data: result,
+  });
+});
+
+// Update Array Data
+const updateArrayData = catchAsync(async (req: Request, res: Response) => {
+  const { ...updateData } = req.body;
+
+  const result = await ReservationsService.updateArrayData(updateData);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Reservations Updated Successfully",
+    data: result,
+  });
+});
+
 export const ReservationsController = {
   uploadReservation,
   getAllReservations,
   getReservationsByHotelId,
   getReservationDetails,
   updateReservations,
+  uploadNewArrayData,
+  updateArrayData,
 };

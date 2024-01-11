@@ -25,4 +25,8 @@ router.get(
 
 router.patch("/updateReservation", ReservationsController.updateReservations);
 
+router.patch("/uploadNewArrayData", ReservationsController.uploadNewArrayData);
+
+router.patch("/updateArrayData", ReservationsController.updateArrayData);
+
 export const ReservationRouter = router;

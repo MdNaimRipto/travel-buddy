@@ -2,8 +2,10 @@ import httpStatus from "http-status";
 import ApiError from "../../../../errors/ApiError";
 import {
   IReservations,
+  IUpdatableArrayKey,
   IUpdateArrayData,
   IUpdateReservation,
+  IUploadArrayData,
 } from "./reservations.interface";
 import { Reservations } from "./reservations.schema";
 import {
@@ -91,6 +93,7 @@ const getReservationDetails = async (
 const updateReservations = async (
   payload: IUpdateReservation,
 ): Promise<IReservations | null> => {
+  console.log("OK");
   const { reservationId: id, hotelId, updateData } = payload;
   if (!id || !hotelId || !updateData) {
     throw new ApiError(
@@ -185,11 +188,52 @@ const updateReservations = async (
   return result;
 };
 
-const updateArrayData = async (updateData: IUpdateArrayData) => {};
-
 // Upload New Array Data
+const uploadNewArrayData = async (payload: IUploadArrayData) => {
+  const { data, key, reservationId } = payload;
 
-// Update Status
+  const isReservationExists = await Reservations.findOne({ reservationId });
+  if (!isReservationExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Reservation Not Found");
+  }
+
+  isReservationExists[key].push(data);
+
+  const result = await Reservations.findOneAndUpdate(
+    { reservationId },
+    isReservationExists,
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
+const updateArrayData = async (updateData: IUpdateArrayData) => {
+  const { data, dataNo, reservationId, key } = updateData;
+
+  const isReservationExists = await Reservations.findOne({ reservationId });
+  if (!isReservationExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Reservation Not Found");
+  }
+
+  console.log(isReservationExists[key].length, dataNo);
+  if (dataNo < 0 || dataNo + 1 > isReservationExists[key].length) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Slot Does Not Exists!");
+  }
+
+  isReservationExists[key][dataNo] = data;
+
+  const result = await Reservations.findOneAndUpdate(
+    { reservationId },
+    isReservationExists,
+    {
+      new: true,
+    },
+  );
+
+  return result;
+};
 
 export const ReservationsService = {
   uploadReservation,
@@ -197,4 +241,6 @@ export const ReservationsService = {
   getReservationsByHotelId,
   getReservationDetails,
   updateReservations,
+  uploadNewArrayData,
+  updateArrayData,
 };
