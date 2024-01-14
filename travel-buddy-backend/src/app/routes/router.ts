@@ -4,6 +4,7 @@ import { businessProfileRouter } from "../modules/hotels/businessProfile/busines
 import { ReservationRouter } from "../modules/hotels/reservations/reservations.router";
 import { WishlistRouter } from "../modules/wishlist/wishlist.router";
 import { BookingRouter } from "../modules/booking/booking.router";
+import { ReviewsRouter } from "../modules/reviews/reviews.router";
 
 const router = express.Router();
 
@@ -27,6 +28,10 @@ const routes = [
   {
     path: "/booking",
     route: BookingRouter,
+  },
+  {
+    path: "/reviews",
+    route: ReviewsRouter,
   },
 ];
 
