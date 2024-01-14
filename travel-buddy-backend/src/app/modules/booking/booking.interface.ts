@@ -1,5 +1,7 @@
 import { Types } from "mongoose";
 
+export type statusEnums = "pending" | "onboard" | "completed" | "cancelled";
+
 export interface IBooking {
   userId: string;
   reservationId: Types.ObjectId;
@@ -7,5 +9,5 @@ export interface IBooking {
   startingDate: string;
   expireDate: string;
   reservationPrice: number;
-  status: "pending" | "onboard" | "completed" | "cancelled";
+  status: statusEnums;
 }
