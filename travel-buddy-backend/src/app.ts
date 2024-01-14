@@ -6,6 +6,7 @@ import pathNotFoundErrorHandler from "./errors/pathNotFoundErrorHandler";
 import { Routers } from "./app/routes/router";
 import Pusher from "pusher";
 import config from "./config/config";
+import { updateBooking } from "./app/modules/booking/booking.utils";
 
 const app: Application = express();
 
@@ -23,12 +24,16 @@ export const pusher = new Pusher({
   useTLS: true,
 });
 
+// * Basic Page
 app.get("/", async (req: Request, res: Response) => {
   res.status(httpStatus.OK).send({
     message: "Travel-Buddy Server Running Successfully",
     statusCode: httpStatus.OK,
   });
 });
+
+// ? Function for Update Booking and Reservation's
+updateBooking();
 
 //* Main endpoint
 app.use("/api/v1.0", Routers);
