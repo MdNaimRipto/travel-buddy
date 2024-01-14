@@ -11,4 +11,8 @@ router.post(
   BookingController.bookedReservation,
 );
 
+router.get("/getUsersReservations", BookingController.getUsersReservations);
+
+router.patch("/cancelBooking", BookingController.cancelBooking);
+
 export const BookingRouter = router;

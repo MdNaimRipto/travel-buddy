@@ -18,6 +18,34 @@ const bookedReservation = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Get Reservation's
+const getUsersReservations = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.headers["user-id"];
+  const result = await BookingService.getUsersReservations(userId as string);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Bookings Retrieved Successfully",
+    data: result,
+  });
+});
+
+// Cancel Reservation
+const cancelBooking = catchAsync(async (req: Request, res: Response) => {
+  const bookingId = req.headers["booking-id"];
+  const result = await BookingService.cancelBooking(bookingId as string);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Booking Cancelled!",
+    data: result,
+  });
+});
+
 export const BookingController = {
   bookedReservation,
+  getUsersReservations,
+  cancelBooking,
 };
