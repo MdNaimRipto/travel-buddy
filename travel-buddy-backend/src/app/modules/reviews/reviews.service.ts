@@ -46,7 +46,9 @@ const addReview = async (payload: IReview): Promise<IReview> => {
 };
 
 const getReviews = async (reservationId: string): Promise<IGetReviews> => {
-  const reviews = await Reviews.find({ reservationId });
+  const reviews = await Reviews.find({ reservationId }).populate({
+    path: "userId",
+  });
 
   const totalReviews = await Reviews.countDocuments();
 

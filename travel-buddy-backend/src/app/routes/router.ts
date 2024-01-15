@@ -5,6 +5,8 @@ import { ReservationRouter } from "../modules/hotels/reservations/reservations.r
 import { WishlistRouter } from "../modules/wishlist/wishlist.router";
 import { BookingRouter } from "../modules/booking/booking.router";
 import { ReviewsRouter } from "../modules/reviews/reviews.router";
+import { ReportRouter } from "../modules/report/report.router";
+import { NotificationRouter } from "../modules/notification/notification.router";
 
 const router = express.Router();
 
@@ -32,6 +34,14 @@ const routes = [
   {
     path: "/reviews",
     route: ReviewsRouter,
+  },
+  {
+    path: "/report",
+    route: ReportRouter,
+  },
+  {
+    path: "/notification",
+    route: NotificationRouter,
   },
 ];
 
