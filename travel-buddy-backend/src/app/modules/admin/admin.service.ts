@@ -1,3 +1,5 @@
+import httpStatus from "http-status";
+import ApiError from "../../../errors/ApiError";
 import { IBooking } from "../booking/booking.interface";
 import { Booking } from "../booking/booking.schema";
 import { IReservations } from "../hotels/reservations/reservations.interface";
@@ -118,8 +120,38 @@ const getAllReviews = async (): Promise<IReview[]> => {
   return result;
 };
 
-const getAllReports = async (reservationId: string): Promise<IReport[]> => {
-  const result = await Report.find({ reservationId });
+const getAllReports = async (): Promise<IReport[]> => {
+  const result = await Report.find();
+  return result;
+};
+
+const getReportsCount = async (reservationId: string): Promise<Number> => {
+  const count = await Report.countDocuments({ reservationId });
+  return count;
+};
+
+const blockReservation = async (
+  reservationId: string,
+): Promise<IReservations | null> => {
+  const isReservationExists = await Reservations.findOne({ reservationId });
+  if (!isReservationExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Reservation Doesn't Exists!");
+  }
+
+  if (isReservationExists.status === "Blocked") {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Reservation Already Blocked");
+  }
+
+  isReservationExists.status = "Blocked";
+
+  const result = await Reservations.findOneAndUpdate(
+    { reservationId },
+    isReservationExists,
+    {
+      new: true,
+    },
+  );
+
   return result;
 };
 
@@ -131,4 +163,6 @@ export const AdminService = {
   getAllBookings,
   getAllReviews,
   getAllReports,
+  getReportsCount,
+  blockReservation,
 };
