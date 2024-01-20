@@ -71,13 +71,38 @@ const getAllReviews = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllReports = catchAsync(async (req: Request, res: Response) => {
-  const reservationId = req.headers["reservation-id"];
-  const result = await AdminService.getAllReports(reservationId as string);
+  const result = await AdminService.getAllReports();
 
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
     message: "Reports Retrieved Successfully",
+    data: result,
+  });
+});
+
+const getReportsCount = catchAsync(async (req: Request, res: Response) => {
+  const reservationId = req.headers["reservation-id"];
+
+  const result = await AdminService.getReportsCount(reservationId as string);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Reports Count Retrieved Successfully",
+    data: result,
+  });
+});
+
+const blockReservation = catchAsync(async (req: Request, res: Response) => {
+  const { reservationId } = req.body;
+
+  const result = await AdminService.blockReservation(reservationId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Reservation Blocked Successfully",
     data: result,
   });
 });
@@ -90,4 +115,6 @@ export const AdminController = {
   getAllBookings,
   getAllReviews,
   getAllReports,
+  getReportsCount,
+  blockReservation,
 };

@@ -17,4 +17,8 @@ router.get("/getAllReviews", AdminController.getAllReviews);
 
 router.get("/getAllReports", AdminController.getAllReports);
 
+router.get("/getReportsCount", AdminController.getReportsCount);
+
+router.patch("/blockReservation", AdminController.blockReservation);
+
 export const AdminRouter = router;

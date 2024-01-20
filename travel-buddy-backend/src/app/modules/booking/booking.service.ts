@@ -28,6 +28,13 @@ const bookReservation = async (payload: IBooking): Promise<IBooking> => {
     throw new ApiError(httpStatus.NOT_FOUND, "Reservation Not Found");
   }
 
+  if (isReservationExists.status === "Blocked") {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Cannot Book a Blocked Reservation",
+    );
+  }
+
   const isReservationBooked = await Booking.findOne({
     userId,
     reservationId,
