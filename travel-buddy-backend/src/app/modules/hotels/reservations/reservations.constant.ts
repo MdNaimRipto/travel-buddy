@@ -21,3 +21,17 @@ export const ReservationsStatusConstant: ReservationStatus[] = [
   "Booked",
   "Blocked",
 ];
+
+export const ReservationSearchableFields = [
+  "name",
+  "reservationType",
+  "reservationClass",
+];
+
+export const ReservationFilterableFields = [
+  "searchTerm",
+  "name",
+  "reservationType",
+  "reservationClass",
+  "status",
+];

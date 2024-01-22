@@ -3,6 +3,8 @@ import catchAsync from "../../../shared/catchAsync";
 import sendResponse from "../../../shared/sendResponse";
 import { AdminService } from "./admin.service";
 import httpStatus from "http-status";
+import pick from "../../../shared/shared";
+import { paginationFields } from "../../../constants/pagination.constant";
 
 const getDashboardInfo = catchAsync(async (req: Request, res: Response) => {
   const result = await AdminService.getDashboardInfo();
@@ -16,7 +18,8 @@ const getDashboardInfo = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllOwners = catchAsync(async (req: Request, res: Response) => {
-  const result = await AdminService.getAllOwners();
+  const options = pick(req.query, paginationFields);
+  const result = await AdminService.getAllOwners(options);
 
   sendResponse(res, {
     success: true,
@@ -27,7 +30,8 @@ const getAllOwners = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllCustomers = catchAsync(async (req: Request, res: Response) => {
-  const result = await AdminService.getAllCustomers();
+  const options = pick(req.query, paginationFields);
+  const result = await AdminService.getAllCustomers(options);
 
   sendResponse(res, {
     success: true,
@@ -38,7 +42,8 @@ const getAllCustomers = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllReservations = catchAsync(async (req: Request, res: Response) => {
-  const result = await AdminService.getAllReservations();
+  const options = pick(req.query, paginationFields);
+  const result = await AdminService.getAllReservations(options);
 
   sendResponse(res, {
     success: true,
@@ -49,7 +54,8 @@ const getAllReservations = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBookings = catchAsync(async (req: Request, res: Response) => {
-  const result = await AdminService.getAllBookings();
+  const options = pick(req.query, paginationFields);
+  const result = await AdminService.getAllBookings(options);
 
   sendResponse(res, {
     success: true,
@@ -60,7 +66,8 @@ const getAllBookings = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllReviews = catchAsync(async (req: Request, res: Response) => {
-  const result = await AdminService.getAllReviews();
+  const options = pick(req.query, paginationFields);
+  const result = await AdminService.getAllReviews(options);
 
   sendResponse(res, {
     success: true,
@@ -71,7 +78,8 @@ const getAllReviews = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllReports = catchAsync(async (req: Request, res: Response) => {
-  const result = await AdminService.getAllReports();
+  const options = pick(req.query, paginationFields);
+  const result = await AdminService.getAllReports(options);
 
   sendResponse(res, {
     success: true,

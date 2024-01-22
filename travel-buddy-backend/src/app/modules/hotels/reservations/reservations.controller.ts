@@ -3,6 +3,9 @@ import catchAsync from "../../../../shared/catchAsync";
 import { ReservationsService } from "./reservations.service";
 import sendResponse from "../../../../shared/sendResponse";
 import httpStatus from "http-status";
+import pick from "../../../../shared/shared";
+import { paginationFields } from "../../../../constants/pagination.constant";
+import { ReservationFilterableFields } from "./reservations.constant";
 
 // Upload Reservation
 const uploadReservation = catchAsync(async (req: Request, res: Response) => {
@@ -20,7 +23,9 @@ const uploadReservation = catchAsync(async (req: Request, res: Response) => {
 
 // Get All Reservations
 const getAllReservations = catchAsync(async (req: Request, res: Response) => {
-  const result = await ReservationsService.getAllReservations();
+  const filters = pick(req.query, ReservationFilterableFields);
+  const options = pick(req.query, paginationFields);
+  const result = await ReservationsService.getAllReservations(filters, options);
 
   sendResponse(res, {
     success: true,
@@ -34,9 +39,11 @@ const getAllReservations = catchAsync(async (req: Request, res: Response) => {
 const getReservationsByHotelId = catchAsync(
   async (req: Request, res: Response) => {
     const { hotel_id } = req.headers;
+    const options = pick(req.query, paginationFields);
 
     const result = await ReservationsService.getReservationsByHotelId(
       hotel_id as string,
+      options,
     );
 
     sendResponse(res, {

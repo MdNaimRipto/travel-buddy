@@ -4,6 +4,12 @@ import { Users } from "../users/users.schema";
 import { IDeleteWishlist, IWishlist } from "./wishlist.interface";
 import { Reservations } from "../hotels/reservations/reservations.schema";
 import { Wishlist } from "./wishlist.schema";
+import {
+  IGenericPaginationResponse,
+  IPaginationOptions,
+} from "../../../interface/pagination";
+import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
+import { SortOrder } from "mongoose";
 
 const wishlistReservation = async (payload: IWishlist): Promise<IWishlist> => {
   const { userId, reservationId } = payload;
@@ -24,13 +30,48 @@ const wishlistReservation = async (payload: IWishlist): Promise<IWishlist> => {
   return result;
 };
 
+// ! Only Pagination
 const getUserWishlistedReservations = async (
   userId: string,
-): Promise<IWishlist[]> => {
-  const result = await Wishlist.find({ userId }).populate({
-    path: "reservationId",
-  });
-  return result;
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IWishlist[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const query = {
+    userId,
+    ...checkAndCondition,
+  };
+
+  const result = await Wishlist.find(query)
+    .populate({
+      path: "reservationId",
+    })
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Wishlist.countDocuments({ userId });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const deleteWishlist = async (
