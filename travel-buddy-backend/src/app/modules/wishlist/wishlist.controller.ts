@@ -3,6 +3,8 @@ import catchAsync from "../../../shared/catchAsync";
 import { WishlistService } from "./wishlist.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
+import pick from "../../../shared/shared";
+import { paginationFields } from "../../../constants/pagination.constant";
 
 const wishlistReservation = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
@@ -20,9 +22,11 @@ const wishlistReservation = catchAsync(async (req: Request, res: Response) => {
 const getUserWishlistedReservations = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.headers["user-id"];
+    const options = pick(req.query, paginationFields);
 
     const result = await WishlistService.getUserWishlistedReservations(
       userId as string,
+      options,
     );
 
     sendResponse(res, {

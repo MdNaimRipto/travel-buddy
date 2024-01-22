@@ -18,6 +18,14 @@ export type IReservations = {
   images: string[];
 };
 
+export interface IReservationFilters {
+  searchTerm?: string;
+  name?: string;
+  reservationType?: ReservationsType;
+  reservationClass?: ReservationsClass;
+  status?: ReservationStatus;
+}
+
 export interface IUpdateReservation {
   reservationId: string;
   hotelId: string;

@@ -11,6 +11,12 @@ import { Reviews } from "../reviews/reviews.schema";
 import { IUser } from "../users/users.interface";
 import { Users } from "../users/users.schema";
 import { IAdmin } from "./admin.interface";
+import {
+  IGenericPaginationResponse,
+  IPaginationOptions,
+} from "../../../interface/pagination";
+import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
+import { SortOrder } from "mongoose";
 
 const getDashboardInfo = async (): Promise<IAdmin> => {
   const totalUsers = await Users.countDocuments();
@@ -95,34 +101,217 @@ const getDashboardInfo = async (): Promise<IAdmin> => {
   return dashboardInfo;
 };
 
-const getAllOwners = async (): Promise<IUser[]> => {
-  const result = await Users.find({ role: "hotelOwner" });
-  return result;
+const getAllOwners = async (
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IUser[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const query = {
+    role: "hotelOwner",
+    ...checkAndCondition,
+  };
+
+  const owners = await Users.find(query)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+  const total = await Users.countDocuments({ role: "hotelOwner" });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: owners,
+  };
 };
 
-const getAllCustomers = async (): Promise<IUser[]> => {
-  const result = await Users.find({ role: "customer" });
-  return result;
+const getAllCustomers = async (
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IUser[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const query = {
+    role: "customer",
+    ...checkAndCondition,
+  };
+
+  const owners = await Users.find(query)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Users.countDocuments({ role: "customer" });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: owners,
+  };
 };
 
-const getAllReservations = async (): Promise<IReservations[]> => {
-  const result = await Reservations.find();
-  return result;
+const getAllReservations = async (
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IReservations[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Reservations.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Reservations.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
-const getAllBookings = async (): Promise<IBooking[]> => {
-  const result = await Booking.find();
-  return result;
+const getAllBookings = async (
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IBooking[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Booking.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Booking.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
-const getAllReviews = async (): Promise<IReview[]> => {
-  const result = await Reviews.find();
-  return result;
+const getAllReviews = async (
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IReview[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Reviews.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Reviews.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
-const getAllReports = async (): Promise<IReport[]> => {
-  const result = await Report.find();
-  return result;
+const getAllReports = async (
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IReport[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = await Report.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Report.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 const getReportsCount = async (reservationId: string): Promise<Number> => {

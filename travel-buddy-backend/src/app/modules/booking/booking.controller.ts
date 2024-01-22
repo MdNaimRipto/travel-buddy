@@ -3,6 +3,8 @@ import catchAsync from "../../../shared/catchAsync";
 import { BookingService } from "./booking.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
+import { paginationFields } from "../../../constants/pagination.constant";
+import pick from "../../../shared/shared";
 
 // Book Reservation
 const bookedReservation = catchAsync(async (req: Request, res: Response) => {
@@ -21,7 +23,12 @@ const bookedReservation = catchAsync(async (req: Request, res: Response) => {
 // Get Reservation's
 const getUsersReservations = catchAsync(async (req: Request, res: Response) => {
   const userId = req.headers["user-id"];
-  const result = await BookingService.getUsersReservations(userId as string);
+  const options = pick(req.query, paginationFields);
+
+  const result = await BookingService.getUsersReservations(
+    userId as string,
+    options,
+  );
 
   sendResponse(res, {
     success: true,

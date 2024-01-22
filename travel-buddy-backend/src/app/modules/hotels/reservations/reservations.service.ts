@@ -1,8 +1,8 @@
 import httpStatus from "http-status";
 import ApiError from "../../../../errors/ApiError";
 import {
+  IReservationFilters,
   IReservations,
-  IUpdatableArrayKey,
   IUpdateArrayData,
   IUpdateReservation,
   IUploadArrayData,
@@ -13,6 +13,13 @@ import {
   reservationCreated,
 } from "./reservations.utils";
 import { BusinessProfile } from "../businessProfile/businessProfile.schema";
+import {
+  IGenericPaginationResponse,
+  IPaginationOptions,
+} from "../../../../interface/pagination";
+import { calculatePaginationFunction } from "../../../../helpers/paginationHelpers";
+import { SortOrder } from "mongoose";
+import { ReservationSearchableFields } from "./reservations.constant";
 
 const uploadReservation = async (
   payload: IReservations,
@@ -71,16 +78,106 @@ const uploadReservation = async (
   return result;
 };
 
-const getAllReservations = async (): Promise<IReservations[]> => {
-  const reservations = await Reservations.find();
-  return reservations;
+// ! Pagination + Filter
+const getAllReservations = async (
+  filters: IReservationFilters,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IReservations[]>> => {
+  const { searchTerm, ...filterData } = filters;
+  const andConditions = [];
+  if (searchTerm) {
+    andConditions.push({
+      $or: ReservationSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: "i",
+        },
+      })),
+    });
+  }
+  //
+  if (Object.keys(filterData).length) {
+    andConditions.push({
+      $and: Object.entries(filterData).map(([field, value]) => {
+        if (field === "minPrice") {
+          return { discountedPrice: { $gte: value } };
+        }
+        if (field === "maxPrice") {
+          return { discountedPrice: { $lte: value } };
+        } else {
+          return { [field]: value };
+        }
+      }),
+    });
+  }
+  //
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const reservations = await Reservations.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Reservations.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: reservations,
+  };
 };
 
 const getReservationsByHotelId = async (
   hotel_id: string,
-): Promise<IReservations[]> => {
-  const reservations = await Reservations.find({ profileId: hotel_id });
-  return reservations;
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IReservations[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const query = {
+    profileId: hotel_id,
+    ...checkAndCondition,
+  };
+
+  const reservations = await Reservations.find(query)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Reservations.countDocuments({ profileId: hotel_id });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: reservations,
+  };
 };
 
 const getReservationDetails = async (
@@ -188,7 +285,6 @@ const updateReservations = async (
   return result;
 };
 
-// Upload New Array Data
 const uploadNewArrayData = async (payload: IUploadArrayData) => {
   const { data, key, reservationId } = payload;
 

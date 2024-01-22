@@ -4,7 +4,12 @@ import { Users } from "../users/users.schema";
 import { IBooking } from "./booking.interface";
 import { Reservations } from "../hotels/reservations/reservations.schema";
 import { Booking } from "./booking.schema";
-import mongoose from "mongoose";
+import mongoose, { SortOrder } from "mongoose";
+import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
+import {
+  IGenericPaginationResponse,
+  IPaginationOptions,
+} from "../../../interface/pagination";
 
 const bookReservation = async (payload: IBooking): Promise<IBooking> => {
   const { userId, reservationId } = payload;
@@ -89,11 +94,47 @@ const bookReservation = async (payload: IBooking): Promise<IBooking> => {
   }
 };
 
-const getUsersReservations = async (userId: string): Promise<IBooking[]> => {
-  const bookings = await Booking.find({ userId }).populate({
-    path: "reservationId",
-  });
-  return bookings;
+const getUsersReservations = async (
+  userId: string,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IBooking[]>> => {
+  const andConditions: string | any[] = [];
+
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const query = {
+    userId,
+    ...checkAndCondition,
+  };
+
+  const bookings = await Booking.find(query)
+    .populate({
+      path: "reservationId",
+    })
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await Booking.countDocuments({ userId });
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: bookings,
+  };
 };
 
 const cancelBooking = async (bookingId: string): Promise<IBooking | null> => {
