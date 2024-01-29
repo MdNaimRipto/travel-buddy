@@ -5,12 +5,14 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { paginationFields } from "../../../constants/pagination.constant";
 import pick from "../../../shared/shared";
+import { verifyAuthToken } from "../../../util/verifyAuthToken";
 
 // Book Reservation
 const bookedReservation = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await BookingService.bookReservation(payload);
+  const result = await BookingService.bookReservation(payload, token);
 
   sendResponse(res, {
     success: true,
@@ -24,10 +26,12 @@ const bookedReservation = catchAsync(async (req: Request, res: Response) => {
 const getUsersReservations = catchAsync(async (req: Request, res: Response) => {
   const userId = req.headers["user-id"];
   const options = pick(req.query, paginationFields);
+  const token = verifyAuthToken(req);
 
   const result = await BookingService.getUsersReservations(
     userId as string,
     options,
+    token,
   );
 
   sendResponse(res, {
@@ -41,7 +45,8 @@ const getUsersReservations = catchAsync(async (req: Request, res: Response) => {
 // Cancel Reservation
 const cancelBooking = catchAsync(async (req: Request, res: Response) => {
   const bookingId = req.headers["booking-id"];
-  const result = await BookingService.cancelBooking(bookingId as string);
+  const token = verifyAuthToken(req);
+  const result = await BookingService.cancelBooking(bookingId as string, token);
 
   sendResponse(res, {
     success: true,

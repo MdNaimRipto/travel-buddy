@@ -5,11 +5,13 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import pick from "../../../shared/shared";
 import { paginationFields } from "../../../constants/pagination.constant";
+import { verifyAuthToken } from "../../../util/verifyAuthToken";
 
 const wishlistReservation = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await WishlistService.wishlistReservation(payload);
+  const result = await WishlistService.wishlistReservation(payload, token);
 
   sendResponse(res, {
     success: true,
@@ -23,10 +25,12 @@ const getUserWishlistedReservations = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.headers["user-id"];
     const options = pick(req.query, paginationFields);
+    const token = verifyAuthToken(req);
 
     const result = await WishlistService.getUserWishlistedReservations(
       userId as string,
       options,
+      token,
     );
 
     sendResponse(res, {
@@ -40,8 +44,9 @@ const getUserWishlistedReservations = catchAsync(
 
 const deleteWishlist = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await WishlistService.deleteWishlist(payload);
+  const result = await WishlistService.deleteWishlist(payload, token);
 
   sendResponse(res, {
     success: true,

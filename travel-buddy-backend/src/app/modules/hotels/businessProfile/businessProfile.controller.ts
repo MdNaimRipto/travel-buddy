@@ -9,8 +9,12 @@ import { BusinessProfileService } from "./businessProfile.service";
 const createBusinessProfile = catchAsync(
   async (req: Request, res: Response) => {
     const { ...profileData } = req.body;
+    const token = verifyAuthToken(req);
 
-    const result = await BusinessProfileService.createProfile(profileData);
+    const result = await BusinessProfileService.createProfile(
+      profileData,
+      token,
+    );
 
     sendResponse(res, {
       success: true,
@@ -24,7 +28,8 @@ const createBusinessProfile = catchAsync(
 //* Get Business Profile
 const getBusinessProfile = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await BusinessProfileService.getBusinessProfile(id);
+  const token = verifyAuthToken(req);
+  const result = await BusinessProfileService.getBusinessProfile(id, token);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -37,7 +42,11 @@ const getBusinessProfile = catchAsync(async (req: Request, res: Response) => {
 const updateBusinessProfile = catchAsync(
   async (req: Request, res: Response) => {
     const { ...payload } = req.body;
-    const result = await BusinessProfileService.updateBusinessProfile(payload);
+    const token = verifyAuthToken(req);
+    const result = await BusinessProfileService.updateBusinessProfile(
+      payload,
+      token,
+    );
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
@@ -50,8 +59,12 @@ const updateBusinessProfile = catchAsync(
 //* Update Profile images
 const updateProfileImages = catchAsync(async (req: Request, res: Response) => {
   const { ...profileData } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await BusinessProfileService.updateProfileImages(profileData);
+  const result = await BusinessProfileService.updateProfileImages(
+    profileData,
+    token,
+  );
 
   sendResponse(res, {
     success: true,
@@ -64,8 +77,12 @@ const updateProfileImages = catchAsync(async (req: Request, res: Response) => {
 //* Upload New Image
 const uploadNewImage = catchAsync(async (req: Request, res: Response) => {
   const { ...profileData } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await BusinessProfileService.uploadNewImage(profileData);
+  const result = await BusinessProfileService.uploadNewImage(
+    profileData,
+    token,
+  );
 
   sendResponse(res, {
     success: true,

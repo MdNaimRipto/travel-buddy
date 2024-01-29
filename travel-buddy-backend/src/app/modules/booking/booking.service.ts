@@ -10,8 +10,16 @@ import {
   IGenericPaginationResponse,
   IPaginationOptions,
 } from "../../../interface/pagination";
+import { Secret } from "jsonwebtoken";
+import config from "../../../config/config";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
 
-const bookReservation = async (payload: IBooking): Promise<IBooking> => {
+const bookReservation = async (
+  payload: IBooking,
+  token: string,
+): Promise<IBooking> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { userId, reservationId } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId });
@@ -97,7 +105,10 @@ const bookReservation = async (payload: IBooking): Promise<IBooking> => {
 const getUsersReservations = async (
   userId: string,
   paginationOptions: IPaginationOptions,
+  token: string,
 ): Promise<IGenericPaginationResponse<IBooking[]>> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const andConditions: string | any[] = [];
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -137,7 +148,12 @@ const getUsersReservations = async (
   };
 };
 
-const cancelBooking = async (bookingId: string): Promise<IBooking | null> => {
+const cancelBooking = async (
+  bookingId: string,
+  token: string,
+): Promise<IBooking | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const booking = await Booking.findOne({ _id: bookingId });
 
   if (!booking) {
