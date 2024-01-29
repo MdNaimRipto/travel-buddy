@@ -5,8 +5,13 @@ import { IGetReviews, IReview } from "./reviews.interface";
 import { Reservations } from "../hotels/reservations/reservations.schema";
 import { Booking } from "../booking/booking.schema";
 import { Reviews } from "./reviews.schema";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import config from "../../../config/config";
+import { Secret } from "jsonwebtoken";
 
-const addReview = async (payload: IReview): Promise<IReview> => {
+const addReview = async (payload: IReview, token: string): Promise<IReview> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { userId, reservationId } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId });

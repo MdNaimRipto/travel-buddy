@@ -10,8 +10,16 @@ import {
 } from "../../../interface/pagination";
 import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import config from "../../../config/config";
+import { Secret } from "jsonwebtoken";
 
-const wishlistReservation = async (payload: IWishlist): Promise<IWishlist> => {
+const wishlistReservation = async (
+  payload: IWishlist,
+  token: string,
+): Promise<IWishlist> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { userId, reservationId } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId });
@@ -30,11 +38,13 @@ const wishlistReservation = async (payload: IWishlist): Promise<IWishlist> => {
   return result;
 };
 
-// ! Only Pagination
 const getUserWishlistedReservations = async (
   userId: string,
   paginationOptions: IPaginationOptions,
+  token: string,
 ): Promise<IGenericPaginationResponse<IWishlist[]>> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const andConditions: string | any[] = [];
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -76,7 +86,10 @@ const getUserWishlistedReservations = async (
 
 const deleteWishlist = async (
   payload: IDeleteWishlist,
+  token: string,
 ): Promise<IWishlist | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { userId, wishlistId } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId });

@@ -5,8 +5,16 @@ import ApiError from "../../../errors/ApiError";
 import { Reservations } from "../hotels/reservations/reservations.schema";
 import { Booking } from "../booking/booking.schema";
 import { Report } from "./report.schema";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import config from "../../../config/config";
+import { Secret } from "jsonwebtoken";
 
-const reportReservation = async (payload: IReport): Promise<IReport> => {
+const reportReservation = async (
+  payload: IReport,
+  token: string,
+): Promise<IReport> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { reservationId, userId } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId });

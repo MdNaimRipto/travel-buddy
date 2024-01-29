@@ -20,10 +20,16 @@ import {
 import { calculatePaginationFunction } from "../../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
 import { ReservationSearchableFields } from "./reservations.constant";
+import { jwtHelpers } from "../../../../helpers/jwtHelpers";
+import config from "../../../../config/config";
+import { Secret } from "jsonwebtoken";
 
 const uploadReservation = async (
   payload: IReservations,
+  token: string,
 ): Promise<IReservations> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { profileId, reservationClass, reservationType, images } = payload;
 
   const isHotelExists = await BusinessProfile.findOne({ hotelId: profileId });
@@ -78,7 +84,6 @@ const uploadReservation = async (
   return result;
 };
 
-// ! Pagination + Filter
 const getAllReservations = async (
   filters: IReservationFilters,
   paginationOptions: IPaginationOptions,
@@ -99,14 +104,7 @@ const getAllReservations = async (
   if (Object.keys(filterData).length) {
     andConditions.push({
       $and: Object.entries(filterData).map(([field, value]) => {
-        if (field === "minPrice") {
-          return { discountedPrice: { $gte: value } };
-        }
-        if (field === "maxPrice") {
-          return { discountedPrice: { $lte: value } };
-        } else {
-          return { [field]: value };
-        }
+        return { [field]: value };
       }),
     });
   }
@@ -189,8 +187,10 @@ const getReservationDetails = async (
 
 const updateReservations = async (
   payload: IUpdateReservation,
+  token: string,
 ): Promise<IReservations | null> => {
-  console.log("OK");
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { reservationId: id, hotelId, updateData } = payload;
   if (!id || !hotelId || !updateData) {
     throw new ApiError(
@@ -285,7 +285,9 @@ const updateReservations = async (
   return result;
 };
 
-const uploadNewArrayData = async (payload: IUploadArrayData) => {
+const uploadNewArrayData = async (payload: IUploadArrayData, token: string) => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { data, key, reservationId } = payload;
 
   const isReservationExists = await Reservations.findOne({ reservationId });
@@ -305,7 +307,9 @@ const uploadNewArrayData = async (payload: IUploadArrayData) => {
   return result;
 };
 
-const updateArrayData = async (updateData: IUpdateArrayData) => {
+const updateArrayData = async (updateData: IUpdateArrayData, token: string) => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { data, dataNo, reservationId, key } = updateData;
 
   const isReservationExists = await Reservations.findOne({ reservationId });

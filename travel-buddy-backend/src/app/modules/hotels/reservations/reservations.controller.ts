@@ -6,12 +6,17 @@ import httpStatus from "http-status";
 import pick from "../../../../shared/shared";
 import { paginationFields } from "../../../../constants/pagination.constant";
 import { ReservationFilterableFields } from "./reservations.constant";
+import { verifyAuthToken } from "../../../../util/verifyAuthToken";
 
 // Upload Reservation
 const uploadReservation = catchAsync(async (req: Request, res: Response) => {
   const { ...reservationInfo } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await ReservationsService.uploadReservation(reservationInfo);
+  const result = await ReservationsService.uploadReservation(
+    reservationInfo,
+    token,
+  );
 
   sendResponse(res, {
     success: true,
@@ -76,8 +81,12 @@ const getReservationDetails = catchAsync(
 // Update Reservations
 const updateReservations = catchAsync(async (req: Request, res: Response) => {
   const { ...updateData } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await ReservationsService.updateReservations(updateData);
+  const result = await ReservationsService.updateReservations(
+    updateData,
+    token,
+  );
 
   sendResponse(res, {
     success: true,
@@ -90,8 +99,12 @@ const updateReservations = catchAsync(async (req: Request, res: Response) => {
 // Upload New Array Data
 const uploadNewArrayData = catchAsync(async (req: Request, res: Response) => {
   const { ...updateData } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await ReservationsService.uploadNewArrayData(updateData);
+  const result = await ReservationsService.uploadNewArrayData(
+    updateData,
+    token,
+  );
 
   sendResponse(res, {
     success: true,
@@ -104,8 +117,9 @@ const uploadNewArrayData = catchAsync(async (req: Request, res: Response) => {
 // Update Array Data
 const updateArrayData = catchAsync(async (req: Request, res: Response) => {
   const { ...updateData } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await ReservationsService.updateArrayData(updateData);
+  const result = await ReservationsService.updateArrayData(updateData, token);
 
   sendResponse(res, {
     success: true,

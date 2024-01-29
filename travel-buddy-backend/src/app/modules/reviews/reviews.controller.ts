@@ -3,12 +3,14 @@ import catchAsync from "../../../shared/catchAsync";
 import { ReviewsService } from "./reviews.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
+import { verifyAuthToken } from "../../../util/verifyAuthToken";
 
 // Add Review
 const addReview = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await ReviewsService.addReview(payload);
+  const result = await ReviewsService.addReview(payload, token);
 
   sendResponse(res, {
     success: true,

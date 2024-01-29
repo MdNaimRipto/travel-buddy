@@ -17,8 +17,13 @@ import {
 } from "../../../interface/pagination";
 import { calculatePaginationFunction } from "../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import config from "../../../config/config";
+import { Secret } from "jsonwebtoken";
 
-const getDashboardInfo = async (): Promise<IAdmin> => {
+const getDashboardInfo = async (token: string): Promise<IAdmin> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const totalUsers = await Users.countDocuments();
   const totalOwners = await Users.countDocuments({ role: "hotelOwner" });
   const totalCustomers = await Users.countDocuments({ role: "customer" });
@@ -103,7 +108,10 @@ const getDashboardInfo = async (): Promise<IAdmin> => {
 
 const getAllOwners = async (
   paginationOptions: IPaginationOptions,
+  token: string,
 ): Promise<IGenericPaginationResponse<IUser[]>> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const andConditions: string | any[] = [];
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -141,7 +149,10 @@ const getAllOwners = async (
 
 const getAllCustomers = async (
   paginationOptions: IPaginationOptions,
+  token: string,
 ): Promise<IGenericPaginationResponse<IUser[]>> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const andConditions: string | any[] = [];
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -180,7 +191,10 @@ const getAllCustomers = async (
 
 const getAllReservations = async (
   paginationOptions: IPaginationOptions,
+  token: string,
 ): Promise<IGenericPaginationResponse<IReservations[]>> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const andConditions: string | any[] = [];
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -214,7 +228,10 @@ const getAllReservations = async (
 
 const getAllBookings = async (
   paginationOptions: IPaginationOptions,
+  token: string,
 ): Promise<IGenericPaginationResponse<IBooking[]>> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const andConditions: string | any[] = [];
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -248,7 +265,10 @@ const getAllBookings = async (
 
 const getAllReviews = async (
   paginationOptions: IPaginationOptions,
+  token: string,
 ): Promise<IGenericPaginationResponse<IReview[]>> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const andConditions: string | any[] = [];
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -282,7 +302,10 @@ const getAllReviews = async (
 
 const getAllReports = async (
   paginationOptions: IPaginationOptions,
+  token: string,
 ): Promise<IGenericPaginationResponse<IReport[]>> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const andConditions: string | any[] = [];
 
   const { page, limit, skip, sortBy, sortOrder } =
@@ -314,14 +337,22 @@ const getAllReports = async (
   };
 };
 
-const getReportsCount = async (reservationId: string): Promise<Number> => {
+const getReportsCount = async (
+  reservationId: string,
+  token: string,
+): Promise<Number> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const count = await Report.countDocuments({ reservationId });
   return count;
 };
 
 const blockReservation = async (
   reservationId: string,
+  token: string,
 ): Promise<IReservations | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const isReservationExists = await Reservations.findOne({ reservationId });
   if (!isReservationExists) {
     throw new ApiError(httpStatus.NOT_FOUND, "Reservation Doesn't Exists!");

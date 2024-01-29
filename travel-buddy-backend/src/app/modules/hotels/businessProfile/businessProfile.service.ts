@@ -8,11 +8,17 @@ import {
 } from "./businessProfile.interface";
 import { BusinessProfile } from "./businessProfile.schema";
 import { generateHotelId } from "./businessProfile.utils";
+import { jwtHelpers } from "../../../../helpers/jwtHelpers";
+import config from "../../../../config/config";
+import { Secret } from "jsonwebtoken";
 
 // * Create Business Profile
 const createProfile = async (
   payload: IBusinessProfile,
+  token: string,
 ): Promise<IBusinessProfile> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { hotelOwnerId, totalReservations, hotelImages } = payload;
 
   const isExists = await BusinessProfile.findOne({ hotelOwnerId });
@@ -41,7 +47,10 @@ const createProfile = async (
 // * Get Business Profile
 const getBusinessProfile = async (
   id: string,
+  token: string,
 ): Promise<IBusinessProfile | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const result = await BusinessProfile.findOne({ hotelOwnerId: id });
   if (!result) {
     throw new ApiError(
@@ -55,7 +64,10 @@ const getBusinessProfile = async (
 // * Update Business Profile
 const updateBusinessProfile = async (
   payload: IUpdateBusinessProfile,
+  token: string,
 ): Promise<IBusinessProfile | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { hotelId: id, ownerId, updateData } = payload;
 
   const { hotelId, hotelImages, hotelOwnerId, totalReservations } = updateData;
@@ -106,7 +118,10 @@ const updateBusinessProfile = async (
 // * Update Profile Images
 const updateProfileImages = async (
   payload: IUpdateProfileImages,
+  token: string,
 ): Promise<IBusinessProfile | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { img, imgNo, hotelId } = payload;
 
   const hotel = await BusinessProfile.findOne({ hotelId });
@@ -129,7 +144,10 @@ const updateProfileImages = async (
 // * Upload New Image
 const uploadNewImage = async (
   payload: IUploadNewImage,
+  token: string,
 ): Promise<IBusinessProfile | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { hotelId, img } = payload;
 
   const hotel = await BusinessProfile.findOne({ hotelId });
