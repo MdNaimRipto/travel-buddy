@@ -18,7 +18,11 @@ app.use(express.urlencoded({ extended: true }));
 // ? Socket IO Configuration
 export const io = new Server(5835, {
   cors: {
-    origin: ["http://localhost:3000", "https://admin.socket.io"],
+    origin: [
+      "http://localhost:3000",
+      "https://admin.socket.io",
+      "https://travel-buddy-backend-et1k.onrender.com",
+    ],
     credentials: true,
   },
 });
