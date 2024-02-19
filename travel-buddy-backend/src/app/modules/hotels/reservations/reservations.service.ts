@@ -121,7 +121,12 @@ const getAllReservations = async (
   const checkAndCondition =
     andConditions?.length > 0 ? { $and: andConditions } : {};
 
-  const reservations = await Reservations.find(checkAndCondition)
+  const query = {
+    status: "Available",
+    ...checkAndCondition,
+  };
+
+  const reservations = await Reservations.find(query)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);

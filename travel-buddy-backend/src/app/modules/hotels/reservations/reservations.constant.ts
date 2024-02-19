@@ -33,5 +33,4 @@ export const ReservationFilterableFields = [
   "name",
   "reservationType",
   "reservationClass",
-  "status",
 ];

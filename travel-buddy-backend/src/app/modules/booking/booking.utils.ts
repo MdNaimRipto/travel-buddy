@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { Reservations } from "../hotels/reservations/reservations.schema";
 
 export const updateBooking = async () => {
-  cron.schedule("10 13 * * *", async () => {
+  cron.schedule("56 14 * * *", async () => {
     const date = new Date();
 
     const day = date.toLocaleDateString("en-GB", {
@@ -49,10 +49,10 @@ export const updateBooking = async () => {
       await Promise.all(
         getCompletedReservations.map(async r => {
           await Reservations.findOneAndUpdate(
-            { reservationId: r.reservationId },
+            { _id: r.reservationId },
             {
               $inc: { reservationsLeft: 1 },
-              $set: { status: "available" },
+              $set: { status: "Available" },
             },
             { session },
           );
