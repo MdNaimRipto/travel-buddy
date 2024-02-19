@@ -13,11 +13,10 @@ let server: Server;
 
 async function main() {
   try {
-    // const uri = `mongodb://127.0.0.1:27017/tech-mart`;
+    // const uri = `mongodb://127.0.0.1:27017/travel-buddy`;
     const uri = config.database_url;
     await mongoose.connect(`${uri}`);
     console.log(`🛢 Database Connected Successfully`);
-    
 
     app.listen(port, () => {
       console.log(`Server is running on  http://localhost:${port}`);

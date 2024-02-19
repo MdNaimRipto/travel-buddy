@@ -1,6 +1,6 @@
 const pick = <T extends object, K extends keyof T>(
   obj: T,
-  keys: K[]
+  keys: K[],
 ): Partial<T> => {
   const finalObj: Partial<T> = {};
 

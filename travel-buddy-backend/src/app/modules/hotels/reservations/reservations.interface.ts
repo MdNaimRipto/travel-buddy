@@ -23,7 +23,6 @@ export interface IReservationFilters {
   name?: string;
   reservationType?: ReservationsType;
   reservationClass?: ReservationsClass;
-  status?: ReservationStatus;
 }
 
 export interface IUpdateReservation {
