@@ -25,6 +25,7 @@ export const io = new Server(5835, {
     ],
     credentials: true,
   },
+  path: "/socket.io",
 });
 
 io.on("connection", socket => {
