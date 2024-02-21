@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.io = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const http_status_1 = __importDefault(require("http-status"));
@@ -20,31 +19,11 @@ const globalErrorHandler_1 = __importDefault(require("./middlewares/globalErrorH
 const pathNotFoundErrorHandler_1 = __importDefault(require("./errors/pathNotFoundErrorHandler"));
 const router_1 = require("./app/routes/router");
 const booking_utils_1 = require("./app/modules/booking/booking.utils");
-const socket_io_1 = require("socket.io");
-const admin_ui_1 = require("@socket.io/admin-ui");
 const app = (0, express_1.default)();
 // ? Middlewares:
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-// ? Socket IO Configuration
-exports.io = new socket_io_1.Server(5835, {
-    cors: {
-        origin: [
-            "http://localhost:3000",
-            "https://admin.socket.io",
-            "https://travel-buddy-backend-et1k.onrender.com",
-        ],
-        credentials: true,
-    },
-});
-exports.io.on("connection", socket => {
-    console.log(`Socket Connected At ${socket.id}`);
-});
-// * Socket IO Admin UI
-(0, admin_ui_1.instrument)(exports.io, {
-    auth: false,
-});
 // * Basic Page
 app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(http_status_1.default.OK).send({
