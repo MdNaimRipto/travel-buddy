@@ -6,7 +6,7 @@ import ReservationLocationSelectBox from "./formSelectBoxes/ReservationLocationS
 import ReservationClassSelectBox from "./formSelectBoxes/ReservationClassSelectBox";
 import { UseCommonImports } from "@/utils/UseCommonImports";
 
-const BannerSearchForm = () => {
+const ResponsiveReservationSearchForm = () => {
   const { Router } = UseCommonImports();
 
   const [loading, setLoading] = useState(false);
@@ -44,10 +44,10 @@ const BannerSearchForm = () => {
   };
 
   return (
-    <div className="hidden md:block h-1/2 relative z-0 overflow-hidden">
+    <div className="block md:hidden mb-16 bg-white shadow-2xl pb-8">
       <form
         onSubmit={handleSearch}
-        className="bg-white bg-opacity-20 backdrop-blur rounded-full absolute top-0 left-1/2 -translate-x-1/2 w-[94%] h-2/5 grid grid-cols-4 py-8 px-8"
+        className="rounded-xl grid grid-cols-1 gap-4 px-4"
       >
         <ReservationLocationSelectBox />
         <ReservationTypeSelectBox />
@@ -57,27 +57,17 @@ const BannerSearchForm = () => {
           className="titleFont"
           sx={{
             background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
-            borderRadius: "0px 100px 100px 0px",
+            borderRadius: "100px",
             color: colorConfig.white,
             fontWeight: 600,
-            whiteSpace: "nowrap",
-            fontSize: {
-              xs: 12,
-              md: 16,
-            },
+            py: 2,
           }}
         >
-          {loading ? (
-            <span>Loading...</span>
-          ) : (
-            <span className="flex items-center gap-1">
-              Search <span className="hidden xl:flex">Reservation</span>
-            </span>
-          )}
+          {loading ? "Loading..." : "Search Reservations"}
         </Button>
       </form>
     </div>
   );
 };
 
-export default BannerSearchForm;
+export default ResponsiveReservationSearchForm;

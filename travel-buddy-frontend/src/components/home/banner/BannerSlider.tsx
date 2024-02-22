@@ -32,7 +32,7 @@ const BannerSlider = () => {
   }, [bannerCards.length, currentSlide]);
 
   return (
-    <div className="h-3/5 overflow-hidden mb-6">
+    <div className="h-3/5 md:h-1/2 lg:h-3/5  overflow-hidden mb-6">
       {bannerCards.map((card, i) => (
         <div
           key={i}
@@ -46,24 +46,26 @@ const BannerSlider = () => {
             transition: "1.5s ease-in-out",
           }}
         >
-          <div className="flex items-center justify-center h-4/5">
-            <div className="w-[88%]">
-              <h2 className="text-start text-5xl text-white font-bold leading-[70px]">
+          <div className="flex items-center justify-center h-full md:h-3/5 lg:h-4/5">
+            <div className="w-full px-4 md:px-0 md:w-[88%]">
+              <h2 className="text-center md:text-start text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[40px] md:leading-[50px] lg:leading-[65px] xl:leading-[85px] text-white font-bold">
                 <span
                   className={`titleFont ${
                     currentSlide === i && "rotate-180 duration-[1.5s]"
                   }`}
                 >
                   {card.title}
-                </span>{" "}
+                </span>
                 <br />
-                <span className="titleFont">With Travel Buddy</span>
+                <span className="hidden md:block titleFont">
+                  With Travel Buddy
+                </span>
               </h2>
-              <p className="mt-5 text-white leading-7">
+              <p className="text-center md:text-start mt-5 text-white text-sm md:text-base leading-6 md:leading-7">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta
                 iusto impedit reiciendis eius repellat! Autem id, iure
                 praesentium cumque molestiae ipsa porro cupiditate repellendus
-                minima molestias rem ullam et neque
+                minima molestias rem
               </p>
             </div>
           </div>

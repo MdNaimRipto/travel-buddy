@@ -4,8 +4,5 @@ export const style = {
   background: colorConfig.white,
   fontWeight: 500,
   color: colorConfig.black,
-  fontSize: {
-    xs: 12,
-    md: 16,
-  },
+  borderRadius: "100px",
 };
