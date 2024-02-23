@@ -10,7 +10,7 @@
 }
 
 .titleFont {
-  font-family: "Montserrat", Arial, sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
+  font-family: "Montserrat", Arial, sans-serif !important;
+  font-optical-sizing: auto !important;
+  font-style: normal !important;
 }
