@@ -7,16 +7,21 @@ import CloseMenuIcon from "@mui/icons-material/CloseRounded";
 const ResponsiveMenuHandlerButton = ({
   isNavOpen,
   setIsNavOpen,
+  isScrolled,
+  isHomePage,
 }: {
   isNavOpen: boolean;
   setIsNavOpen: any;
+  isScrolled: boolean;
+  isHomePage: boolean;
 }) => {
   return (
     <div className="block xl:hidden">
       <IconButton
         onClick={() => setIsNavOpen(!isNavOpen)}
         sx={{
-          color: colorConfig.black,
+          color:
+            !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
           transition: ".3s",
           p: 0.3,
           "&:hover": {

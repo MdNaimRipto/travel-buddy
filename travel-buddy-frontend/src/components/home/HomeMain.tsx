@@ -5,7 +5,7 @@ import PopularLocations from "./PopularLocations";
 import AboutUs from "./aboutUs/AboutUs";
 const HomeMain = () => {
   return (
-    <div className="pt-4">
+    <div className="">
       <Banner />
       <ResponsiveReservationSearchForm />
       <PopularLocations />

@@ -5,7 +5,13 @@ import AuthIcon from "@mui/icons-material/LockPersonOutlined";
 import CloseAuthPageIcon from "@mui/icons-material/CloseRounded";
 import { AuthButtons } from "@/components/common/buttons/AuthButtons";
 
-const AuthOptions = () => {
+const AuthOptions = ({
+  isScrolled,
+  isHomePage,
+}: {
+  isScrolled: boolean;
+  isHomePage: boolean;
+}) => {
   const [isAuthMenuOpen, setIsAuthMenuOpen] = useState(false);
 
   const { AuthSignInButton, AuthSignUpButton } = AuthButtons;
@@ -17,7 +23,10 @@ const AuthOptions = () => {
           <IconButton
             onClick={() => setIsAuthMenuOpen(!isAuthMenuOpen)}
             sx={{
-              color: colorConfig.black,
+              color:
+                !isScrolled && isHomePage
+                  ? colorConfig.white
+                  : colorConfig.black,
               transition: ".3s",
               p: 0.3,
               "&:hover": {
@@ -30,7 +39,7 @@ const AuthOptions = () => {
         </Tooltip>
       </div>
       <div
-        className={`flex flex-col items-center justify-center h-screen w-full md:h-auto md:w-auto fixed top-0 bg-white px-4 md:px-0 md:block md:static ${
+        className={`bg-white md:bg-[#00000000] flex flex-col items-center justify-center h-screen w-full md:h-auto md:w-auto fixed top-0 px-4 md:px-0 md:block md:static ${
           isAuthMenuOpen ? "right-0 z-50" : "-right-[1000px]"
         } duration-300`}
       >
@@ -55,7 +64,7 @@ const AuthOptions = () => {
             />
           </IconButton>
         </Tooltip>
-        <AuthSignUpButton />
+        <AuthSignUpButton isScrolled={isScrolled} isHomePage={isHomePage} />
         <Divider
           sx={{
             my: 3,

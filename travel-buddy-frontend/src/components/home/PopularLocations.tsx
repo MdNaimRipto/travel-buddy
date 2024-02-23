@@ -1,4 +1,4 @@
-import React, { Fragment, lazy } from "react";
+import React from "react";
 import img1 from "@/assets/popular-locations/cox-bazar.jpg";
 import img2 from "@/assets/popular-locations/bandarban.jpg";
 import img3 from "@/assets/popular-locations/saint-martin.jpg";
@@ -72,8 +72,8 @@ const PopularLocations = () => {
           >
             <Image
               src={location.img}
-              width={200}
-              height={200}
+              width={800}
+              height={800}
               alt="Location Image"
               loading="lazy"
               className="h-full w-full object-cover brightness-[.68]"
