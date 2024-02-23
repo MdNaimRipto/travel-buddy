@@ -1,30 +1,15 @@
 import React, { useState } from "react";
 import { colorConfig } from "@/configs/colorConfig";
-import { Button, Divider, IconButton, Tooltip } from "@mui/material";
+import { Divider, IconButton, Tooltip } from "@mui/material";
 import AuthIcon from "@mui/icons-material/LockPersonOutlined";
 import CloseAuthPageIcon from "@mui/icons-material/CloseRounded";
+import { AuthButtons } from "@/components/common/buttons/AuthButtons";
 
 const AuthOptions = () => {
   const [isAuthMenuOpen, setIsAuthMenuOpen] = useState(false);
 
-  const commonButtonSx = {
-    borderRadius: 100,
-    py: {
-      xs: "12px",
-      sm: "4px",
-      md: 1,
-    },
-    px: 2,
-    fontSize: {
-      xs: "12px",
-      md: "0.875rem",
-    },
-    width: {
-      xs: "100%",
-      sm: "auto",
-    },
-    whiteSpace: "nowrap",
-  };
+  const { AuthSignInButton, AuthSignUpButton } = AuthButtons;
+
   return (
     <>
       <div className="block md:hidden">
@@ -70,26 +55,7 @@ const AuthOptions = () => {
             />
           </IconButton>
         </Tooltip>
-        <Button
-          className="titleFont"
-          sx={{
-            ...commonButtonSx,
-            color: colorConfig.black,
-            border: {
-              xs: `1px solid ${colorConfig.black}`,
-              sm: "none",
-            },
-            "&:hover": {
-              color: colorConfig.secondary,
-              border: {
-                xs: `1px solid ${colorConfig.secondary}`,
-                sm: "none",
-              },
-            },
-          }}
-        >
-          Sign Up
-        </Button>
+        <AuthSignUpButton />
         <Divider
           sx={{
             my: 3,
@@ -101,23 +67,7 @@ const AuthOptions = () => {
         >
           Or
         </Divider>
-        <Button
-          variant="outlined"
-          className="titleFont"
-          sx={{
-            ...commonButtonSx,
-            color: colorConfig.white,
-            background: `linear-gradient(45deg, ${colorConfig.primary}, ${colorConfig.secondary}) !important`,
-            border: `1px solid ${colorConfig.white}`,
-            "&:hover": {
-              color: colorConfig.secondary,
-              background: "none !important",
-              border: `1px solid ${colorConfig.secondary}`,
-            },
-          }}
-        >
-          Sign In
-        </Button>
+        <AuthSignInButton />
       </div>
     </>
   );
