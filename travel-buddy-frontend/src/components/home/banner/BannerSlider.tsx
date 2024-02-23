@@ -5,7 +5,6 @@ import banner03 from "@/assets/banner/banner03.jpg";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 import Link from "next/link";
-import Image from "next/image";
 
 const BannerSlider = () => {
   const bannerCards = [
@@ -42,24 +41,14 @@ const BannerSlider = () => {
           key={i}
           className="absolute w-full h-full top-0 left-0"
           style={{
-            // background: `linear-gradient(45deg, #0000006e, #00000080), url(${card.img})`,
-            // backgroundPosition: "center",
-            // backgroundSize: "cover",
-            // backgroundRepeat: "no-repeat",
+            background: `linear-gradient(45deg, #0000006e, #00000080), url(${card.img})`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
             opacity: currentSlide === i ? 1 : 0,
             transition: "1.5s ease-in-out",
           }}
         >
-          <Image
-            src={card.img}
-            alt="Banner Image"
-            // width={1200}
-            // height={1200}
-            objectFit={"cover"}
-            layout={"fill"}
-            priority
-            className="absolute -z-10 brightness-[.55]"
-          />
           <div className="flex items-center justify-center h-full md:h-3/5 lg:h-4/5">
             <div className="w-full px-4 md:px-0 md:w-[88%]">
               <h2 className="text-center md:text-start text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[40px] md:leading-[50px] lg:leading-[65px] xl:leading-[85px] text-white font-bold">

@@ -75,7 +75,7 @@ const PopularLocations = () => {
               width={200}
               height={200}
               alt="Location Image"
-              priority
+              loading="lazy"
               className="h-full w-full object-cover brightness-[.68]"
             />
             <h6 className="text-white absolute bottom-4 left-4 xl:bottom-6 xl:left-5 text-lg md:text-base lg:text-lg font-semibold titleFont flex items-center gap-1">
