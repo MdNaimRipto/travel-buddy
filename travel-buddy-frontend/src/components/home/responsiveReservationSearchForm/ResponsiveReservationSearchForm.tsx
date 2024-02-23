@@ -44,7 +44,7 @@ const ResponsiveReservationSearchForm = () => {
   };
 
   return (
-    <div className="block md:hidden mb-16 bg-white shadow-2xl pb-8">
+    <div className="block md:hidden mb-16 bg-white shadow-2xl pb-8 container">
       <form
         onSubmit={handleSearch}
         className="rounded-xl grid grid-cols-1 gap-4 px-4"

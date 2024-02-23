@@ -1,6 +1,7 @@
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import React from "react";
 import { style } from "@/utils/responsiveReservationSearchForm/responsiveReservationSearchForm";
+import { locations, ILocation } from "@/utils/locations";
 
 const ReservationLocationSelectBox = () => {
   const [location, setLocation] = React.useState("");
@@ -19,10 +20,12 @@ const ReservationLocationSelectBox = () => {
       className="titleFont"
       sx={style}
     >
-      <MenuItem value="">Select Reservation Location</MenuItem>
-      <MenuItem value="Cox's Bazar">{`Cox's Bazar`}</MenuItem>
-      <MenuItem value="Chattogram">Chattogram</MenuItem>
-      <MenuItem value="Syllet">Syllet</MenuItem>
+      <MenuItem value="">Select Destination</MenuItem>
+      {locations.map((l: ILocation, i) => (
+        <MenuItem key={i} value={l.destination}>
+          {l.destination}
+        </MenuItem>
+      ))}
     </Select>
   );
 };

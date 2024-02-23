@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import banner01 from "@/assets/banner/banner01.jpg";
 import banner02 from "@/assets/banner/banner02.jpg";
 import banner03 from "@/assets/banner/banner03.jpg";
+import { Button } from "@mui/material";
+import { colorConfig } from "@/configs/colorConfig";
+import Link from "next/link";
 
 const BannerSlider = () => {
   const bannerCards = [
@@ -63,10 +66,29 @@ const BannerSlider = () => {
               </h2>
               <p className="text-center md:text-start mt-5 text-white text-sm md:text-base leading-6 md:leading-7">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta
-                iusto impedit reiciendis eius repellat! Autem id, iure
-                praesentium cumque molestiae ipsa porro cupiditate repellendus
-                minima molestias rem
+                iusto impedit{" "}
+                <span className="hidden md:contents">
+                  reiciendis eius repellat! Autem id, iure praesentium cumque
+                  molestiae ipsa porro cupiditate repellendus minima molestias
+                  rem
+                </span>
               </p>
+              <Link
+                href="/reservations"
+                className="flex justify-center mt-5 md:hidden"
+              >
+                <Button
+                  sx={{
+                    background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
+                    color: colorConfig.white,
+                    fontWeight: 600,
+                    fontSize: 12,
+                    px: 2,
+                  }}
+                >
+                  Book Reservation Now
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
