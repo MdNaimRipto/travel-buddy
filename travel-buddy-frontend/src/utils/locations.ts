@@ -154,4 +154,14 @@ export const locations: ILocation[] = [
       "Buriganga River",
     ],
   },
+  {
+    destination: "Sajek",
+    areas: [
+      "Sajek Valley Resort Area",
+      "Konglak Para",
+      "Ruilui Para",
+      "Hazachora Waterfall",
+      "Konglak Hills",
+    ],
+  },
 ];
