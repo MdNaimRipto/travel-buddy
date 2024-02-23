@@ -9,17 +9,22 @@ import SearchMenu from "./SearchMenuOptions/SearchMenu";
 const NavSideOptions = ({
   isNavOpen,
   setIsNavOpen,
+  isScrolled,
+  isHomePage,
 }: {
   isNavOpen: boolean;
   setIsNavOpen: any;
+  isScrolled: boolean;
+  isHomePage: boolean;
 }) => {
   return (
     <div className="flex items-center gap-1 justify-end w-full xl:w-auto">
-      <SearchMenu />
+      <SearchMenu isScrolled={isScrolled} isHomePage={isHomePage} />
       <Tooltip title="My Wishlist">
         <IconButton
           sx={{
-            color: colorConfig.black,
+            color:
+              !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
             transition: ".3s",
             p: 0.3,
             "&:hover": {
@@ -33,8 +38,10 @@ const NavSideOptions = ({
       <ResponsiveMenuHandlerButton
         isNavOpen={isNavOpen}
         setIsNavOpen={setIsNavOpen}
+        isScrolled={isScrolled}
+        isHomePage={isHomePage}
       />
-      <AuthOptions />
+      <AuthOptions isScrolled={isScrolled} isHomePage={isHomePage} />
     </div>
   );
 };

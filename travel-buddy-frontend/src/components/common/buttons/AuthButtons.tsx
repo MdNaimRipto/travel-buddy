@@ -30,7 +30,7 @@ const AuthSignInButton = () => {
         ...commonButtonSx,
         color: colorConfig.white,
         background: `linear-gradient(45deg, ${colorConfig.primary}, ${colorConfig.secondary}) !important`,
-        border: `1px solid ${colorConfig.white}`,
+        border: `1px solid ${colorConfig.secondary}`,
         "&:hover": {
           color: colorConfig.secondary,
           background: "none !important",
@@ -43,13 +43,22 @@ const AuthSignInButton = () => {
   );
 };
 
-const AuthSignUpButton = () => {
+const AuthSignUpButton = ({
+  isScrolled,
+  isHomePage,
+}: {
+  isScrolled: boolean;
+  isHomePage: boolean;
+}) => {
   return (
     <Button
       className="titleFont"
       sx={{
         ...commonButtonSx,
-        color: colorConfig.black,
+        color: {
+          xs: colorConfig.black,
+          sm: !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
+        },
         border: {
           xs: `1px solid ${colorConfig.black}`,
           sm: "none",

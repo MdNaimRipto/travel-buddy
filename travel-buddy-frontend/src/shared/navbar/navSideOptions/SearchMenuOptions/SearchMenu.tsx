@@ -4,7 +4,13 @@ import { IconButton, Tooltip } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 import SearchPage from "./SearchPage";
 
-const SearchMenu = () => {
+const SearchMenu = ({
+  isScrolled,
+  isHomePage,
+}: {
+  isScrolled: boolean;
+  isHomePage: boolean;
+}) => {
   const [isSearchPageOpen, setIsSearchPageOpen] = useState(false);
   return (
     <>
@@ -12,7 +18,8 @@ const SearchMenu = () => {
         <IconButton
           onClick={() => setIsSearchPageOpen(true)}
           sx={{
-            color: colorConfig.black,
+            color:
+              !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
             transition: ".3s",
             p: 0.3,
             "&:hover": {

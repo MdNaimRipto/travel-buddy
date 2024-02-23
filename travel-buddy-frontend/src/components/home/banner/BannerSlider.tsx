@@ -35,7 +35,7 @@ const BannerSlider = () => {
   }, [bannerCards.length, currentSlide]);
 
   return (
-    <div className="h-3/5 md:h-1/2 lg:h-3/5  overflow-hidden mb-6">
+    <div className="h-3/5 md:h-2/5 lg:h-3/5  overflow-hidden mb-6">
       {bannerCards.map((card, i) => (
         <div
           key={i}
@@ -49,7 +49,7 @@ const BannerSlider = () => {
             transition: "1.5s ease-in-out",
           }}
         >
-          <div className="flex items-center justify-center h-full md:h-3/5 lg:h-4/5">
+          <div className="container flex items-center justify-center h-full lg:h-4/5 pt-0 md:pt-[50px] lg:pt-0">
             <div className="w-full px-4 md:px-0 md:w-[88%]">
               <h2 className="text-center md:text-start text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[40px] md:leading-[50px] lg:leading-[65px] xl:leading-[85px] text-white font-bold">
                 <span
@@ -75,7 +75,7 @@ const BannerSlider = () => {
               </p>
               <Link
                 href="/reservations"
-                className="flex justify-center mt-5 md:hidden"
+                className="flex justify-center md:justify-start mt-5 lg:hidden"
               >
                 <Button
                   sx={{
