@@ -47,19 +47,25 @@ const NavMenuItems = ({
     >
       <div className="flex xl:hidden items-start justify-between w-full pr-5 mb-3">
         <div></div>
-        <Image
-          src={logo.src}
-          width={400}
-          height={400}
-          className="w-[170px]"
-          alt="Logo"
-          priority
-        />
+        <Link href="/" onClick={() => setIsNavOpen(false)}>
+          <Image
+            src={logo.src}
+            width={400}
+            height={400}
+            className="w-[170px]"
+            alt="Logo"
+            priority
+          />
+        </Link>
         <IconButton
           onClick={() => setIsNavOpen(!isNavOpen)}
           sx={{
             color: colorConfig.black,
             p: 0.3,
+            opacity: {
+              xs: 1,
+              sm: 0,
+            },
           }}
         >
           <CloseMenuIcon />

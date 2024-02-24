@@ -5,6 +5,7 @@ import banner03 from "@/assets/banner/banner03.jpg";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 import Link from "next/link";
+import CommonButton from "@/components/common/buttons/CommonButton";
 
 const BannerSlider = () => {
   const bannerCards = [
@@ -77,17 +78,7 @@ const BannerSlider = () => {
                 href="/reservations"
                 className="flex justify-center md:justify-start mt-5 lg:hidden"
               >
-                <Button
-                  sx={{
-                    background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
-                    color: colorConfig.white,
-                    fontWeight: 600,
-                    fontSize: 12,
-                    px: 2,
-                  }}
-                >
-                  Book Reservation Now
-                </Button>
+                <CommonButton title="Book Reservation Now" />
               </Link>
             </div>
           </div>

@@ -18,7 +18,7 @@ const NavSideOptions = ({
   isHomePage: boolean;
 }) => {
   return (
-    <div className="flex items-center gap-1 justify-end w-full xl:w-auto">
+    <div className="flex items-center gap-1 justify-end w-full md:w-[70%] xl:w-auto">
       <SearchMenu isScrolled={isScrolled} isHomePage={isHomePage} />
       <Tooltip title="My Wishlist">
         <IconButton

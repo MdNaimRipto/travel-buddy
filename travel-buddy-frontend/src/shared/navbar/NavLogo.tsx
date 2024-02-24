@@ -13,7 +13,7 @@ const NavLogo = ({
   return (
     <Link href={"/"} className="w-[90%] md:w-full xl:w-[36%] flex items-center">
       <Image
-        className="w-2/5 md:w-[35%] lg:w-[25%]"
+        className="w-2/5 md:w-[28%] lg:w-[22%]"
         src={logoOnly.src}
         alt="Navbar-logo"
         width={80}

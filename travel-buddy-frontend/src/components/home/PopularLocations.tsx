@@ -57,7 +57,7 @@ const PopularLocations = () => {
   ];
 
   return (
-    <div className="container px-4 mb-16">
+    <div className="container px-4 mb-16" id="popular-location">
       <CommonTitle
         path="/destinations"
         title="Popular Locations"
