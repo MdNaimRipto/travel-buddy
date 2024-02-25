@@ -41,7 +41,7 @@ const AuthOptions = ({
       <div
         className={`bg-white md:bg-[#00000000] flex flex-col items-center justify-center h-screen w-full md:h-auto md:w-auto fixed top-0 px-4 md:px-0 md:block md:static ${
           isAuthMenuOpen ? "right-0 z-50" : "-right-[1000px]"
-        } duration-300`}
+        } duration-1000 ease-in-out`}
       >
         <Tooltip title={"Close Search Menu"}>
           <IconButton
@@ -50,7 +50,7 @@ const AuthOptions = ({
               top: 16,
               right: `${isAuthMenuOpen ? "10px" : "-1000px"}`,
               color: colorConfig.black,
-              transition: "0.3s",
+              transition: "1s ease-in-out",
             }}
             onClick={() => setIsAuthMenuOpen(false)}
           >

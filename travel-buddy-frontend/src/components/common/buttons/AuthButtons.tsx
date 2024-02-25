@@ -63,6 +63,7 @@ const AuthSignUpButton = ({
           xs: `1px solid ${colorConfig.black}`,
           sm: "none",
         },
+        transition: ".3s",
         "&:hover": {
           color: colorConfig.secondary,
           border: {

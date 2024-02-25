@@ -5,6 +5,7 @@ import WishlistIcon from "@mui/icons-material/Add";
 import AuthOptions from "./AuthOptions";
 import ResponsiveMenuHandlerButton from "./ResponsiveMenuHandlerButton";
 import SearchMenu from "./SearchMenuOptions/SearchMenu";
+import ContactUs from "./ContactUs";
 
 const NavSideOptions = ({
   isNavOpen,
@@ -42,6 +43,7 @@ const NavSideOptions = ({
         isHomePage={isHomePage}
       />
       <AuthOptions isScrolled={isScrolled} isHomePage={isHomePage} />
+      <ContactUs isScrolled={isScrolled} isHomePage={isHomePage} />
     </div>
   );
 };
