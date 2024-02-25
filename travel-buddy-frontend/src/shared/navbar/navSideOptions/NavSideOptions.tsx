@@ -5,7 +5,7 @@ import WishlistIcon from "@mui/icons-material/Add";
 import AuthOptions from "./AuthOptions";
 import ResponsiveMenuHandlerButton from "./ResponsiveMenuHandlerButton";
 import SearchMenu from "./SearchMenuOptions/SearchMenu";
-import ContactUs from "./ContactUs";
+import ContactUs from "./contactUs/ContactUs";
 
 const NavSideOptions = ({
   isNavOpen,

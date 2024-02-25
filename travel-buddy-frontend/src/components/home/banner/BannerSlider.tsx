@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import banner01 from "@/assets/banner/banner01.jpg";
 import banner02 from "@/assets/banner/banner02.jpg";
 import banner03 from "@/assets/banner/banner03.jpg";
-import { Button } from "@mui/material";
-import { colorConfig } from "@/configs/colorConfig";
 import Link from "next/link";
 import CommonButton from "@/components/common/buttons/CommonButton";
 import Transition from "@/components/animation/Transition";
@@ -78,7 +76,7 @@ const BannerSlider = () => {
                 </p>
                 <Link
                   href="/reservations"
-                  className="flex justify-center md:justify-start mt-5 lg:hidden"
+                  className="flex justify-center md:justify-start mt-5 w-full md:w-[33%] lg:hidden"
                 >
                   <CommonButton title="Book Reservation Now" />
                 </Link>

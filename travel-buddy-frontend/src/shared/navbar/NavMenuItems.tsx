@@ -6,7 +6,6 @@ import Image from "next/image";
 import CloseMenuIcon from "@mui/icons-material/CloseRounded";
 import { IconButton } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
-import OnScrollAnimation from "@/components/animation/OnScrollAnimation";
 
 const NavMenuItems = ({
   isNavOpen,
@@ -83,7 +82,7 @@ const NavMenuItems = ({
       </div>
       {menuItems.map((menu, i) => (
         <Link
-          onClick={() => setIsNavOpen(!isNavOpen)}
+          onClick={() => setIsNavOpen(false)}
           href={menu?.path ? menu.path : "/"}
           key={i}
           className={`block ${
