@@ -6,6 +6,7 @@ import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 import Link from "next/link";
 import CommonButton from "@/components/common/buttons/CommonButton";
+import Transition from "@/components/animation/Transition";
 
 const BannerSlider = () => {
   const bannerCards = [
@@ -50,38 +51,40 @@ const BannerSlider = () => {
             transition: "1.5s ease-in-out",
           }}
         >
-          <div className="container flex items-center justify-center h-full lg:h-4/5 pt-0 md:pt-[50px] lg:pt-0">
-            <div className="w-full px-4 md:px-0 md:w-[88%]">
-              <h2 className="text-center md:text-start text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[40px] md:leading-[50px] lg:leading-[65px] xl:leading-[85px] text-white font-bold">
-                <span
-                  className={`titleFont ${
-                    currentSlide === i && "rotate-180 duration-[1.5s]"
-                  }`}
+          <Transition>
+            <div className="container flex items-center justify-center h-full lg:h-4/5 pt-0 md:pt-[50px] lg:pt-0">
+              <div className="w-full px-4 md:px-0 md:w-[88%]">
+                <h2 className="text-center md:text-start text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[40px] md:leading-[50px] lg:leading-[65px] xl:leading-[85px] text-white font-bold">
+                  <span
+                    className={`titleFont ${
+                      currentSlide === i && "rotate-180 duration-[1.5s]"
+                    }`}
+                  >
+                    {card.title}
+                  </span>
+                  <br />
+                  <span className="hidden md:block titleFont">
+                    With Travel Buddy
+                  </span>
+                </h2>
+                <p className="text-center md:text-start mt-5 text-white text-sm md:text-base leading-6 md:leading-7">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Soluta iusto impedit{" "}
+                  <span className="hidden md:contents">
+                    reiciendis eius repellat! Autem id, iure praesentium cumque
+                    molestiae ipsa porro cupiditate repellendus minima molestias
+                    rem
+                  </span>
+                </p>
+                <Link
+                  href="/reservations"
+                  className="flex justify-center md:justify-start mt-5 lg:hidden"
                 >
-                  {card.title}
-                </span>
-                <br />
-                <span className="hidden md:block titleFont">
-                  With Travel Buddy
-                </span>
-              </h2>
-              <p className="text-center md:text-start mt-5 text-white text-sm md:text-base leading-6 md:leading-7">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta
-                iusto impedit{" "}
-                <span className="hidden md:contents">
-                  reiciendis eius repellat! Autem id, iure praesentium cumque
-                  molestiae ipsa porro cupiditate repellendus minima molestias
-                  rem
-                </span>
-              </p>
-              <Link
-                href="/reservations"
-                className="flex justify-center md:justify-start mt-5 lg:hidden"
-              >
-                <CommonButton title="Book Reservation Now" />
-              </Link>
+                  <CommonButton title="Book Reservation Now" />
+                </Link>
+              </div>
             </div>
-          </div>
+          </Transition>
         </div>
       ))}
     </div>

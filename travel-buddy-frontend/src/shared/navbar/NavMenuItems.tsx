@@ -6,6 +6,7 @@ import Image from "next/image";
 import CloseMenuIcon from "@mui/icons-material/CloseRounded";
 import { IconButton } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
+import OnScrollAnimation from "@/components/animation/OnScrollAnimation";
 
 const NavMenuItems = ({
   isNavOpen,
@@ -24,18 +25,27 @@ const NavMenuItems = ({
     {
       item: "Home",
       path: "/",
+      opacityDelay: ".8s",
+    },
+    {
+      item: "Hotels",
+      path: "/hotels",
+      opacityDelay: ".9s",
     },
     {
       item: "Reservations",
       path: "/reservations",
+      opacityDelay: "1s",
     },
     {
       item: "Destinations",
       path: "/destinations",
+      opacityDelay: "1.1s",
     },
     {
       item: "Contact Us",
-      path: "/contactUs",
+      path: "/contact",
+      opacityDelay: "1.2s",
     },
   ];
 
@@ -43,7 +53,7 @@ const NavMenuItems = ({
     <ul
       className={`bg-white xl:bg-[#00000000] flex flex-col xl:flex-row items-start xl:items-center gap-1 xl:gap-7 absolute top-0 z-40 w-full md:w-2/5 xl:w-full h-screen xl:h-[80px] py-4 xl:py-0 pl-5 xl:pl-0 xl:static ${
         isNavOpen ? "left-0" : "-left-[1000px]"
-      } duration-300`}
+      } duration-1000 ease-in-out`}
     >
       <div className="flex xl:hidden items-start justify-between w-full pr-5 mb-3">
         <div></div>
@@ -80,13 +90,20 @@ const NavMenuItems = ({
             !isScrolled && isHomePage
               ? "text-black xl:text-white"
               : "text-black xl:text-black"
-          } text-base xl:text-sm h-[55px] xl:h-full`}
+          } text-base xl:text-sm h-[55px] xl:h-full duration-300 last:md:hidden`}
         >
           <li
             className={`titleFont font-medium whitespace-nowrap h-[40px] leading-[55px] xl:h-[50px] xl:leading-[80px] ${
               Router.pathname === menu?.path &&
               "text-secondary border-b border-b-secondary"
+            } ${
+              isNavOpen
+                ? `opacity-100 duration-700 mt-0`
+                : "opacity-0 xl:opacity-100 mt-3 xl:mt-0"
             }`}
+            style={{
+              transitionDelay: isNavOpen ? menu.opacityDelay : "0s",
+            }}
           >
             {menu?.item}
           </li>

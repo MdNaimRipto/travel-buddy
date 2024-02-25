@@ -12,6 +12,10 @@ const CommonButton = ({ title }: { title: string }) => {
         fontSize: 12,
         px: 3,
         py: "10px",
+        transition: ".8s",
+        "&:hover": {
+          background: `linear-gradient(45deg, ${colorConfig.primary}, ${colorConfig.secondary}) !important`,
+        },
       }}
     >
       {title}

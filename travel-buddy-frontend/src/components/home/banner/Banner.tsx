@@ -1,3 +1,4 @@
+import Transition from "@/components/animation/Transition";
 import BannerSlider from "./BannerSlider";
 import BannerSearchForm from "./bannerSerachForm/BannerSearchForm";
 
@@ -8,7 +9,9 @@ const Banner = () => {
       id="banner"
     >
       <BannerSlider />
-      <BannerSearchForm />
+      <Transition>
+        <BannerSearchForm />
+      </Transition>
     </div>
   );
 };

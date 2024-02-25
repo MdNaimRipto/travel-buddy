@@ -5,6 +5,7 @@ import ReservationTypeSelectBox from "./formSelectBoxes/ReservationTypeSelectBox
 import ReservationLocationSelectBox from "./formSelectBoxes/ReservationLocationSelectBox";
 import ReservationClassSelectBox from "./formSelectBoxes/ReservationClassSelectBox";
 import { UseCommonImports } from "@/utils/UseCommonImports";
+import OnScrollAnimation from "@/components/animation/OnScrollAnimation";
 
 const ResponsiveReservationSearchForm = () => {
   const { Router } = UseCommonImports();
@@ -44,29 +45,31 @@ const ResponsiveReservationSearchForm = () => {
   };
 
   return (
-    <div className="block lg:hidden mb-16 bg-white container md:px-4">
-      <form
-        onSubmit={handleSearch}
-        className="rounded-xl grid grid-cols-1 gap-4 shadow-2xl px-4 pb-8"
-      >
-        <ReservationLocationSelectBox />
-        <ReservationTypeSelectBox />
-        <ReservationClassSelectBox />
-        <Button
-          type="submit"
-          className="titleFont"
-          sx={{
-            background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
-            borderRadius: "100px",
-            color: colorConfig.white,
-            fontWeight: 600,
-            py: 2,
-          }}
+    <OnScrollAnimation>
+      <div className="block lg:hidden mb-16 bg-white container md:px-4">
+        <form
+          onSubmit={handleSearch}
+          className="rounded-xl grid grid-cols-1 gap-4 shadow-2xl px-4 pb-8"
         >
-          {loading ? "Loading..." : "Search Reservations"}
-        </Button>
-      </form>
-    </div>
+          <ReservationLocationSelectBox />
+          <ReservationTypeSelectBox />
+          <ReservationClassSelectBox />
+          <Button
+            type="submit"
+            className="titleFont"
+            sx={{
+              background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
+              borderRadius: "100px",
+              color: colorConfig.white,
+              fontWeight: 600,
+              py: 2,
+            }}
+          >
+            {loading ? "Loading..." : "Search Reservations"}
+          </Button>
+        </form>
+      </div>
+    </OnScrollAnimation>
   );
 };
 

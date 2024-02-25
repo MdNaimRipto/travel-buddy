@@ -9,6 +9,7 @@ import Link from "next/link";
 import NavigateIcon from "@mui/icons-material/OpenInNew";
 import CommonTitle from "@/components/common/titles/CommonTitle";
 import Image from "next/image";
+import OnScrollAnimation from "../animation/OnScrollAnimation";
 
 const PopularLocations = () => {
   const locations = [
@@ -57,37 +58,39 @@ const PopularLocations = () => {
   ];
 
   return (
-    <div className="container px-4 mb-16" id="popular-location">
-      <CommonTitle
-        path="/destinations"
-        title="Popular Locations"
-        linkTitle="See All"
-      />
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:grid-rows-2 gap-4 h-[700px] md:h-[250px] lg:h-[500px]">
-        {locations.map((location, i) => (
-          <Link
-            href={location.path}
-            key={i}
-            className={`block rounded-xl relative ${location.cols} ${location.rows} group overflow-hidden cursor-pointer`}
-          >
-            <Image
-              src={location.img}
-              width={800}
-              height={800}
-              alt="Location Image"
-              loading="lazy"
-              className="h-full w-full object-cover brightness-[.68]"
-            />
-            <h6 className="text-white absolute bottom-4 left-4 xl:bottom-6 xl:left-5 text-lg md:text-base lg:text-lg font-semibold titleFont flex items-center gap-1">
-              {location.name}
-              <div className="lg:opacity-0 mb-2 lg:-mb-5 lg:group-hover:opacity-100 lg:group-hover:mb-2 duration-500">
-                <NavigateIcon />
-              </div>
-            </h6>
-          </Link>
-        ))}
+    <OnScrollAnimation>
+      <div className="container px-4 mb-16" id="popular-location">
+        <CommonTitle
+          path="/destinations"
+          title="Popular Locations"
+          linkTitle="See All"
+        />
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 lg:grid-rows-2 gap-4 h-[700px] md:h-[250px] lg:h-[500px]">
+          {locations.map((location, i) => (
+            <Link
+              href={location.path}
+              key={i}
+              className={`block rounded-xl relative ${location.cols} ${location.rows} group overflow-hidden cursor-pointer`}
+            >
+              <Image
+                src={location.img}
+                width={800}
+                height={800}
+                alt="Location Image"
+                loading="lazy"
+                className="h-full w-full object-cover brightness-[.68]"
+              />
+              <h6 className="text-white absolute bottom-4 left-4 xl:bottom-6 xl:left-5 text-lg md:text-base lg:text-lg font-semibold titleFont flex items-center gap-1">
+                {location.name}
+                <div className="lg:opacity-0 mb-2 lg:-mb-5 lg:group-hover:opacity-100 lg:group-hover:mb-2 duration-500">
+                  <NavigateIcon />
+                </div>
+              </h6>
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
+    </OnScrollAnimation>
   );
 };
 

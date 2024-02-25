@@ -8,8 +8,8 @@ import Link from "next/link";
 
 const AboutContent = () => {
   return (
-    <div className="w-full lg:w-1/2 text-center md:text-start">
-      <h2 className="text-xl md:text-5xl font-medium leading-9 md:leading-[65px] text-black">
+    <div className="w-full lg:w-1/2 text-center lg:text-start">
+      <h2 className="text-xl md:text-4xl xl:text-5xl font-semibold leading-9 md:leading-[65px] xl:leading-[75px] text-black uppercase">
         <span className="titleFont">{`Let's Know About`}</span>
         <br />
         <span className="titleFont">{`Travel-Buddy`}</span>
@@ -39,7 +39,7 @@ const AboutContent = () => {
               alt="Customer Reviews"
               loading="lazy"
             />
-            <Link href={"#popular-location"} className="hover:text-secondary">
+            <Link href={"#reviews"} className="hover:text-secondary">
               <h6 className="font-semibold text-sm md:text-lg titleFont">
                 500+
               </h6>
