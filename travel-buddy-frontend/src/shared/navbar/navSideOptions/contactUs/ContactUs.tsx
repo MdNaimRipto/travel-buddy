@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import ContactMenuIcon from "@mui/icons-material/MoreVertOutlined";
 import { Divider, IconButton } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
-import CommonFullWidthBtn from "@/components/common/buttons/CommonFullWidthBtn";
 import ContactHeading from "./ContactHeading";
 import ContactForm from "./ContactForm";
 import OtherContactOptions from "./OtherContactOptions";
+import ContactToggleButton from "./ContactToggleButton";
 
 const ContactUs = ({
   isScrolled,
@@ -38,24 +38,17 @@ const ContactUs = ({
       id="menuContactContainer"
       ref={menuRef}
     >
-      <IconButton
-        onClick={() => setIsContactOpen(true)}
-        sx={{
-          color:
-            !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
-          transition: ".3s",
-          p: 0.3,
-          "&:hover": {
-            color: colorConfig.secondary,
-          },
-        }}
-      >
-        <ContactMenuIcon sx={{ fontSize: 28 }} />
-      </IconButton>
+      <ContactToggleButton
+        isHomePage={isHomePage}
+        isScrolled={isScrolled}
+        setIsContactOpen={setIsContactOpen}
+      />
       <div
-        className={`bg-white h-screen w-[400px] top-0 px-4 fixed ${
-          isContactOpen ? "right-0 z-50" : "-right-[1000px]"
-        } duration-1000 ease-in-out overflow-auto`}
+        className={`bg-white top-0 px-4 fixed ${
+          isContactOpen
+            ? "right-0 w-[400px] h-screen z-50"
+            : "-right-[1000px] w-0 h-0"
+        } duration-700 ease-in-out overflow-auto`}
       >
         <ContactHeading setIsContactOpen={setIsContactOpen} />
         <div className="px-3">

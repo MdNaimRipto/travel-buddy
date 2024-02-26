@@ -23,7 +23,7 @@ const NavLogo = ({
       <div
         className={`w-3/5 md:w-[70%] whitespace-nowrap uppercase ${
           !isScrolled && isHomePage ? "text-white" : "text-black"
-        } duration-300`}
+        } duration-700`}
       >
         <h2 className="text-xs md:text-lg lg:text-xl mb-1 md:mb-0 titleFont font-[700]">
           Travel-Buddy

@@ -11,23 +11,23 @@ const OtherContactOptions = ({ isContactOpen }: { isContactOpen: boolean }) => {
   const options = [
     {
       logo: <FacebookOutlinedIcon />,
-      opacityDelay: ".8s",
+      opacityDelay: ".4s",
     },
     {
       logo: <InstagramIcon />,
-      opacityDelay: ".9s",
+      opacityDelay: ".5s",
     },
     {
       logo: <XIcon />,
-      opacityDelay: "1s",
+      opacityDelay: ".6s",
     },
     {
       logo: <YouTubeIcon />,
-      opacityDelay: "1.1s",
+      opacityDelay: ".7s",
     },
     {
       logo: <LinkedInIcon />,
-      opacityDelay: "1.2s",
+      opacityDelay: ".8s",
     },
   ];
   return (

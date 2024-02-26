@@ -3,6 +3,7 @@ import Banner from "./banner/Banner";
 import ResponsiveReservationSearchForm from "./responsiveReservationSearchForm/ResponsiveReservationSearchForm";
 import PopularLocations from "./PopularLocations";
 import AboutUs from "./aboutUs/AboutUs";
+import BestHotels from "./bestHotels/BestHotels";
 const HomeMain = () => {
   return (
     <div className="">
@@ -10,6 +11,7 @@ const HomeMain = () => {
       <ResponsiveReservationSearchForm />
       <PopularLocations />
       <AboutUs />
+      <BestHotels />
     </div>
   );
 };

@@ -24,35 +24,37 @@ const NavMenuItems = ({
     {
       item: "Home",
       path: "/",
-      opacityDelay: ".8s",
+      opacityDelay: ".4s",
     },
     {
       item: "Hotels",
       path: "/hotels",
-      opacityDelay: ".9s",
+      opacityDelay: ".5s",
     },
     {
       item: "Reservations",
       path: "/reservations",
-      opacityDelay: "1s",
+      opacityDelay: ".6s",
     },
     {
       item: "Destinations",
       path: "/destinations",
-      opacityDelay: "1.1s",
+      opacityDelay: ".7s",
     },
     {
       item: "Contact Us",
       path: "/contact",
-      opacityDelay: "1.2s",
+      opacityDelay: ".8s",
     },
   ];
 
   return (
     <ul
-      className={`bg-white xl:bg-[#00000000] flex flex-col xl:flex-row items-start xl:items-center gap-1 xl:gap-7 absolute top-0 z-40 w-full md:w-2/5 xl:w-full h-screen xl:h-[80px] py-4 xl:py-0 pl-5 xl:pl-0 xl:static ${
-        isNavOpen ? "left-0" : "-left-[1000px]"
-      } duration-1000 ease-in-out`}
+      className={`bg-white xl:bg-[#00000000] flex flex-col xl:flex-row items-start xl:items-center gap-1 xl:gap-7 absolute top-0 z-40 py-4 xl:py-0 pl-5 xl:pl-0 xl:static ${
+        isNavOpen
+          ? "left-0 w-full md:w-2/5 xl:w-full h-screen xl:h-[80px]"
+          : "-left-[1000px] w-0 h-0 xl:h-[80px] xl:w-full"
+      } duration-700 ease-in-out`}
     >
       <div className="flex xl:hidden items-start justify-between w-full pr-5 mb-3">
         <div></div>
