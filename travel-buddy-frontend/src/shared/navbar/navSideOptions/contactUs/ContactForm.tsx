@@ -6,7 +6,7 @@ const ContactForm = ({ isContactOpen }: { isContactOpen: boolean }) => {
     <form
       className={`${
         isContactOpen ? "opacity-100 mt-0" : "opacity-0 mt-3"
-      } duration-300 delay-[.8s]`}
+      } duration-300 delay-[.4s]`}
     >
       <div>
         <label className="block mb-3 titleFont font-medium text-black">

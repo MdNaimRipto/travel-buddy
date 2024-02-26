@@ -33,7 +33,7 @@ const Navbar = () => {
     <div
       className={`fixed z-50 top-0 left-0 w-full ${
         isHomePage && !isScrolled ? "bg-[#00000000]" : "bg-white"
-      } duration-300 border-b border-b-lightGray pb-[2px]`}
+      } duration-700 border-b border-b-lightGray pb-[2px]`}
     >
       <div
         className={`h-[80px] container px-4 flex items-center justify-between`}

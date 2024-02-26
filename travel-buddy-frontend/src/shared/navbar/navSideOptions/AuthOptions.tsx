@@ -27,7 +27,7 @@ const AuthOptions = ({
                 !isScrolled && isHomePage
                   ? colorConfig.white
                   : colorConfig.black,
-              transition: ".3s",
+              transition: ".7s",
               p: 0.3,
               "&:hover": {
                 color: colorConfig.secondary,
@@ -39,8 +39,10 @@ const AuthOptions = ({
         </Tooltip>
       </div>
       <div
-        className={`bg-white md:bg-[#00000000] flex flex-col items-center justify-center h-screen w-full md:h-auto md:w-auto fixed top-0 px-4 md:px-0 md:block md:static ${
-          isAuthMenuOpen ? "right-0 z-50" : "-right-[1000px]"
+        className={`bg-white md:bg-[#00000000] flex flex-col items-center justify-center md:h-auto md:w-auto fixed top-0 px-4 md:px-0 md:block md:static ${
+          isAuthMenuOpen
+            ? "right-0 z-50 h-screen w-full"
+            : "-right-[1000px] w-0 h-0"
         } duration-1000 ease-in-out`}
       >
         <Tooltip title={"Close Search Menu"}>

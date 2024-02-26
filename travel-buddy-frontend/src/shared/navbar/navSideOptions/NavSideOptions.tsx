@@ -26,7 +26,7 @@ const NavSideOptions = ({
           sx={{
             color:
               !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
-            transition: ".3s",
+            transition: ".7s",
             p: 0.3,
             "&:hover": {
               color: colorConfig.secondary,

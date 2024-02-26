@@ -1,8 +1,5 @@
 import React from "react";
-import { colorConfig } from "@/configs/colorConfig";
 import { IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/MenuRounded";
-import CloseMenuIcon from "@mui/icons-material/CloseRounded";
 
 const ResponsiveMenuHandlerButton = ({
   isNavOpen,
@@ -15,23 +12,50 @@ const ResponsiveMenuHandlerButton = ({
   isScrolled: boolean;
   isHomePage: boolean;
 }) => {
+  const commonStyle = `w-6 h-[2px] rounded ${
+    !isScrolled && isHomePage ? "bg-white" : "bg-black"
+  } group-hover:bg-primary absolute left-0 duration-700`;
   return (
-    <div className="block xl:hidden">
-      <IconButton
-        onClick={() => setIsNavOpen(!isNavOpen)}
-        sx={{
-          color:
-            !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
-          transition: ".3s",
-          p: 0.3,
-          "&:hover": {
-            color: colorConfig.secondary,
-          },
-        }}
-      >
-        {isNavOpen ? <CloseMenuIcon /> : <MenuIcon />}
-      </IconButton>
-    </div>
+    <IconButton
+      onClick={() => setIsNavOpen(!isNavOpen)}
+      sx={{
+        p: 0.3,
+        "&:hover": {
+          background: "none",
+        },
+        display: {
+          xs: "block",
+          lg: "none",
+        },
+        width: 26,
+        height: 20,
+        overflow: "hidden",
+        borderRadius: 0,
+      }}
+    >
+      <div className="relative w-full h-full overflow-hidden group">
+        <p
+          className={`${commonStyle} top-0 ${
+            isNavOpen ? "opacity-0" : "opacity-100"
+          }`}
+        ></p>
+        <p
+          className={`${commonStyle} top-1/2 -translate-y-1/2 ${
+            isNavOpen ? "rotate-45" : "rotate-0"
+          }`}
+        ></p>
+        <p
+          className={`${commonStyle} top-1/2 -translate-y-1/2 ${
+            isNavOpen ? "-rotate-45" : "rotate-90   opacity-0"
+          }`}
+        ></p>
+        <p
+          className={`${commonStyle} bottom-0 ${
+            isNavOpen ? "opacity-0" : "opacity-100"
+          }`}
+        ></p>
+      </div>
+    </IconButton>
   );
 };
 

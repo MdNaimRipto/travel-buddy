@@ -14,3 +14,30 @@
   font-optical-sizing: auto !important;
   font-style: normal !important;
 }
+
+/** Swiper */
+.swiper {
+  padding-bottom: 80px !important;
+}
+
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  width: 16% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.swiper-pagination-clickable .swiper-pagination-bullet {
+  height: 10px !important;
+  width: 10px;
+  transition: 0.25s !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #fcbf34 !important;
+  width: 40px !important;
+  border-radius: 4px !important;
+  height: 10px !important;
+}
