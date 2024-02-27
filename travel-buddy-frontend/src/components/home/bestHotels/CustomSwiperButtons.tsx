@@ -7,7 +7,7 @@ import { colorConfig } from "@/configs/colorConfig";
 const CustomSwiperButtons = () => {
   const swiper = useSwiper();
   return (
-    <div className="absolute bottom-0 right-2 z-50 flex items-center gap-2">
+    <div className="absolute bottom-0 right-2 z-50 hidden md:flex items-center gap-2">
       <IconButton
         sx={{
           background: `${colorConfig.lightGray} !important`,
