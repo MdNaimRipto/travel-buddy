@@ -5,6 +5,7 @@ import PopularLocations from "./PopularLocations";
 import AboutUs from "./aboutUs/AboutUs";
 import BestHotels from "./bestHotels/BestHotels";
 import GreatDeal from "./GreatDeal";
+import Reviews from "./reviews/Reviews";
 const HomeMain = () => {
   return (
     <div className="">
@@ -14,6 +15,7 @@ const HomeMain = () => {
       <AboutUs />
       <BestHotels />
       <GreatDeal />
+      <Reviews />
     </div>
   );
 };
