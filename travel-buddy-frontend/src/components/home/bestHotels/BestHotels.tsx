@@ -10,7 +10,7 @@ import img7 from "@/assets/hotels/hotel7.jpg";
 import VerticalHotelCard from "../../common/cards/hotelCards/VerticalHotelCard";
 import OnScrollAnimation from "../../animation/OnScrollAnimation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { Autoplay, Pagination } from "swiper/modules";
 import CustomSwiperButtons from "./CustomSwiperButtons";
 
 const BestHotels = () => {
@@ -66,6 +66,7 @@ const BestHotels = () => {
           autoplay={{
             delay: 3500,
             disableOnInteraction: false,
+            pauseOnMouseEnter: true,
           }}
           pagination={{
             clickable: true,

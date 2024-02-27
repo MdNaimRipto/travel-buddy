@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import ContactMenuIcon from "@mui/icons-material/MoreVertOutlined";
-import { Divider, IconButton } from "@mui/material";
-import { colorConfig } from "@/configs/colorConfig";
+import { Divider } from "@mui/material";
 import ContactHeading from "./ContactHeading";
 import ContactForm from "./ContactForm";
 import OtherContactOptions from "./OtherContactOptions";
@@ -48,7 +46,7 @@ const ContactUs = ({
           isContactOpen
             ? "right-0 w-[400px] h-screen z-50"
             : "-right-[1000px] w-0 h-0"
-        } duration-700 ease-in-out overflow-auto`}
+        } duration-700 ease-in-out overflow-auto lg:overflow-hidden`}
       >
         <ContactHeading setIsContactOpen={setIsContactOpen} />
         <div className="px-3">

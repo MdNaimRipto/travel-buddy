@@ -51,6 +51,7 @@ const GreatDeal = () => {
               <Countdown
                 date={Date.now() + 86400000}
                 className="text-3xl titleFont"
+                autoStart
               />
               <CommonBtnWithIcon
                 title="Book Now"
