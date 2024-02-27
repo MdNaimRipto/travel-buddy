@@ -40,9 +40,14 @@ const BestHotels = () => {
 
   return (
     <OnScrollAnimation>
-      <div className="container px-4">
+      <div className="container px-4 mb-16">
         <CommonTitle
-          title="Best Hotels To Stay"
+          title={
+            <p className="titleFont flex items-center gap-[6px]">
+              Best Hotels{" "}
+              <span className="titleFont hidden md:flex">To Stay</span>
+            </p>
+          }
           path="/hotels"
           linkTitle="Visit All Hotels"
         />

@@ -4,6 +4,7 @@ import ResponsiveReservationSearchForm from "./responsiveReservationSearchForm/R
 import PopularLocations from "./PopularLocations";
 import AboutUs from "./aboutUs/AboutUs";
 import BestHotels from "./bestHotels/BestHotels";
+import GreatDeal from "./GreatDeal";
 const HomeMain = () => {
   return (
     <div className="">
@@ -12,6 +13,7 @@ const HomeMain = () => {
       <PopularLocations />
       <AboutUs />
       <BestHotels />
+      <GreatDeal />
     </div>
   );
 };

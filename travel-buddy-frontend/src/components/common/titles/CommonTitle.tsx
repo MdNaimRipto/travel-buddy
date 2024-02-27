@@ -3,7 +3,7 @@ import React from "react";
 import NavigateIcon from "@mui/icons-material/OpenInNew";
 
 interface ITitle {
-  title: string;
+  title: any;
   path: string;
   linkTitle: string;
 }

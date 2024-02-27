@@ -24,7 +24,7 @@
 .swiper-pagination-custom,
 .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal {
-  width: 16% !important;
+  width: 70% !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
 }
