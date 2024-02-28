@@ -61,16 +61,6 @@
   border-radius: 30px !important;
 }
 
-/* @media screen and (max-width: 576px) {
-  .reviewSwiper .swiper-slide {
-    width: 100% !important;
-  }
-
-  .reviewSwiper .swiper-slide-active {
-    width: 100% !important;
-  }
-} */
-
 @media screen and (min-width: 577px) and (max-width: 768px) {
   .reviewSwiper .swiper-slide {
     width: 100% !important;
@@ -92,5 +82,24 @@
   .reviewSwiper .swiper-slide-active {
     width: 100% !important;
     padding: 0px 150px !important;
+  }
+}
+
+/** Swiper Blogs */
+.focusedBlogSwiper,
+.otherBlogsSwiper {
+  width: 100% !important;
+  padding-bottom: 0px !important;
+  overflow: hidden !important;
+  transition: 0.7s !important;
+}
+
+.otherBlogsSwiper {
+  grid-column: span 2;
+}
+
+@media screen and (max-width: 768px) {
+  .otherBlogsSwiper {
+    display: none !important;
   }
 }
