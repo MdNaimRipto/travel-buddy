@@ -9,6 +9,8 @@ import "../styles/globals.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import { ThemeProvider } from "@emotion/react";
+import { muiTheme } from "@/configs/muiTheme";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -36,7 +38,9 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Body Section */}
-      {getLayout(<Component {...pageProps} />)}
+      <ThemeProvider theme={muiTheme}>
+        {getLayout(<Component {...pageProps} />)}
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }

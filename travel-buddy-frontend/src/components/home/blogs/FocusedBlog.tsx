@@ -2,41 +2,69 @@ import Image from "next/image";
 import React from "react";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import blogImg from "@/assets/blogs/blog-card-img1.png";
+import Link from "next/link";
+import NavigateIcon from "@mui/icons-material/OpenInNew";
 
-const FocusedBlog = ({ blogs }: { blogs: any }) => {
+const FocusedBlog = ({
+  blogs,
+  setCurrentFocusedBlog,
+}: {
+  blogs: Array<{
+    title: string;
+    date: string;
+    img: string;
+  }>;
+  setCurrentFocusedBlog: any;
+}) => {
   return (
     <Swiper
       slidesPerView={1}
-      direction={"horizontal"}
-      loop={true}
-      autoplay={{
-        delay: 3000,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
+      breakpoints={{
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 1,
+        },
       }}
+      direction={"horizontal"}
+      autoHeight={true}
       simulateTouch={false}
       allowTouchMove={false}
+      loop={true}
+      autoplay={{
+        delay: 4000,
+        disableOnInteraction: false,
+      }}
       modules={[Autoplay]}
-      className="blogsSwiper"
+      className="focusedBlogSwiper"
+      onSlideChange={swiper => setCurrentFocusedBlog(swiper.activeIndex)}
     >
-      {blogs.map((b: any, i: number) => (
+      {blogs.map((b, i) => (
         <SwiperSlide key={i}>
-          <div className="h-full w-full overflow-hidden">
-            <div className="w-[96%] mx-auto h-4/5 overflow-hidden rounded-lg">
+          <div className="h-full w-full overflow-hidden group cursor-pointer">
+            <div className="w-[96%] lg:h-[300px] mx-auto overflow-hidden rounded-lg">
               <Image
-                src={blogImg.src}
+                src={b.img}
                 alt="Focused Blog Image"
                 width={600}
                 height={600}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-75 duration-300"
+                priority
               />
             </div>
-            <div className="px-6 mt-5">
-              <p className="text-xs mb-3 text-gray titleFont">Nov 10, 2023</p>
-              <h2 className="text-xl leading-8 titleFont font-medium text-black">
-                Our Begin Now What Your Will Bean Forest This Our Agency.
+            <div className="px-6 flex flex-col gap-1 mt-3">
+              <p className="text-xs text-gray titleFont">{b.date}</p>
+              <h2 className="text-sm md:text-base leading-7 titleFont font-medium text-black">
+                {b.title}
               </h2>
+              <Link
+                href=""
+                className="text-sm text-black titleFont group-hover:text-secondary duration-300 flex items-center gap-1"
+              >
+                <span>Read Blog</span>
+                <NavigateIcon sx={{ fontSize: 16 }} />
+              </Link>
             </div>
           </div>
         </SwiperSlide>

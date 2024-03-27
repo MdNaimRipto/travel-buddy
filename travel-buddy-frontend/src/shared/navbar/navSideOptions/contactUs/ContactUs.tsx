@@ -8,9 +8,11 @@ import ContactToggleButton from "./ContactToggleButton";
 const ContactUs = ({
   isScrolled,
   isHomePage,
+  isNavOpen,
 }: {
   isScrolled: boolean;
   isHomePage: boolean;
+  isNavOpen: boolean;
 }) => {
   const menuRef = useRef(null);
 
@@ -40,6 +42,7 @@ const ContactUs = ({
         isHomePage={isHomePage}
         isScrolled={isScrolled}
         setIsContactOpen={setIsContactOpen}
+        isNavOpen={isNavOpen}
       />
       <div
         className={`bg-white top-0 px-4 fixed ${

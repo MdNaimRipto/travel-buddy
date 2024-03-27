@@ -8,16 +8,19 @@ interface IToggleButton {
   isScrolled: boolean;
   isHomePage: boolean;
   setIsContactOpen: any;
+  isNavOpen: boolean;
 }
 
 const ContactToggleButton = ({
   isScrolled,
   isHomePage,
   setIsContactOpen,
+  isNavOpen,
 }: IToggleButton) => {
   return (
     <Tooltip title="Contact Us">
       <IconButton
+        disabled={isNavOpen}
         onClick={() => setIsContactOpen(true)}
         sx={{
           color:
@@ -26,6 +29,10 @@ const ContactToggleButton = ({
           p: 0.3,
           "&:hover": {
             color: colorConfig.secondary,
+          },
+          "&:disabled": {
+            color:
+              !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
           },
         }}
       >

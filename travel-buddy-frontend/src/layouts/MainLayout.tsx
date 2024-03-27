@@ -9,9 +9,9 @@ const MainLayout = ({ children }: { children: ReactElement }) => {
 
   const isHomePage = Router.pathname === "/";
   return (
-    <div className={`mb-[500px] ${!isHomePage && "mt-[80px]"}`}>
+    <div className={`lg:mb-[500px] ${!isHomePage && "mt-[80px]"}`}>
       <Navbar />
-      <div className="min-h-screen">{children}</div>
+      <div className="min-h-screen z-20 bg-white pb-16">{children}</div>
       <Footer />
     </div>
   );
