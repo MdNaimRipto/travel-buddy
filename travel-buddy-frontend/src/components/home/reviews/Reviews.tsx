@@ -7,17 +7,6 @@ import StarRoundedIcon from "@mui/icons-material/StarOutlineRounded";
 import CommonTitle from "@/components/common/titles/CommonTitle";
 
 const Reviews = () => {
-  const comments = [
-    "comment 1",
-    "comment 2",
-    "comment 3",
-    "comment 4",
-    "comment 5",
-    "comment 6",
-    "comment 7",
-    "comment 8",
-  ];
-
   return (
     <div className="container px-4 overflow-hidden mb-16" id="reviews">
       <CommonTitle title="User Reviews" linkTitle="View All" path="/" />
@@ -42,7 +31,7 @@ const Reviews = () => {
         modules={[Autoplay, Pagination]}
         className="reviewSwiper"
       >
-        {comments.map((c, i) => (
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((c, i) => (
           <SwiperSlide key={i}>
             <div className="bg-white p-10 rounded-[30px] shadow-2xl cursor-pointer">
               <div className="flex flex-col md:flex-row items-center md:items-start gap-4">

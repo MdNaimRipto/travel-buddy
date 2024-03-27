@@ -43,7 +43,11 @@ const NavSideOptions = ({
         isHomePage={isHomePage}
       />
       <AuthOptions isScrolled={isScrolled} isHomePage={isHomePage} />
-      <ContactUs isScrolled={isScrolled} isHomePage={isHomePage} />
+      <ContactUs
+        isScrolled={isScrolled}
+        isHomePage={isHomePage}
+        isNavOpen={isNavOpen}
+      />
     </div>
   );
 };
