@@ -8,7 +8,6 @@ import Facebook from "@/components/auth/authProviderOptions/Facebook";
 import Google from "@/components/auth/authProviderOptions/Google";
 import Twitter from "@/components/auth/authProviderOptions/Twitter";
 import AuthBtn from "@/components/common/buttons/AuthBtn";
-import { Divider } from "@mui/material";
 import Link from "next/link";
 import React, { useState } from "react";
 

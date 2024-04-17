@@ -54,30 +54,33 @@ const AuthSignUpButton = ({
   isHomePage: boolean;
 }) => {
   return (
-    <Button
-      className="titleFont"
-      sx={{
-        ...commonButtonSx,
-        color: {
-          xs: colorConfig.black,
-          sm: !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
-        },
-        border: {
-          xs: `1px solid ${colorConfig.black}`,
-          sm: "none",
-        },
-        transition: ".3s",
-        "&:hover": {
-          color: colorConfig.secondary,
+    <Link href="/auth/register" className="w-full">
+      <Button
+        className="titleFont"
+        sx={{
+          ...commonButtonSx,
+          color: {
+            xs: colorConfig.black,
+            sm:
+              !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
+          },
           border: {
-            xs: `1px solid ${colorConfig.secondary}`,
+            xs: `1px solid ${colorConfig.black}`,
             sm: "none",
           },
-        },
-      }}
-    >
-      Sign Up
-    </Button>
+          transition: ".3s",
+          "&:hover": {
+            color: colorConfig.secondary,
+            border: {
+              xs: `1px solid ${colorConfig.secondary}`,
+              sm: "none",
+            },
+          },
+        }}
+      >
+        Sign Up
+      </Button>
+    </Link>
   );
 };
 
