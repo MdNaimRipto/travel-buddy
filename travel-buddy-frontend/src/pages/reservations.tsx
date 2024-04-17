@@ -1,5 +1,4 @@
 import MainLayout from "@/layouts/MainLayout";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 

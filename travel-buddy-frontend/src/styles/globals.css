@@ -124,3 +124,8 @@
     display: none !important;
   }
 }
+
+/** Material UI  */
+.MuiFormControlLabel-asterisk {
+  display: none;
+}

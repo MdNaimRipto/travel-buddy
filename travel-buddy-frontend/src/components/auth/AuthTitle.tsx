@@ -10,7 +10,16 @@ const AuthTitle = ({ title }: { title: string }) => {
       <h2 className="titleFont text-3xl text-black font-medium">{title}</h2>
       <Tooltip title="Return To Home">
         <Link href="/">
-          <HomeIcon sx={{ fontSize: 20, color: colorConfig.black }} />
+          <HomeIcon
+            sx={{
+              fontSize: 20,
+              color: colorConfig.black,
+              transition: ".5s",
+              ":hover": {
+                color: colorConfig.secondary,
+              },
+            }}
+          />
         </Link>
       </Tooltip>
     </div>
