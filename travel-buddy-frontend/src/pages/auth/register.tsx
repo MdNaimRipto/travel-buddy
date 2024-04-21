@@ -1,3 +1,4 @@
+import AuthTRansition from "@/components/animation/AuthTRansition";
 import AuthDivider from "@/components/auth/AuthDivider";
 import AuthSubTitle from "@/components/auth/AuthSubTitle";
 import AuthTitle from "@/components/auth/AuthTitle";
@@ -43,7 +44,7 @@ const Register = () => {
   ];
 
   return (
-    <>
+    <AuthTRansition>
       <div className="flex flex-col justify-center w-full md:w-11/12 xl:w-4/5 container my-12 md:my-8 xl:my-16 px-4 min-h-screen">
         <div className="w-full md:w-1/2 mb-5">
           <AuthTitle title="Register" />
@@ -170,14 +171,14 @@ const Register = () => {
         <div className="hidden md:flex items-center justify-start gap-1 mt-5">
           <p className="text-sm font-poppins">{`Don't Have An Account?`}</p>
           <Link
-            href={"/auth/register"}
+            href={"/auth/login"}
             className="text-black hover:text-secondary hover:text-secondary1 duration-300 text-sm font-poppins"
           >
             Login Now
           </Link>
         </div>
       </div>
-    </>
+    </AuthTRansition>
   );
 };
 

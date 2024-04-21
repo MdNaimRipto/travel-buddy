@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 import { motion } from "framer-motion";
 
-const Transition = ({ children }: { children: ReactElement }) => {
+const AuthTRansition = ({ children }: { children: ReactElement }) => {
   return (
     <motion.div
-      initial={{ y: 20, opacity: 0 }}
+      initial={{ y: 0, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 1 }}
       className="h-full"
@@ -14,4 +14,4 @@ const Transition = ({ children }: { children: ReactElement }) => {
   );
 };
 
-export default Transition;
+export default AuthTRansition;
