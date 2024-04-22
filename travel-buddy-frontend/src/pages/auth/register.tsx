@@ -169,7 +169,7 @@ const Register = () => {
           </div>
         </div>
         <div className="hidden md:flex items-center justify-start gap-1 mt-5">
-          <p className="text-sm font-poppins">{`Don't Have An Account?`}</p>
+          <p className="text-sm font-poppins">{`Already Have An Account?`}</p>
           <Link
             href={"/auth/login"}
             className="text-black hover:text-secondary hover:text-secondary1 duration-300 text-sm font-poppins"
