@@ -40,6 +40,10 @@ const uploadReservation = async (
     );
   }
 
+  const location = isHotelExists.hotelLocation;
+
+  payload.location = location;
+
   const isExistsReservation = await Reservations.findOne({
     $and: [{ profileId }, { reservationClass }, { reservationType }],
   });

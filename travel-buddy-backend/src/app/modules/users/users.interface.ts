@@ -1,11 +1,12 @@
 export interface IUser {
-  userName: string;
-  email: string;
-  contactNumber: string;
-  password: string;
-  profileImage: string;
-  role: "hotelOwner" | "customer";
-  uid: string;
+  userName: string; // Any
+  email: string; // Any
+  contactNumber: string; // Any
+  password: string; // Have to take on Provider Login
+  profileImage: string; // Any
+  role: "hotelOwner" | "customer"; // Have to take on Provider Login
+  uid: string; // Any
+  // Need After Registration
   location: {
     street: string;
     city: string;
