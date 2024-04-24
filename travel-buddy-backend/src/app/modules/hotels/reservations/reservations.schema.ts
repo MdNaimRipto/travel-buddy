@@ -22,7 +22,10 @@ export const reservationsSchema = new Schema<IReservations>(
     },
     name: { type: String, required: true },
     price: { type: Number, required: true },
-    location: { type: String, required: true },
+    location: {
+      area: { type: String, required: true },
+      destination: { type: String, required: true },
+    },
     totalReservations: { type: Number, required: true },
     reservationsLeft: { type: Number, required: true },
     description: { type: String, required: true },
