@@ -9,7 +9,10 @@ export type IReservations = {
   reservationClass: ReservationsClass;
   name: string;
   price: number;
-  location: string;
+  location: {
+    area: string;
+    destination: string;
+  };
   totalReservations: number;
   reservationsLeft: number;
   status: ReservationStatus;

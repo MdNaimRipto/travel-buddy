@@ -2,7 +2,10 @@ export interface IBusinessProfile {
   hotelId: string;
   hotelOwnerId: string;
   hotelName: string;
-  hotelLocation: string;
+  hotelLocation: {
+    area: string;
+    destination: string;
+  };
   totalReservations: number;
   hotelImages: string[];
 }

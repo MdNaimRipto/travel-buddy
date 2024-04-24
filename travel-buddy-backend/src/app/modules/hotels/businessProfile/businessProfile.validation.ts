@@ -8,8 +8,13 @@ const businessProfileZodSchema = z.object({
     hotelName: z.string({
       required_error: "Hotel Name is Required",
     }),
-    hotelLocation: z.string({
-      required_error: "Hotel Location is Required",
+    hotelLocation: z.object({
+      area: z.string({
+        required_error: "Hotel Area is Required",
+      }),
+      destination: z.string({
+        required_error: "Hotel Destination is Required",
+      }),
     }),
     totalReservations: z
       .number({
