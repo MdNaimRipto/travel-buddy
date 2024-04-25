@@ -20,9 +20,9 @@ const ReservationTypeSelectBox = () => {
       sx={{ borderRadius: "0px", ...style }}
     >
       <MenuItem value="">Select Reservation Type</MenuItem>
-      <MenuItem value="Single">Single</MenuItem>
-      <MenuItem value="Couple">Couple</MenuItem>
-      <MenuItem value="Family">Family</MenuItem>
+      <MenuItem value="single">Single</MenuItem>
+      <MenuItem value="couple">Couple</MenuItem>
+      <MenuItem value="family">Family</MenuItem>
     </Select>
   );
 };
