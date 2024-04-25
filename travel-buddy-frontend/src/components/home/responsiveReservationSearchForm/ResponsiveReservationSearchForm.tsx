@@ -32,10 +32,10 @@ const ResponsiveReservationSearchForm = () => {
       queryParameters.append("location", reservationLocation);
     }
     if (reservationType) {
-      queryParameters.append("type", reservationType);
+      queryParameters.append("reservationTypes", `${reservationType}+`);
     }
     if (reservationClass) {
-      queryParameters.append("class", reservationClass);
+      queryParameters.append("reservationClasses", `${reservationClass}+`);
     }
 
     setTimeout(() => {

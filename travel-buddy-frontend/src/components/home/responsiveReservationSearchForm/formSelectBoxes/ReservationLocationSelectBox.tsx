@@ -22,8 +22,8 @@ const ReservationLocationSelectBox = () => {
     >
       <MenuItem value="">Select Destination</MenuItem>
       {locations.map((l: ILocation, i) => (
-        <MenuItem key={i} value={l.destination}>
-          {l.destination}
+        <MenuItem key={i} value={l.destination.value}>
+          {l.destination.key}
         </MenuItem>
       ))}
     </Select>

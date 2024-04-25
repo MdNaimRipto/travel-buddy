@@ -20,9 +20,9 @@ const ReservationClassSelectBox = () => {
       sx={style}
     >
       <MenuItem value="">Select Reservation Class</MenuItem>
-      <MenuItem value="First">First</MenuItem>
-      <MenuItem value="Second">Second</MenuItem>
-      <MenuItem value="Third">Third</MenuItem>
+      <MenuItem value="first">First</MenuItem>
+      <MenuItem value="second">Second</MenuItem>
+      <MenuItem value="third">Third</MenuItem>
     </Select>
   );
 };
