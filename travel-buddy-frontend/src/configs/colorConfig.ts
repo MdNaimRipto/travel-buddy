@@ -7,6 +7,8 @@ export const colorConfig = {
   black: "#1c1c1c",
   gray: "#808080",
   lightGray: "#c5c5c5",
+  extraLightGray: "#e7e6e6",
+  darkGray: "#25313C",
   info: "#2F80ED",
   success: "#219653",
   error: "#EB5757",
