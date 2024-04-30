@@ -3,22 +3,23 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Checkbox,
   FormControlLabel,
   FormGroup,
   Radio,
   RadioGroup,
 } from "@mui/material";
-import { FaPlus as ExpandIcon } from "react-icons/fa6";
 import { colorConfig } from "@/configs/colorConfig";
 import { locations } from "@/utils/locations";
 import { UseCommonImports } from "@/utils/UseCommonImports";
+import SideNavTitle from "./SideNavTitle";
+import { muiCheckedStyle } from "./sideNavUtils";
 
 const Destinations = () => {
   const { Router } = UseCommonImports();
   const { location } = Router.query;
 
   const [isOpen, setIsOpen] = useState(true);
+
   const [queryLocation, setQueryLocation] = useState("");
   useEffect(() => {
     setQueryLocation(String(location));
@@ -27,18 +28,7 @@ const Destinations = () => {
   return (
     <Accordion defaultExpanded onChange={() => setIsOpen(!isOpen)}>
       <AccordionSummary>
-        <div className="flex items-center justify-between w-full">
-          <h5 className="font-poppins text-base font-medium text-black">
-            Destination
-          </h5>
-          <ExpandIcon
-            size={24}
-            color={colorConfig.black}
-            className={
-              isOpen ? "rotate-45 duration-300" : "rotate-0 duration-300"
-            }
-          />
-        </div>
+        <SideNavTitle title="Destination" isOpen={isOpen} />
       </AccordionSummary>
       <AccordionDetails>
         <FormGroup>
@@ -60,20 +50,12 @@ const Destinations = () => {
               <FormControlLabel
                 key={i}
                 value={o.destination.value}
-                control={
-                  <Radio
-                    sx={{
-                      "&.Mui-checked": {
-                        color: colorConfig.secondary,
-                      },
-                    }}
-                  />
-                }
+                control={<Radio sx={muiCheckedStyle} />}
                 label={
-                  <p className="font-inter text-sm text-black font-normal whitespace-nowrap">
-                    {o.destination.key.length >= 18
-                      ? `${o.destination.key.slice(0, 18)}...`
-                      : o.destination.key}
+                  <p className="font-inter text-xs md:text-sm text-black font-medium md:font-normal whitespace-nowrap">
+                    {o.destination.label.length >= 18
+                      ? `${o.destination.label.slice(0, 18)}...`
+                      : o.destination.label}
                   </p>
                 }
                 sx={{

@@ -80,7 +80,7 @@ const Reservations = () => {
                   emptyIcon={<EmptyRatingIcon />}
                   readOnly
                 />
-                <p className="text-xs font-poppins text-black font-medium">
+                <p className="text-xs font-poppins text-success font-medium">
                   4.8
                 </p>
                 <p className="text-xs font-poppins text-black font-medium">
@@ -91,7 +91,7 @@ const Reservations = () => {
                 The Phi Phi archipelago is a must-visit while in Phuket, and
                 this speedboat trip.
               </p>
-              <div className="flex items-center gap-4 text-secondary mt-3">
+              <div className="flex items-center gap-4 text-success mt-3">
                 <h6 className="flex items-center gap-1 text-xs mb-2">
                   <BestDealIcon size={18} />
                   <span className="font-inter font-medium">Best Deal</span>
@@ -109,7 +109,7 @@ const Reservations = () => {
             />
             <div className="text-center w-[45%] h-full my-1 flex flex-col justify-between items-center">
               <h6 className="flex items-center justify-center gap-1 text-xs mb-2">
-                <VerifiedIcon size={18} />
+                <VerifiedIcon size={18} color={colorConfig.success} />
                 <span className="font-inter font-medium">
                   Verified Reservation
                 </span>
@@ -127,13 +127,14 @@ const Reservations = () => {
                   variant="outlined"
                   sx={{
                     borderColor: colorConfig.secondary,
-                    color: colorConfig.secondary,
+                    color: colorConfig.white,
+                    background: `linear-gradient(45deg, ${colorConfig.primary}, ${colorConfig.secondary}) !important`,
                     py: 1,
                     width: "100%",
                     transition: ".5s",
                     ":hover": {
-                      background: colorConfig.secondary,
-                      color: colorConfig.white,
+                      background: `${colorConfig.white} !important`,
+                      color: colorConfig.secondary,
                       borderColor: colorConfig.secondary,
                     },
                   }}

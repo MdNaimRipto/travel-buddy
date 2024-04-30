@@ -36,6 +36,32 @@
   font-style: normal;
 }
 
+/** Scroll Bar  */
+.scrollBar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollBar::-webkit-scrollbar-thumb {
+  background: rgba(161, 161, 161, 0.452);
+}
+
+.scrollBar::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+/*? Scrollbar Hidden */
+.scrollBarHidden::-webkit-scrollbar {
+  width: 0px;
+}
+
+.scrollBarHidden::-webkit-scrollbar-thumb {
+  background: #ffffff;
+}
+
+.scrollBarHidden::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
 /** Swiper */
 .swiper {
   padding-bottom: 80px !important;

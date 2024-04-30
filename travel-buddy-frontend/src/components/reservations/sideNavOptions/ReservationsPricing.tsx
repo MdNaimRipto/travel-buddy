@@ -13,7 +13,7 @@ const ReservationsPricing = () => {
 
   return (
     <div className="mt-5 w-11/12 mx-auto px-[2px]">
-      <h5 className="font-poppins mb-2 text-base font-medium text-black">
+      <h5 className="font-poppins text-sm md:text-base font-medium text-black">
         {`Reservation's Pricing`}
       </h5>
       <Slider
