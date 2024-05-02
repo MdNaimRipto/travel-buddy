@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { UseCommonImports } from "@/utils/UseCommonImports";
-import { Checkbox, FormControlLabel, Tooltip } from "@mui/material";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import React, { useEffect } from "react";
-import { muiCheckedStyle } from "./sideNavUtils";
 import SideNavLabel from "./SideNavLabel";
+import { muiCheckedStyle } from "./SideNavUtils";
 
 const SideNavCheckboxOptions = ({
   option: o,
@@ -15,8 +15,6 @@ const SideNavCheckboxOptions = ({
   const { Router } = UseCommonImports();
 
   const queryParamKey = Router.query[queryParam];
-
-  console.log({ queryParamKey });
 
   useEffect(() => {
     if (queryParamKey === "" || !queryParamKey) {
@@ -74,11 +72,7 @@ const SideNavCheckboxOptions = ({
           sx={muiCheckedStyle}
         />
       }
-      label={
-        <Tooltip placement="top" title={o.label}>
-          <SideNavLabel option={o} />
-        </Tooltip>
-      }
+      label={<SideNavLabel option={o} />}
       sx={{
         ml: "3px",
       }}
