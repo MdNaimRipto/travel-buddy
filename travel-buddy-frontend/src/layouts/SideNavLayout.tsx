@@ -58,13 +58,13 @@ const SideNavLayout = ({
       <Navbar />
       <div className="container px-4">
         {topContent}
-        <div className="lg:grid grid-cols-4 gap-4 relative">
+        <div className="xl:grid grid-cols-4 gap-4 relative">
           <IconButton
             onClick={() => setIsSideNavOpen(!isSideNavOpen)}
             sx={{
               position: "fixed",
-              zIndex: 60,
-              top: 50,
+              zIndex: 50,
+              top: 60,
               left: iconButtonLeft,
               display: {
                 lg: "none",
@@ -83,12 +83,11 @@ const SideNavLayout = ({
           </IconButton>
           <div
             ref={sideNavRef}
-            className={`col-span-1 w-4/5 lg:w-full overflow-y-auto scrollBar rounded-xl fixed xl:sticky z-50 xl:z-40 bg-white top-0 h-full xl:h-[calc(100vh)] mb-16 ${
+            className={`col-span-1 w-4/5 md:w-2/5 xl:w-full overflow-y-auto scrollBar rounded-xl fixed xl:sticky z-50 xl:z-40 bg-white top-0 h-full xl:h-[calc(100vh)] mb-16 ${
               !isSticky ? "pt-5 xl:pt-0" : "xl:pt-[80px]"
             } ${isSideNavOpen ? "left-0" : "-left-[1000px]"} duration-300`}
             style={{
               boxShadow: `0px 0px 8px -5px #000`,
-              // transition: "padding-top 0.3s ease",
             }}
           >
             {sideNavChild}

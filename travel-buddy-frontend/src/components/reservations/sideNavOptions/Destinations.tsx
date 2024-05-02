@@ -12,7 +12,7 @@ import { colorConfig } from "@/configs/colorConfig";
 import { locations } from "@/utils/locations";
 import { UseCommonImports } from "@/utils/UseCommonImports";
 import SideNavTitle from "./SideNavTitle";
-import { muiCheckedStyle } from "./sideNavUtils";
+import { muiCheckedStyle } from "./SideNavUtils";
 
 const Destinations = () => {
   const { Router } = UseCommonImports();
