@@ -7,6 +7,9 @@ import ReservationTags from "@/components/reservations/reservationDetails/Reserv
 import MainFeatures from "@/components/reservations/reservationDetails/reservationFeatures/MainFeatures";
 import AdditionalFeatures from "@/components/reservations/reservationDetails/reservationFeatures/AdditionalFeatures";
 import ReservationDescription from "@/components/reservations/reservationDetails/ReservationDescription";
+import VisitHotel from "@/components/reservations/reservationDetails/VisitHotel";
+import AddReservationReview from "@/components/reservations/reviews/AddReservationReview";
+import ReservationReviews from "@/components/reservations/reviews/ReservationReviews";
 
 const ReservationDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
@@ -32,6 +35,16 @@ const ReservationDetails = () => {
           <ReservationDescription />
         </div>
         <div className="bg-lightGray col-span-1">{/* Card For Booking */}</div>
+      </div>
+      <div className="pt-12">
+        <VisitHotel />
+        <div className="pt-16">
+          <h4 className="text-xl font-medium titleFont mb-4">
+            Reviews & Rating
+          </h4>
+          <AddReservationReview />
+          <ReservationReviews />
+        </div>
       </div>
       <ReservationImagesView
         isViewerOpen={isViewerOpen}
