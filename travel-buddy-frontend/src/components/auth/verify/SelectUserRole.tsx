@@ -9,7 +9,7 @@ import {
 import AuthSubTitle from "../AuthSubTitle";
 import { GrUserAdmin, GrUser } from "react-icons/gr";
 import VerifyProgress from "./VerifyProgress";
-import AuthTRansition from "@/components/animation/AuthTRansition";
+import OpacityTransition from "@/components/animation/OpacityTransition";
 
 const SelectUserRole = () => {
   const [role, setRole] = useState("");
@@ -28,7 +28,7 @@ const SelectUserRole = () => {
   ];
 
   return (
-    <AuthTRansition>
+    <OpacityTransition>
       <div className="container flex items-center justify-center min-h-screen md:px-4">
         <div
           className="md:rounded-xl md:w-11/12 lg:w-3/5 xl:w-1/2  px-4 py-12 md:p-8"
@@ -108,7 +108,7 @@ const SelectUserRole = () => {
           <VerifyProgress nextPath="password" />
         </div>
       </div>
-    </AuthTRansition>
+    </OpacityTransition>
   );
 };
 

@@ -3,7 +3,7 @@ import VerifyProgress from "./VerifyProgress";
 import AuthSubTitle from "../AuthSubTitle";
 import AuthTitle from "../AuthTitle";
 import PasswordInputField from "../authInputFields/PasswordInputField";
-import AuthTRansition from "@/components/animation/AuthTRansition";
+import OpacityTransition from "@/components/animation/OpacityTransition";
 
 const CreatePassword = () => {
   const [value, setValue] = useState({
@@ -18,7 +18,7 @@ const CreatePassword = () => {
       });
     };
   return (
-    <AuthTRansition>
+    <OpacityTransition>
       <div className="container flex items-center justify-center min-h-screen md:px-4">
         <div
           className="md:rounded-xl md:w-11/12 lg:w-3/5 xl:w-1/2  px-4 py-12 md:p-8"
@@ -41,7 +41,7 @@ const CreatePassword = () => {
           <VerifyProgress nextPath="password" />
         </div>
       </div>
-    </AuthTRansition>
+    </OpacityTransition>
   );
 };
 

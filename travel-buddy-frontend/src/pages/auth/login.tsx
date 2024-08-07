@@ -1,4 +1,4 @@
-import AuthTRansition from "@/components/animation/AuthTRansition";
+import OpacityTransition from "@/components/animation/OpacityTransition";
 import AuthDivider from "@/components/auth/AuthDivider";
 import AuthSubTitle from "@/components/auth/AuthSubTitle";
 import AuthTitle from "@/components/auth/AuthTitle";
@@ -27,8 +27,8 @@ const Login = () => {
     };
 
   return (
-    <AuthTRansition>
-      <div className="flex flex-col justify-center md:h-screen w-full md:w-11/12 xl:w-3/5 container my-12 md:my-8 lg:my-0 px-4">
+    <OpacityTransition>
+      <div className="flex flex-col justify-center md:h-screen w-full md:w-11/12 xl:w-3/4 container my-12 md:my-8 lg:my-0 px-4">
         <div className="w-full md:w-1/2 mb-5">
           <AuthTitle title="Login" />
           <AuthSubTitle
@@ -96,7 +96,7 @@ const Login = () => {
           </Link>
         </div>
       </div>
-    </AuthTRansition>
+    </OpacityTransition>
   );
 };
 
