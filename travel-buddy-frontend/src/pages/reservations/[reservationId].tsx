@@ -8,8 +8,9 @@ import MainFeatures from "@/components/reservations/reservationDetails/reservati
 import AdditionalFeatures from "@/components/reservations/reservationDetails/reservationFeatures/AdditionalFeatures";
 import ReservationDescription from "@/components/reservations/reservationDetails/ReservationDescription";
 import VisitHotel from "@/components/reservations/reservationDetails/VisitHotel";
-import AddReservationReview from "@/components/reservations/reviews/AddReservationReview";
-import ReservationReviews from "@/components/reservations/reviews/ReservationReviews";
+import AddReservationReview from "@/components/reservations/reservationDetails/reviews/AddReservationReview";
+import ReservationReviews from "@/components/reservations/reservationDetails/reviews/ReservationReviews";
+import BookReservation from "@/components/reservations/reservationDetails/bookReservation/BookReservation";
 
 const ReservationDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
@@ -34,7 +35,9 @@ const ReservationDetails = () => {
           </div>
           <ReservationDescription />
         </div>
-        <div className="bg-lightGray col-span-1">{/* Card For Booking */}</div>
+        <div className="col-span-1">
+          <BookReservation />
+        </div>
       </div>
       <div className="pt-12">
         <VisitHotel />
