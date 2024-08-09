@@ -155,3 +155,12 @@
 .MuiFormControlLabel-asterisk {
   display: none;
 }
+
+/** Booking Calendar  */
+.rdrCalendarWrapper {
+  width: 100% !important;
+}
+
+.rdrMonth {
+  width: 100% !important;
+}

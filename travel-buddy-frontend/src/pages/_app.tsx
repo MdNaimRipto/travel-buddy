@@ -3,14 +3,16 @@ import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ThemeProvider } from "@emotion/react";
+import { muiTheme } from "@/configs/muiTheme";
 
 // ? Styles Import
 import "../styles/globals.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { ThemeProvider } from "@emotion/react";
-import { muiTheme } from "@/configs/muiTheme";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
