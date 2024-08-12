@@ -11,49 +11,54 @@ import VisitHotel from "@/components/reservations/reservationDetails/VisitHotel"
 import AddReservationReview from "@/components/reservations/reservationDetails/reviews/AddReservationReview";
 import ReservationReviews from "@/components/reservations/reservationDetails/reviews/ReservationReviews";
 import BookReservation from "@/components/reservations/reservationDetails/bookReservation/BookReservation";
+import Transition from "@/components/animation/Transition";
+import RelatedReservations from "@/components/reservations/reservationDetails/relatedReservations/RelatedReservations";
 
 const ReservationDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
 
   return (
-    <div className="container px-4 py-12">
-      <ReservationDetailsTopContent
-        title="Phi Phi Islands Adventure Day Trip with Seaview Lunch by V. Marine
+    <Transition>
+      <div className="container px-4 py-12">
+        <ReservationDetailsTopContent
+          title="Phi Phi Islands Adventure Day Trip with Seaview Lunch by V. Marine
             Tour"
-        path="/reservations/01"
-        locationPath="/reservations?location=cox%27sBazar&area=inaniBeach%2B"
-      />
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-span-3">
-          <ReservationBannerImages
-            setIsImageViewerOpen={setIsImageViewerOpen}
-          />
-          <ReservationTags />
-          <div className="flex items-start gap-8">
-            <MainFeatures />
-            <AdditionalFeatures />
+          path="/reservations/01"
+          locationPath="/reservations?location=cox%27sBazar&area=inaniBeach%2B"
+        />
+        <div className="grid grid-cols-4 gap-4">
+          <div className="col-span-3">
+            <ReservationBannerImages
+              setIsImageViewerOpen={setIsImageViewerOpen}
+            />
+            <ReservationTags />
+            <div className="flex items-start gap-8">
+              <MainFeatures />
+              <AdditionalFeatures />
+            </div>
+            <ReservationDescription />
           </div>
-          <ReservationDescription />
+          <div className="col-span-1">
+            <BookReservation />
+            <RelatedReservations />
+          </div>
         </div>
-        <div className="col-span-1">
-          <BookReservation />
+        <div className="pt-12">
+          <VisitHotel />
+          <div className="pt-16">
+            <h4 className="text-xl font-medium titleFont mb-4">
+              Reviews & Rating
+            </h4>
+            <AddReservationReview />
+            <ReservationReviews />
+          </div>
         </div>
+        <ReservationImagesView
+          isViewerOpen={isViewerOpen}
+          setIsImageViewerOpen={setIsImageViewerOpen}
+        />
       </div>
-      <div className="pt-12">
-        <VisitHotel />
-        <div className="pt-16">
-          <h4 className="text-xl font-medium titleFont mb-4">
-            Reviews & Rating
-          </h4>
-          <AddReservationReview />
-          <ReservationReviews />
-        </div>
-      </div>
-      <ReservationImagesView
-        isViewerOpen={isViewerOpen}
-        setIsImageViewerOpen={setIsImageViewerOpen}
-      />
-    </div>
+    </Transition>
   );
 };
 

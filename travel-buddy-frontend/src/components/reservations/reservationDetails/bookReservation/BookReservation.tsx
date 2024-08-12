@@ -119,7 +119,7 @@ const BookReservation = () => {
             },
           }}
         >
-          Book Now
+          <span className="font-poppins text-xl normal-case">Book Now</span>
         </Button>
       </>
     </div>
