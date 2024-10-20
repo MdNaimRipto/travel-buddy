@@ -8,7 +8,7 @@ const VisitHotel = () => {
   return (
     <Link
       href={"/reservations/01"}
-      className="relative h-48 overflow-hidden block"
+      className="relative h-24 md:h-48 overflow-hidden block"
     >
       <Image
         src={hotelImg.src}
@@ -18,11 +18,18 @@ const VisitHotel = () => {
         priority
         className="absolute z-0 w-full h-full object-cover brightness-50"
       />
-      <p className="absolute bottom-8 left-8 text-white flex items-center gap-2">
-        <span className="text-5xl font-semibold titleFont">
+      <p className="absolute bottom-1/2 md:bottom-8 translate-y-1/2 md:translate-y-0 md:left-8 px-4 md:px-0 text-white flex items-center gap-4 md:gap-2">
+        <span className="text-xl md:text-5xl font-semibold titleFont">
           Visit Hotel Sheraton
         </span>
-        <NavigateIcon sx={{ fontSize: 48 }} />
+        <NavigateIcon
+          sx={{
+            fontSize: {
+              xs: 30,
+              sm: 48,
+            },
+          }}
+        />
       </p>
     </Link>
   );

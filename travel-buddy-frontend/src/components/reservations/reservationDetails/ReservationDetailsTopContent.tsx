@@ -33,11 +33,13 @@ const ReservationDetailsTopContent = ({
           >
             Reservations
           </Link>
-          <Link
-            href={path}
-            className="text-black font-poppins text-xs md:text-sm"
-          >
-            {title.length >= 30 ? `${title.slice(0, 30)}...` : title}
+          <Link href={path} className="text-black text-xs md:text-sm">
+            <span className="font-poppins hidden md:block">
+              {title.length >= 30 ? `${title.slice(0, 30)}...` : title}
+            </span>
+            <span className="font-poppins block md:hidden">
+              {title.length >= 15 ? `${title.slice(0, 15)}...` : title}
+            </span>
           </Link>
         </Breadcrumbs>
         <Link
@@ -48,11 +50,11 @@ const ReservationDetailsTopContent = ({
         </Link>
       </div>
       <div className="mt-3 mb-6 flex flex-col gap-2">
-        <h2 className="titleFont text-sm md:text-xl lg:text-3xl lg:leading-[55px] font-semibold text-black w-3/5">
+        <h2 className="titleFont text-lg md:text-xl lg:text-3xl leading-[35px] md:leading-[45px] lg:leading-[55px] font-medium md:font-semibold text-black w-full md:w-3/5">
           {title}
         </h2>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between">
+          <div className="flex flex-wrap items-center gap-4 md:gap-3">
             <Link
               href={locationPath}
               className="flex items-center gap-1 text-xs lg:text-sm text-black hover:text-secondary duration-300"
@@ -78,7 +80,7 @@ const ReservationDetailsTopContent = ({
               <p className="text-xs font-poppins font-medium">04% Negative</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mt-4 md:mt-0">
             <button className="flex items-center gap-2 text-black">
               <WishlistIcon className="text-xs lg:text-xl" />
               <p className="text-xs font-poppins font-medium">Wishlist</p>

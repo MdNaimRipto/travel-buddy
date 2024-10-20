@@ -8,6 +8,7 @@ import GreatDeal from "./GreatDeal";
 import Reviews from "./reviews/Reviews";
 import Blogs from "./blogs/Blogs";
 import Subscribe from "./Subscribe";
+
 const HomeMain = () => {
   return (
     <div className="">

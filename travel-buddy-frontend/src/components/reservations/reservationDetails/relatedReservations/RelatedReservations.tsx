@@ -49,8 +49,11 @@ const RelatedReservations = () => {
 
   return (
     <div>
+      <h3 className="text-xl text-black font-medium titleFont mt-8 mb-3">
+        Related Reservations
+      </h3>
       {relatedReservations.map((r, i) => (
-        <div key={i} className="flex items-center gap-2 my-5">
+        <div key={i} className="flex items-start gap-2 my-5">
           <Link
             href={`/reservations/01`}
             className="w-28 h-28 overflow-hidden rounded-lg"
@@ -65,7 +68,7 @@ const RelatedReservations = () => {
             />
           </Link>
           <div className="w-[60%]">
-            <h6 className="flex items-center gap-1 text-[10px] mb-2">
+            <h6 className="flex lg:hidden xl:flex items-center gap-1 text-[10px] mb-2">
               <LocationIcon className="text-xs" />
               <span className="font-inter text-black font-medium">
                 {r.location}
@@ -77,7 +80,7 @@ const RelatedReservations = () => {
             >
               {r.title}...
             </Link>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap lg:gap-2 items-center justify-between">
               <div className="flex items-center gap-1">
                 <RatingIcon className="text-xs text-primary mb-[2px]" />
                 <p className="text-xs font-poppins text-success font-medium">

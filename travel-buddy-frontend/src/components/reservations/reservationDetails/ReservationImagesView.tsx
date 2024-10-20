@@ -4,8 +4,14 @@ import img2 from "@/assets/reservations/fakeReservationImage2.jpg";
 import img3 from "@/assets/reservations/fakeReservationImage3.jpg";
 import img4 from "@/assets/reservations/fakeReservationImage4.jpg";
 import img5 from "@/assets/reservations/fakeReservationImage5.jpg";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import Image from "next/image";
+import {
+  IoChevronBack as BackwardIcon,
+  IoChevronForward as ForwardIcon,
+  IoCloseOutline as CloseIcon,
+} from "react-icons/io5";
+import { colorConfig } from "@/configs/colorConfig";
 
 const ReservationImagesView = ({
   isViewerOpen,
@@ -37,22 +43,24 @@ const ReservationImagesView = ({
     <>
       {isViewerOpen && (
         <div className="w-full h-full fixed top-0 left-0 bg-white z-50 overflow-hidden">
-          <div className="container px-4 flex flex-col items-center justify-center gap-4 h-screen w-1/2">
+          <div className="container px-4 flex flex-col items-center justify-center gap-4 h-screen w-full lg:w-3/4 xl:w-1/2">
             <div className="flex justify-between items-center w-full">
-              <h2>Reservation Images</h2>
-              <Button onClick={() => setIsImageViewerOpen(false)}>Close</Button>
+              <h2 className="text-sm md:text-xl font-poppins text-darkGray">
+                Reservation Images
+              </h2>
+              <IconButton onClick={() => setIsImageViewerOpen(false)}>
+                <CloseIcon className="text-3xl" />
+              </IconButton>
             </div>
-            <div className="w-full h-[380px] overflow-hidden">
-              <Image
-                src={viewerImages[Number(currentImage)].img}
-                alt="Reservation Images"
-                className={`w-full h-full object-cover`}
-                priority
-              />
-            </div>
-            <div className="grid grid-cols-6 gap-4 w-full">
-              <Button
-                variant="text"
+            <div className="w-full h-[250px] md:h-[480px] xl:h-[550px] overflow-hidden relative">
+              <IconButton
+                sx={{
+                  position: "absolute",
+                  left: 0,
+                  height: "100%",
+                  borderRadius: 0,
+                  background: "#5f5f5f0f !important",
+                }}
                 onClick={() => {
                   setCurrentImage(currentImage - 1);
                   if (currentImage === displayedImages.prevCount) {
@@ -64,9 +72,40 @@ const ReservationImagesView = ({
                 }}
                 disabled={currentImage === 0}
               >
-                Prev
-              </Button>
-              <div className="grid grid-cols-4 gap-4 overflow-hidden col-span-4">
+                <BackwardIcon className="text-white disabled:text-extraLightGray" />
+              </IconButton>
+              <Image
+                src={viewerImages[Number(currentImage)].img}
+                alt="Reservation Images"
+                className={`w-full h-full object-cover`}
+                priority
+              />
+              <IconButton
+                sx={{
+                  position: "absolute",
+                  right: 0,
+                  top: 0,
+                  height: "100%",
+                  borderRadius: 0,
+                  background: "#5f5f5f0f !important",
+                }}
+                onClick={() => {
+                  setCurrentImage(currentImage + 1);
+                  if (currentImage === displayedImages.nextCount - 1) {
+                    setDisplayedImages({
+                      prevCount: displayedImages.prevCount + 1,
+                      nextCount: displayedImages.nextCount + 1,
+                    });
+                  }
+                }}
+                disabled={currentImage + 1 === viewerImages.length}
+              >
+                <ForwardIcon className="text-white disabled:text-extraLightGray" />
+              </IconButton>
+            </div>
+            <div className="grid md:grid-cols-6 md:gap-4 w-full">
+              <div className="hidden md:block"></div>
+              <div className="grid grid-cols-4 gap-1 md:gap-4 overflow-hidden col-span-4">
                 {viewerImages
                   .slice(displayedImages.prevCount, displayedImages.nextCount)
                   .map((img, i) => (
@@ -85,8 +124,8 @@ const ReservationImagesView = ({
                         borderRadius: 0,
                         border:
                           i + displayedImages.prevCount === currentImage
-                            ? `3px solid #219653`
-                            : `3px solid #ffffff`,
+                            ? `2px solid ${colorConfig.secondary}`
+                            : `2px solid ${colorConfig.white}`,
                       }}
                     >
                       <Image
@@ -102,21 +141,7 @@ const ReservationImagesView = ({
                     </Button>
                   ))}
               </div>
-              <Button
-                variant="text"
-                onClick={() => {
-                  setCurrentImage(currentImage + 1);
-                  if (currentImage === displayedImages.nextCount - 1) {
-                    setDisplayedImages({
-                      prevCount: displayedImages.prevCount + 1,
-                      nextCount: displayedImages.nextCount + 1,
-                    });
-                  }
-                }}
-                disabled={currentImage + 1 === viewerImages.length}
-              >
-                Next
-              </Button>
+              <div className="hidden md:block"></div>
             </div>
           </div>
         </div>

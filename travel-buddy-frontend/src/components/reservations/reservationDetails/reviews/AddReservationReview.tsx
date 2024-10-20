@@ -21,7 +21,7 @@ const AddReservationReview = () => {
   };
 
   return (
-    <form onSubmit={handleReviewSubmit} className="w-2/3">
+    <form onSubmit={handleReviewSubmit} className="w-full md:w-2/3">
       <textarea
         name="review"
         id="review"
