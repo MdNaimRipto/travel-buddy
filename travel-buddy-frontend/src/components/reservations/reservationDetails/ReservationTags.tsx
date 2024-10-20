@@ -55,14 +55,14 @@ const ReservationTags = () => {
   ];
 
   return (
-    <div className="grid grid-cols-5 gap-4 my-8 px-5">
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 my-8 px-5">
       {tags.map((tag, i) => (
         <Link
           key={i}
           href={tag.link}
-          className="flex flex-col items-center justify-center gap-1 border border-black group hover:border-secondary duration-300 rounded-lg h-24"
+          className="flex flex-col items-center justify-center gap-1 border border-black group hover:border-secondary duration-300 rounded-lg h-24 p-2"
         >
-          <div className="w-10">
+          <div className="w-8 md:w-10">
             <Image
               src={tag.icon.src}
               alt="Features Icon"
@@ -71,7 +71,7 @@ const ReservationTags = () => {
               priority
             />
           </div>
-          <span className="text-sm titleFont uppercase font-semibold group-hover:text-secondary duration-300">
+          <span className="text-center text-xs lg:text-sm titleFont uppercase font-semibold group-hover:text-secondary duration-300">
             {tag.tag}
           </span>
         </Link>

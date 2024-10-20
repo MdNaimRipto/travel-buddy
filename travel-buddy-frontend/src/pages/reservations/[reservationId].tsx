@@ -26,13 +26,13 @@ const ReservationDetails = () => {
           path="/reservations/01"
           locationPath="/reservations?location=cox%27sBazar&area=inaniBeach%2B"
         />
-        <div className="grid grid-cols-4 gap-4">
+        <div className="lg:grid grid-cols-4 gap-4">
           <div className="col-span-3">
             <ReservationBannerImages
               setIsImageViewerOpen={setIsImageViewerOpen}
             />
             <ReservationTags />
-            <div className="flex items-start gap-8">
+            <div className="flex flex-col md:flex-row items-start gap-8">
               <MainFeatures />
               <AdditionalFeatures />
             </div>
@@ -40,7 +40,9 @@ const ReservationDetails = () => {
           </div>
           <div className="col-span-1">
             <BookReservation />
-            <RelatedReservations />
+            <div className="hidden lg:block">
+              <RelatedReservations />
+            </div>
           </div>
         </div>
         <div className="pt-12">

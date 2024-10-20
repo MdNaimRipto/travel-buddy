@@ -109,7 +109,7 @@ const ReservationCard = ({ reservation: r }: { reservation: IReservation }) => {
                 BDT 2400 <span className="hidden md:block">/ Per Night</span>
               </p>
             </div>
-            <Link href={`/reservations/01`} className="w-full">
+            <Link href={`/reservations/01`} className="w-auto md:w-full">
               <Button
                 variant="outlined"
                 sx={{

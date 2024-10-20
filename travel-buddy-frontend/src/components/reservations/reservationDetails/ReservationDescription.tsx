@@ -5,8 +5,8 @@ import FeaturesMenuPng from "@/assets/featured-icons/feature-list/menu.png";
 const ReservationDescription = () => {
   return (
     <div>
-      <div className="flex items-center gap-2 my-6">
-        <div className="w-6">
+      <div className="flex items-start md:items-center gap-2 my-6">
+        <div className="w-6 mt-[5px] md:mt-0">
           <Image
             src={FeaturesMenuPng.src}
             alt="Features Menu"
@@ -15,11 +15,11 @@ const ReservationDescription = () => {
             priority
           />
         </div>
-        <h4 className="text-xl font-medium titleFont">
+        <h4 className="text-sm md:text-xl leading-7 md:leading-9 font-medium titleFont">
           Description of Phi Phi Islands Adventure Day Trip... :
         </h4>
       </div>
-      <p className="my-5 font-inter font-normal leading-9 text-black">
+      <p className="text-xs md:text-base my-5 font-inter font-light md:font-normal leading-6 md:leading-9 text-black">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime
         sapiente mollitia molestias quaerat provident temporibus magnam eos
         fugit natus ut numquam voluptatibus tempora nam dicta consequuntur

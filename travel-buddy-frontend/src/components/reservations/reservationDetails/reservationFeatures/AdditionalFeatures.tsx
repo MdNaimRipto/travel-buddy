@@ -12,7 +12,7 @@ const AdditionalFeatures = () => {
     "Personal Tour Guide",
   ];
   return (
-    <div className="w-1/3">
+    <div className="w-full md:w-1/3">
       <div className="flex items-center gap-2 my-6">
         <div className="w-6">
           <Image

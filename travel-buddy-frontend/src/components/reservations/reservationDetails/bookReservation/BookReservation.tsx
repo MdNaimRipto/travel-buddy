@@ -1,14 +1,28 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BookCalendar from "./BookCalendar";
 import { colorConfig } from "@/configs/colorConfig";
-import { Button, Divider } from "@mui/material";
+import { Button, Divider, IconButton } from "@mui/material";
 import {
   calculateTotalNights,
   formatDateTime,
   getDateWithTime,
 } from "@/utils/bookReservation/bookReservationUtils";
+import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
 
 const BookReservation = () => {
+  const sideNavRef = useRef<HTMLDivElement>(null);
+  const [iconButtonLeft, setIconButtonLeft] = useState<number>(0);
+  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+
+  useEffect(() => {
+    if (sideNavRef.current) {
+      const sideNavWidth = sideNavRef.current.getBoundingClientRect().width;
+      console.log(sideNavWidth);
+      const iconButtonLeft = isSideNavOpen ? sideNavWidth + 0 : 0;
+      setIconButtonLeft(iconButtonLeft);
+    }
+  }, [isSideNavOpen]);
+
   const today = new Date();
   const tomorrow = getDateWithTime(new Date(today), 9, 0);
 
@@ -42,7 +56,40 @@ const BookReservation = () => {
   const totalBill = totalPrice - discountAmount;
 
   return (
-    <div className="px-3 py-4 border border-lightGray rounded-lg">
+    <div
+      ref={sideNavRef}
+      className={`px-3 py-4 border border-lightGray rounded-lg fixed lg:static w-3/4 md:w-2/5 lg:w-full ${
+        isSideNavOpen ? "z-50" : "z-40"
+      } bg-white top-0 h-full lg:h-auto ${
+        isSideNavOpen ? "left-0" : "-left-[1000px]"
+      } duration-300`}
+    >
+      <Button
+        onClick={() => setIsSideNavOpen(!isSideNavOpen)}
+        sx={{
+          position: "fixed",
+          zIndex: 50,
+          top: 120,
+          left: iconButtonLeft,
+          display: {
+            md: "none",
+          },
+          transition: ".3s",
+          background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
+          borderRadius: "0px 4px 4px 0px",
+          color: colorConfig.white,
+        }}
+      >
+        <span className="mr-2 text-xs md:text-sm">
+          Book <br />
+          Now
+        </span>
+        <ArrowIcon
+          className={`${
+            isSideNavOpen ? "rotate-0" : "rotate-180"
+          } duration-300`}
+        />
+      </Button>
       <h3 className="text-lg text-black font-medium mt-2 mb-3 titleFont">
         BDT{" "}
         <span className="line-through text-gray text-sm titleFont font-normal">
@@ -67,7 +114,7 @@ const BookReservation = () => {
               <span className="text-xs font-medium font-inter text-black">
                 Check-In:
               </span>{" "}
-              <span className="text-sm font-medium font-poppins text-black">
+              <span className="text-xs xl:text-sm font-medium font-poppins text-black">
                 {formatDateTime(dates[0].startDate)}
               </span>
             </h5>
@@ -76,30 +123,30 @@ const BookReservation = () => {
               <span className="text-xs font-medium font-inter text-black">
                 Check-Out:
               </span>{" "}
-              <span className="text-sm font-medium font-poppins text-black">
+              <span className="text-xs xl:text-sm font-medium font-poppins text-black">
                 {formatDateTime(dates[0].endDate)}
               </span>
             </h5>
           </div>
           <div className="px-2">
-            <p className="flex items-center justify-between text-sm font-inter font-medium mt-5 mb-2">
+            <p className="flex items-center justify-between text-xs xl:text-sm font-inter font-medium mt-5 mb-2">
               <span className="underline font-normal">Check-In Time:</span>
               <span>09:00 AM</span>
             </p>
-            <p className="flex items-center justify-between text-sm font-inter font-medium mb-2">
+            <p className="flex items-center justify-between text-xs xl:text-sm font-inter font-medium mb-2">
               <span className="underline font-normal">Total Nights:</span>
               <span>{totalNights}</span>
             </p>
-            <p className="flex items-center justify-between text-sm font-inter font-medium mb-2">
+            <p className="flex items-center justify-between text-xs xl:text-sm font-inter font-medium mb-2">
               <span className="underline font-normal">Discount:</span>
               <span>{discount}%</span>
             </p>
-            <p className="flex items-center justify-between text-sm font-inter font-medium mb-2">
+            <p className="flex items-center justify-between text-xs xl:text-sm font-inter font-medium mb-2">
               <span className="underline font-normal">{`${totalNights} x ${`2800BDT`}:`}</span>
               <span>{totalPrice}BDT</span>
             </p>
             <Divider orientation="horizontal" />
-            <p className="flex items-center justify-between text-sm font-inter font-medium mt-2">
+            <p className="flex items-center justify-between text-xs xl:text-sm font-inter font-medium mt-2">
               <span className="underline font-normal">Total Bill:</span>
               <span>{totalBill}BDT</span>
             </p>

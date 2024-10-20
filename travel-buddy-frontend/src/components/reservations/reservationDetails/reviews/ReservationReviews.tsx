@@ -198,10 +198,10 @@ const ReservationReviews = () => {
             </div>
           </div>
           <div>
-            <h4 className="text-xl font-inter text-black font-semibold mt-3 mb-5">
+            <h4 className="text-sm md:text-xl font-inter text-black font-semibold mt-3 mb-5">
               {r.user}
             </h4>
-            <p className="font-inter font-normal mb-3 leading-7 text-sm">
+            <p className="font-inter font-normal mb-3 text-xs md:text-sm leading-7 md:leading-7">
               {r.review}
             </p>
             <Rating

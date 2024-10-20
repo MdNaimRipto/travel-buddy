@@ -22,7 +22,7 @@ const ReservationBannerImages = ({
   ];
 
   return (
-    <div className="grid grid-cols-5 grid-rows-2 gap-4 h-[380px] relative rounded-lg overflow-hidden">
+    <div className="md:grid grid-cols-5 grid-rows-2 gap-4 h-[200px] md:h-[380px] xl:h-[500px] relative rounded-lg overflow-hidden">
       {images.map((img, i) => (
         <div
           key={i}
