@@ -12,7 +12,7 @@ import RatingIcon from "@mui/icons-material/StarRounded";
 import SideNavTitle from "./SideNavTitle";
 import SideNavCheckboxOptions from "./SideNavCheckboxOptions";
 
-const ReservationRatings = () => {
+const SideNavRatings = ({ title }: { title: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const options = [
     {
@@ -99,7 +99,7 @@ const ReservationRatings = () => {
   return (
     <Accordion onChange={() => setIsOpen(!isOpen)}>
       <AccordionSummary>
-        <SideNavTitle title="Reservation Ratings" isOpen={isOpen} />
+        <SideNavTitle title={title} isOpen={isOpen} />
       </AccordionSummary>
       <AccordionDetails>
         <FormGroup>
@@ -112,4 +112,4 @@ const ReservationRatings = () => {
   );
 };
 
-export default ReservationRatings;
+export default SideNavRatings;

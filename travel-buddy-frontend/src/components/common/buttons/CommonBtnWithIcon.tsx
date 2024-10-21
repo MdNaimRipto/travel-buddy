@@ -2,7 +2,15 @@ import { colorConfig } from "@/configs/colorConfig";
 import { Button } from "@mui/material";
 import React from "react";
 
-const CommonBtnWithIcon = ({ title, icon }: { title: string; icon: any }) => {
+const CommonBtnWithIcon = ({
+  title,
+  icon,
+  btnTextStyle,
+}: {
+  title: string;
+  icon: any;
+  btnTextStyle?: string;
+}) => {
   return (
     <Button
       sx={{
@@ -17,7 +25,7 @@ const CommonBtnWithIcon = ({ title, icon }: { title: string; icon: any }) => {
         whiteSpace: "nowrap",
       }}
     >
-      <span>{title}</span>
+      <span className={btnTextStyle}>{title}</span>
       {icon}
     </Button>
   );
