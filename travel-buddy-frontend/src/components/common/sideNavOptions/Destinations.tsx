@@ -14,7 +14,7 @@ import { UseCommonImports } from "@/utils/UseCommonImports";
 import SideNavTitle from "./SideNavTitle";
 import { muiCheckedStyle } from "./SideNavUtils";
 
-const Destinations = () => {
+const Destinations = ({ title }: { title: string }) => {
   const { Router } = UseCommonImports();
   const { location } = Router.query;
 
@@ -28,7 +28,7 @@ const Destinations = () => {
   return (
     <Accordion defaultExpanded onChange={() => setIsOpen(!isOpen)}>
       <AccordionSummary>
-        <SideNavTitle title="Destination" isOpen={isOpen} />
+        <SideNavTitle title={title} isOpen={isOpen} />
       </AccordionSummary>
       <AccordionDetails>
         <FormGroup>

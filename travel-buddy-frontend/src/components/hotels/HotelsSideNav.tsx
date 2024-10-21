@@ -1,12 +1,12 @@
 import Destinations from "@/components/common/sideNavOptions/Destinations";
-import ReservationAreas from "@/components/common/sideNavOptions/Areas";
+import Areas from "@/components/common/sideNavOptions/Areas";
 import ReservationClasses from "@/components/common/sideNavOptions/ReservationClasses";
 import ReservationTypes from "@/components/common/sideNavOptions/ReservationTypes";
-import SideNavPricing from "@/components/common/sideNavOptions/SideNavPricing";
 import React from "react";
+import SideNavPricing from "../common/sideNavOptions/SideNavPricing";
 import SideNavRatings from "../common/sideNavOptions/SideNavRatings";
 
-const ReservationsSideNav = () => {
+const HotelsSideNav = () => {
   return (
     <div className="min-h-screen mb-28">
       <p className="w-11/12 mx-auto text-center p-3 m-3 bg-gradient-to-l from-primary to-secondary text-white rounded-xl font-poppins text-sm md:text-base">
@@ -14,14 +14,12 @@ const ReservationsSideNav = () => {
       </p>
       <div className="w-11/12 mx-auto">
         <Destinations title="Destination" />
-        <ReservationAreas title="Reservation Areas" />
-        <ReservationTypes />
-        <ReservationClasses />
-        <SideNavRatings title="Reservations Rating" />
-        <SideNavPricing title="Reservations Pricing" />
+        <Areas title="Hotel Areas" />
+        <SideNavRatings title="Hotels Rating" />
+        <SideNavPricing title="Hotels Pricing" />
       </div>
     </div>
   );
 };
 
-export default ReservationsSideNav;
+export default HotelsSideNav;

@@ -7,14 +7,14 @@ function valuetext(value: number) {
   return `${value}`;
 }
 
-const ReservationsPricing = () => {
+const SideNavPricing = ({ title }: { title: string }) => {
   const { Router } = UseCommonImports();
   const { maxPrice } = Router.query;
 
   return (
     <div className="mt-5 w-11/12 mx-auto px-[2px]">
       <h5 className="font-poppins text-sm md:text-base font-medium text-black">
-        {`Reservation's Pricing`}
+        {title}
       </h5>
       <Slider
         onChange={(e: any) => {
@@ -57,4 +57,4 @@ const ReservationsPricing = () => {
   );
 };
 
-export default ReservationsPricing;
+export default SideNavPricing;

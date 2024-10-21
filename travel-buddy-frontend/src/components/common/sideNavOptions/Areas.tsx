@@ -10,7 +10,7 @@ import { locations } from "@/utils/locations";
 import SideNavTitle from "./SideNavTitle";
 import SideNavCheckboxOptions from "./SideNavCheckboxOptions";
 
-const ReservationAreas = () => {
+const Areas = ({ title }: { title: string }) => {
   const { Router } = UseCommonImports();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -23,7 +23,7 @@ const ReservationAreas = () => {
   return (
     <Accordion disabled={!location} onChange={() => setIsOpen(!isOpen)}>
       <AccordionSummary>
-        <SideNavTitle title="Reservation Areas" isOpen={isOpen} />
+        <SideNavTitle title={title} isOpen={isOpen} />
       </AccordionSummary>
       <AccordionDetails>
         <FormGroup>
@@ -36,4 +36,4 @@ const ReservationAreas = () => {
   );
 };
 
-export default ReservationAreas;
+export default Areas;
