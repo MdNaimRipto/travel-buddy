@@ -3,16 +3,16 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
 
 const markerIcon = new Icon({
-  iconUrl: "https://i.ibb.co.com/yFJ3mL6/location-Marker.png",
-  iconSize: [50, 60],
+  iconUrl: "https://i.ibb.co.com/SVCz61H/location-pin.png",
+  iconSize: [56, 60],
 });
 
 const Map = () => {
-  const position: LatLngExpression = [21.4272, 92.0061];
+  const position: LatLngExpression = [21.425, 91.97995];
 
   return (
     <div className="w-full h-[400px] overflow-hidden">
-      <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+      <MapContainer center={position} zoom={15} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
