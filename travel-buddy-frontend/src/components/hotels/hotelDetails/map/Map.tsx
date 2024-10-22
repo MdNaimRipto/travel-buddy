@@ -11,7 +11,7 @@ const Map = () => {
   const position: LatLngExpression = [21.425, 91.97995];
 
   return (
-    <div className="w-full h-[400px] overflow-hidden">
+    <div className="w-full h-[400px] overflow-hidden relative z-0">
       <MapContainer center={position} zoom={15} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

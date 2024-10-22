@@ -16,6 +16,7 @@ import img4 from "@/assets/hotels/hotel4.jpg";
 import img5 from "@/assets/hotels/hotel5.jpg";
 import HotelLocationMap from "@/components/hotels/hotelDetails/map/index";
 import HotelFeatures from "@/components/hotels/hotelDetails/HotelFeatures";
+import HotelReservations from "@/components/hotels/hotelDetails/hotelReservations/HotelReservations";
 
 const HotelDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
@@ -57,6 +58,7 @@ const HotelDetails = () => {
         />
         <HotelFeatures />
         <DetailsPageDescription name="Waldorf Astoria Maldives" />
+        <HotelReservations />
         <HotelLocationMap />
         <div className="grid grid-cols-1 lg:grid-cols-4 pt-16">
           <div className="lg:col-span-3 order-last lg:order-first mt-16 lg:mt-0">
