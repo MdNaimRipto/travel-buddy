@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import FeaturesMenuPng from "@/assets/featured-icons/feature-list/menu.png";
 import FeaturesPng from "@/assets/featured-icons/feature-list/check-mark.png";
+import DetailsPageTitle from "@/components/common/detailsPage/DetailsPageTitle";
 
 const HotelFeatures = () => {
   const lists = [
@@ -24,18 +24,7 @@ const HotelFeatures = () => {
 
   return (
     <div className="w-full pt-4">
-      <div className="flex items-center gap-2 my-6">
-        <div className="w-6">
-          <Image
-            src={FeaturesMenuPng.src}
-            alt="Features Menu"
-            width={200}
-            height={200}
-            priority
-          />
-        </div>
-        <h4 className="text-xl font-medium titleFont">Hotel Details:</h4>
-      </div>
+      <DetailsPageTitle title="Hotel Details:" />
       <ul className="ml-2 grid grid-cols-1 md:grid-cols-2 lg:px-8">
         {lists.map((list, i) => (
           <li className="flex items-center gap-2 mb-5" key={i}>

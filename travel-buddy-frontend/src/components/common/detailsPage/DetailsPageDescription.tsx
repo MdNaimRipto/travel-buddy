@@ -1,24 +1,10 @@
 import React from "react";
-import Image from "next/image";
-import FeaturesMenuPng from "@/assets/featured-icons/feature-list/menu.png";
+import DetailsPageTitle from "./DetailsPageTitle";
 
 const DetailsPageDescription = ({ name }: { name: string }) => {
   return (
     <div>
-      <div className="flex items-start md:items-center gap-2 my-6">
-        <div className="w-6 mt-[5px] md:mt-0">
-          <Image
-            src={FeaturesMenuPng.src}
-            alt="Features Menu"
-            width={200}
-            height={200}
-            priority
-          />
-        </div>
-        <h4 className="text-sm md:text-xl leading-7 md:leading-9 font-medium titleFont">
-          Description of {name}... :
-        </h4>
-      </div>
+      <DetailsPageTitle title={`Description of ${name}... :`} />
       <p className="text-xs md:text-base my-5 font-inter font-light md:font-normal leading-6 md:leading-9 text-black">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maxime
         sapiente mollitia molestias quaerat provident temporibus magnam eos

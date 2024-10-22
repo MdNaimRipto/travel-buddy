@@ -159,7 +159,8 @@
 /** Booking Calendar  */
 
 .rdrCalendarWrapper,
-.booking-details {
+.booking-details,
+.hotel-details {
   box-shadow: 0px 0px 10px -4px !important;
   border-radius: 10px !important;
 }
