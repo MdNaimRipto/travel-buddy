@@ -33,7 +33,7 @@ const HotelReservations = () => {
 
   return (
     <div className="pb-5">
-      <div className="flex flex-col md:flex-row items-center justify-between">
+      <div className="mb-5 md:mb-0 flex flex-col md:flex-row items-center justify-between">
         <DetailsPageTitle title="Hotel Reservations:" />
         <div className="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
           <select className="shadow-sm border border-extraLightGray rounded-lg px-3 py-2 w-full md:w-auto">
@@ -50,9 +50,9 @@ const HotelReservations = () => {
           </select>
         </div>
       </div>
-      <div className="p-5 rounded-xl relative">
+      <div className="md:p-5 rounded-xl relative">
         <div
-          className={`grid grid-cols-1 md:grid-cols-4 gap-6 p-1 overflow-hidden ${
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-1 overflow-hidden ${
             isExpanded ? "max-h-full" : "max-h-[440px]"
           } duration-300`}
         >
