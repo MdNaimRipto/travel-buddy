@@ -19,7 +19,7 @@ const Map = () => {
         />
         <Marker opacity={0.9} position={position} icon={markerIcon}>
           <Popup>
-            <h2>This is map</h2>
+            <h2>Hotel Waldorf Astoria Maldives Ithaafushis Location</h2>
           </Popup>
         </Marker>
       </MapContainer>
