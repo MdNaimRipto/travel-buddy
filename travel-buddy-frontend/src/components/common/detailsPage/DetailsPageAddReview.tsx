@@ -2,7 +2,7 @@ import { colorConfig } from "@/configs/colorConfig";
 import { Button, CircularProgress, Rating } from "@mui/material";
 import React, { useState } from "react";
 
-const AddReservationReview = () => {
+const DetailsPageAddReview = () => {
   const [rating, setRating] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -69,4 +69,4 @@ const AddReservationReview = () => {
   );
 };
 
-export default AddReservationReview;
+export default DetailsPageAddReview;

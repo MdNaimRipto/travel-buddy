@@ -13,6 +13,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import "leaflet/dist/leaflet.css";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

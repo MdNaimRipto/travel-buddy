@@ -1,26 +1,16 @@
 import React from "react";
 import { CgMenuGridO as ExpandIcon } from "react-icons/cg";
-
-import img1 from "@/assets/reservations/fakeReservationImage.jpg";
-import img2 from "@/assets/reservations/fakeReservationImage2.jpg";
-import img3 from "@/assets/reservations/fakeReservationImage3.jpg";
-import img4 from "@/assets/reservations/fakeReservationImage4.jpg";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 
-const ReservationBannerImages = ({
+const DetailsPageBannerImages = ({
   setIsImageViewerOpen,
+  images,
 }: {
+  images: Array<{ img: StaticImageData; gridStyle: string }>;
   setIsImageViewerOpen: any;
 }) => {
-  const images = [
-    { img: img1, gridStyle: "col-span-3 row-span-2" },
-    { img: img2, gridStyle: "col-span-2 row-span-1" },
-    { img: img3, gridStyle: "col-span-1 row-span-1" },
-    { img: img4, gridStyle: "col-span-1 row-span-1" },
-  ];
-
   return (
     <div className="md:grid grid-cols-5 grid-rows-2 gap-4 h-[200px] md:h-[380px] xl:h-[500px] relative rounded-lg overflow-hidden">
       {images.map((img, i) => (
@@ -31,7 +21,7 @@ const ReservationBannerImages = ({
           <Image
             src={img.img}
             alt="Reservation Images"
-            className={`w-full h-full object-cover`}
+            className={`w-full h-full object-cover brightness-90`}
             priority
           />
         </div>
@@ -61,4 +51,4 @@ const ReservationBannerImages = ({
   );
 };
 
-export default ReservationBannerImages;
+export default DetailsPageBannerImages;

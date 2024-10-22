@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { colorConfig } from "@/configs/colorConfig";
 import CommonBtnWithIcon from "../../buttons/CommonBtnWithIcon";
+import Link from "next/link";
 
 const VerticalHotelCard = ({
   card,
@@ -46,7 +47,12 @@ const VerticalHotelCard = ({
                 BDT.3000
               </span>
             </p>
-            <CommonBtnWithIcon title="Visit Now" icon={<FlightTakeoffIcon />} />
+            <Link href="/hotels/01">
+              <CommonBtnWithIcon
+                title="Visit Now"
+                icon={<FlightTakeoffIcon className="text-lg" />}
+              />
+            </Link>
           </div>
         </div>
       </div>

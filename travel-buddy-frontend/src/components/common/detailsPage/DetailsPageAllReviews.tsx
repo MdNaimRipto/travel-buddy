@@ -8,7 +8,7 @@ import RatingFillIcon from "@mui/icons-material/GradeRounded";
 import RatingEmptyIcon from "@mui/icons-material/StarOutlineRounded";
 import { colorConfig } from "@/configs/colorConfig";
 
-const ReservationReviews = () => {
+const DetailsPageAllReviews = () => {
   const [loadedReviews, setLoadedReviews] = useState(6);
   const [isLoadedMore, setIsLoadedMore] = useState(false);
 
@@ -234,4 +234,4 @@ const ReservationReviews = () => {
   );
 };
 
-export default ReservationReviews;
+export default DetailsPageAllReviews;

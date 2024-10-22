@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import FeaturesMenuPng from "@/assets/featured-icons/feature-list/menu.png";
 
-const ReservationDescription = () => {
+const DetailsPageDescription = ({ name }: { name: string }) => {
   return (
     <div>
       <div className="flex items-start md:items-center gap-2 my-6">
@@ -16,7 +16,7 @@ const ReservationDescription = () => {
           />
         </div>
         <h4 className="text-sm md:text-xl leading-7 md:leading-9 font-medium titleFont">
-          Description of Phi Phi Islands Adventure Day Trip... :
+          Description of {name}... :
         </h4>
       </div>
       <p className="text-xs md:text-base my-5 font-inter font-light md:font-normal leading-6 md:leading-9 text-black">
@@ -37,4 +37,4 @@ const ReservationDescription = () => {
   );
 };
 
-export default ReservationDescription;
+export default DetailsPageDescription;
