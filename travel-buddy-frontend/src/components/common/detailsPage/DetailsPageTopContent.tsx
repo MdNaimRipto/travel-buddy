@@ -11,12 +11,16 @@ import {
   FaPlus as WishlistIcon,
 } from "react-icons/fa6";
 
-const ReservationDetailsTopContent = ({
+const DetailsPageTopContent = ({
   title,
+  mainCrumbName,
+  mainCrumbPath,
   path,
   locationPath,
 }: {
   title: string;
+  mainCrumbName: string;
+  mainCrumbPath: string;
   path: string;
   locationPath: string;
 }) => {
@@ -28,10 +32,10 @@ const ReservationDetailsTopContent = ({
             <HomeIcon />
           </Link>
           <Link
-            href="/reservations"
+            href={mainCrumbPath}
             className="text-black font-poppins text-xs md:text-sm"
           >
-            Reservations
+            {mainCrumbName}
           </Link>
           <Link href={path} className="text-black text-xs md:text-sm">
             <span className="font-poppins hidden md:block">
@@ -96,4 +100,4 @@ const ReservationDetailsTopContent = ({
   );
 };
 
-export default ReservationDetailsTopContent;
+export default DetailsPageTopContent;

@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import img1 from "@/assets/reservations/fakeReservationImage.jpg";
-import img2 from "@/assets/reservations/fakeReservationImage2.jpg";
-import img3 from "@/assets/reservations/fakeReservationImage3.jpg";
-import img4 from "@/assets/reservations/fakeReservationImage4.jpg";
-import img5 from "@/assets/reservations/fakeReservationImage5.jpg";
 import { Button, IconButton } from "@mui/material";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import {
   IoChevronBack as BackwardIcon,
   IoChevronForward as ForwardIcon,
@@ -13,31 +8,22 @@ import {
 } from "react-icons/io5";
 import { colorConfig } from "@/configs/colorConfig";
 
-const ReservationImagesView = ({
+const DetailsPageImageViewer = ({
   isViewerOpen,
   setIsImageViewerOpen,
+  viewerImages,
+  title,
 }: {
   isViewerOpen: boolean;
   setIsImageViewerOpen: any;
+  viewerImages: Array<{ img: StaticImageData }>;
+  title: string;
 }) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [displayedImages, setDisplayedImages] = useState({
     prevCount: 0,
     nextCount: 4,
   });
-
-  const viewerImages = [
-    { img: img1, gridStyle: "col-span-3 row-span-2" },
-    { img: img2, gridStyle: "col-span-2 row-span-1" },
-    { img: img3, gridStyle: "col-span-1 row-span-1" },
-    { img: img4, gridStyle: "col-span-1 row-span-1" },
-    { img: img5, gridStyle: "col-span-2 row-span-2" },
-    { img: img1, gridStyle: "col-span-3 row-span-2" },
-    { img: img2, gridStyle: "col-span-2 row-span-1" },
-    { img: img3, gridStyle: "col-span-1 row-span-1" },
-    { img: img4, gridStyle: "col-span-1 row-span-1" },
-    { img: img5, gridStyle: "col-span-2 row-span-2" },
-  ];
 
   return (
     <>
@@ -46,7 +32,7 @@ const ReservationImagesView = ({
           <div className="container px-4 flex flex-col items-center justify-center gap-4 h-screen w-full lg:w-3/4 xl:w-1/2">
             <div className="flex justify-between items-center w-full">
               <h2 className="text-sm md:text-xl font-poppins text-darkGray">
-                Reservation Images
+                {title}
               </h2>
               <IconButton onClick={() => setIsImageViewerOpen(false)}>
                 <CloseIcon className="text-3xl" />
@@ -59,7 +45,7 @@ const ReservationImagesView = ({
                   left: 0,
                   height: "100%",
                   borderRadius: 0,
-                  background: "#5f5f5f0f !important",
+                  background: "#5f5f5f20 !important",
                 }}
                 onClick={() => {
                   setCurrentImage(currentImage - 1);
@@ -76,7 +62,7 @@ const ReservationImagesView = ({
               </IconButton>
               <Image
                 src={viewerImages[Number(currentImage)].img}
-                alt="Reservation Images"
+                alt={title}
                 className={`w-full h-full object-cover`}
                 priority
               />
@@ -87,7 +73,7 @@ const ReservationImagesView = ({
                   top: 0,
                   height: "100%",
                   borderRadius: 0,
-                  background: "#5f5f5f0f !important",
+                  background: "#5f5f5f20 !important",
                 }}
                 onClick={() => {
                   setCurrentImage(currentImage + 1);
@@ -150,4 +136,4 @@ const ReservationImagesView = ({
   );
 };
 
-export default ReservationImagesView;
+export default DetailsPageImageViewer;

@@ -2,7 +2,6 @@ import HotelsSideNav from "@/components/hotels/HotelsSideNav";
 import HotelsTopContent from "@/components/hotels/HotelsTopContent";
 import SideNavLayout from "@/layouts/SideNavLayout";
 import React, { ReactElement } from "react";
-import VerticalHotelCard from "@/components/common/cards/hotelCards/VerticalHotelCard";
 import img1 from "@/assets/hotels/hotel1.jpg";
 import img2 from "@/assets/hotels/hotel2.jpg";
 import img3 from "@/assets/hotels/hotel3.jpg";
