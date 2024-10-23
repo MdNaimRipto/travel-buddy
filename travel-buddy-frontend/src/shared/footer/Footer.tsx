@@ -6,6 +6,7 @@ import MobileApps from "./footerMain/MobileApps";
 import FooterSocial from "./FooterSocial";
 import { Divider } from "@mui/material";
 import { UseCommonImports } from "@/utils/UseCommonImports";
+import { colorConfig } from "@/configs/colorConfig";
 
 const Footer = () => {
   const { Router } = UseCommonImports();
@@ -25,7 +26,7 @@ const Footer = () => {
           <MobileApps />
         </div>
         <Divider sx={{ background: `#ffffff33`, mb: 5 }} />
-        <FooterSocial />
+        <FooterSocial iconColor={colorConfig.white} />
         <p className="text-center pt-6 pb-8 text-sm titleFont text-[#ffffff33]">
           © Copyright Travel-Buddy 2024
         </p>

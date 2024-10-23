@@ -6,6 +6,7 @@ import AuthOptions from "./AuthOptions";
 import ResponsiveMenuHandlerButton from "./ResponsiveMenuHandlerButton";
 import SearchMenu from "./SearchMenuOptions/SearchMenu";
 import ContactUs from "./contactUs/ContactUs";
+import Link from "next/link";
 
 const NavSideOptions = ({
   isNavOpen,
@@ -22,19 +23,23 @@ const NavSideOptions = ({
     <div className="flex items-center gap-1 justify-end w-full md:w-[70%] xl:w-auto">
       <SearchMenu isScrolled={isScrolled} isHomePage={isHomePage} />
       <Tooltip title="My Wishlist">
-        <IconButton
-          sx={{
-            color:
-              !isScrolled && isHomePage ? colorConfig.white : colorConfig.black,
-            transition: ".7s",
-            p: 0.3,
-            "&:hover": {
-              color: colorConfig.secondary,
-            },
-          }}
-        >
-          <WishlistIcon />
-        </IconButton>
+        <Link href="/user/wishlist">
+          <IconButton
+            sx={{
+              color:
+                !isScrolled && isHomePage
+                  ? colorConfig.white
+                  : colorConfig.black,
+              transition: ".7s",
+              p: 0.3,
+              "&:hover": {
+                color: colorConfig.secondary,
+              },
+            }}
+          >
+            <WishlistIcon />
+          </IconButton>
+        </Link>
       </Tooltip>
       <ResponsiveMenuHandlerButton
         isNavOpen={isNavOpen}
