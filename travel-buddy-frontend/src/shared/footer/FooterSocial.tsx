@@ -7,7 +7,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import { IconButton } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 
-const FooterSocial = () => {
+const FooterSocial = ({ iconColor }: { iconColor: string }) => {
   const options = [
     {
       logo: <FacebookOutlinedIcon />,
@@ -33,12 +33,12 @@ const FooterSocial = () => {
 
   return (
     <div>
-      <div className="flex gap-4 items-center justify-center">
+      <div className={`flex gap-4 items-center justify-center`}>
         {options.map((o, i) => (
           <IconButton
             key={i}
             sx={{
-              color: colorConfig.white,
+              color: iconColor,
               transition: ".3s",
               "&:hover": {
                 color: colorConfig.primary,
