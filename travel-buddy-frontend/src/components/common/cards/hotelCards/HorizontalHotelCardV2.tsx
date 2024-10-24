@@ -1,15 +1,12 @@
 import Image from "next/image";
 import React from "react";
 import EastIcon from "@mui/icons-material/East";
-import { Button } from "@mui/material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import { colorConfig } from "@/configs/colorConfig";
 import CommonBtnWithIcon from "../../buttons/CommonBtnWithIcon";
 import Link from "next/link";
 
-const VerticalHotelCardV2 = ({
+const HorizontalHotelCardV2 = ({
   card,
-  btnTextStyle,
 }: {
   card: {
     img: string;
@@ -51,9 +48,9 @@ const VerticalHotelCardV2 = ({
             </p>
             <Link href="/hotels/01">
               <CommonBtnWithIcon
-                title="Visit Now"
+                title="Book Now"
                 icon={<FlightTakeoffIcon className="text-lg" />}
-                btnTextStyle={btnTextStyle}
+                btnTextStyle={"text-xs"}
               />
             </Link>
           </div>
@@ -63,4 +60,4 @@ const VerticalHotelCardV2 = ({
   );
 };
 
-export default VerticalHotelCardV2;
+export default HorizontalHotelCardV2;

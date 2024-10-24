@@ -22,7 +22,13 @@ const MenuToggler = ({
         zIndex: 1,
       }}
     >
-      <IoIosSettings className="text-4xl animate-spin duration-700" />
+      <IoIosSettings
+        style={{
+          fontSize: "2rem",
+          color: "white",
+          animation: "spin 4s linear infinite", // slower animation (10s duration)
+        }}
+      />
     </IconButton>
   );
 };

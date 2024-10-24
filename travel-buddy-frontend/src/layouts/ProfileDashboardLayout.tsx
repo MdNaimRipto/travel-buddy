@@ -43,7 +43,7 @@ const ProfileDashboardLayout = ({
     <div className="bg-extraLightGray pt-[80px] relative">
       <div className="container">
         <Navbar />
-        <div className="my-4 lg:flex gap-4 lg:px-4">
+        <div className="lg:mt-4 lg:flex gap-4 lg:px-4">
           <div
             ref={sideNavRef}
             className={`fixed lg:sticky top-0 lg:pb-4 z-50 lg:z-40 ${
@@ -63,7 +63,7 @@ const ProfileDashboardLayout = ({
             />
           </div>
           <main
-            className={`lg:bg-white flex items-center justify-center h-[1000px] ${
+            className={`bg-white mb-4 rounded-xl p-4 ${
               isSideNavOpen ? "lg:w-[93%] xl:w-4/5" : "lg:w-4/5 xl:w-[95%]"
             } duration-300`}
           >
