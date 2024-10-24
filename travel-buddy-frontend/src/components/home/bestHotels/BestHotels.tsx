@@ -7,7 +7,7 @@ import img4 from "@/assets/hotels/hotel4.jpg";
 import img5 from "@/assets/hotels/hotel5.jpg";
 import img6 from "@/assets/hotels/hotel6.jpg";
 import img7 from "@/assets/hotels/hotel7.jpg";
-import VerticalHotelCard from "../../common/cards/hotelCards/VerticalHotelCard";
+import HorizontalHotelCard from "../../common/cards/hotelCards/HorizontalHotelCard";
 import OnScrollAnimation from "../../animation/OnScrollAnimation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
@@ -76,7 +76,7 @@ const BestHotels = () => {
         >
           {cards.map((c, i) => (
             <SwiperSlide key={i}>
-              <VerticalHotelCard card={c} key={i} />
+              <HorizontalHotelCard card={c} key={i} />
             </SwiperSlide>
           ))}
           <CustomSwiperButtons />

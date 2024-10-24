@@ -6,7 +6,7 @@ import img1 from "@/assets/hotels/hotel1.jpg";
 import img2 from "@/assets/hotels/hotel2.jpg";
 import img3 from "@/assets/hotels/hotel3.jpg";
 import img4 from "@/assets/hotels/hotel4.jpg";
-import VerticalHotelCardV2 from "@/components/common/cards/hotelCards/VerticalHotelCardV2";
+import HorizontalHotelCardV2 from "@/components/common/cards/hotelCards/HorizontalHotelCardV2";
 
 const Hotels = () => {
   const generateHotel = (id: number) => {
@@ -34,7 +34,7 @@ const Hotels = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-12">
       {fakeHotels.map((card, i) => (
-        <VerticalHotelCardV2 key={i} card={card} btnTextStyle="text-xs" />
+        <HorizontalHotelCardV2 key={i} card={card} btnTextStyle="text-xs" />
       ))}
     </div>
   );
