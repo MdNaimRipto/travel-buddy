@@ -40,7 +40,7 @@ const ProfileDashboardLayout = ({
   }, []);
 
   return (
-    <div className="bg-extraLightGray pt-[80px] relative">
+    <div className="bg-[#e7e6e644] pt-[80px] relative">
       <div className="container">
         <Navbar />
         <div className="lg:mt-4 lg:flex gap-4 lg:px-4">

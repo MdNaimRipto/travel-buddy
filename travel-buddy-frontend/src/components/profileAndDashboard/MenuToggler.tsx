@@ -23,6 +23,7 @@ const MenuToggler = ({
       }}
     >
       <IoIosSettings
+        className="animate-spin"
         style={{
           fontSize: "2rem",
           color: "white",
