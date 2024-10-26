@@ -46,7 +46,7 @@ const ProfileUserDetailsLeftContent = () => {
         MD Naimur Rahman
       </h2>
       <h6 className="font-inter text-sm lg:text-xs xl:text-sm text-gray font-light whitespace-nowrap overflow-hidden">
-        Role: Customer
+        Customer
       </h6>
       <h6 className="font-inter text-sm lg:text-xs xl:text-sm text-gray font-light mb-3 whitespace-nowrap overflow-hidden">
         Member Since: 12-03-2024

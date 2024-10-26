@@ -41,7 +41,7 @@ const ProfileUserDetailsRightContent = () => {
   return (
     <div className="col-span-3 py-8">
       <UserInfoBlock
-        title="Personal Information:"
+        title="Personal Information's:"
         information={info.personalInfo}
       />
       <Divider
@@ -50,7 +50,7 @@ const ProfileUserDetailsRightContent = () => {
         }}
       />
       <UserInfoBlock
-        title="Social Information:"
+        title="Social Information's:"
         information={info.socialInfo}
       />
     </div>

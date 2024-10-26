@@ -1,4 +1,4 @@
-import { profileSideNavItems } from "@/components/profileAndDashboard/profile/profileUtils";
+import { profileSideNavItems } from "@/components/userComponents/profileUtils";
 import ProfileUserDetails from "@/components/userComponents/profile/profileUserDetails/ProfileUserDetails";
 import ProfileUserStats from "@/components/userComponents/profile/ProfileUserStats";
 import { colorConfig } from "@/configs/colorConfig";
