@@ -9,7 +9,6 @@ interface ILocationSelectBox {
 }
 
 const LocationSelectBox = ({ api, label, required }: ILocationSelectBox) => {
-  console.log({ label, api });
   const { isLoading, data } = useQuery({
     queryKey: [label],
     queryFn: async () => {

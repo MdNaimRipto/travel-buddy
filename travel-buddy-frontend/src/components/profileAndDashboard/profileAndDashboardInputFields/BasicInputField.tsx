@@ -23,7 +23,7 @@ const BasicInputField = ({
       <input
         type={type}
         placeholder={placeholder}
-        className="p-3 rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray"
+        className="p-3 rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray w-full"
         required={required}
       />
       <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
