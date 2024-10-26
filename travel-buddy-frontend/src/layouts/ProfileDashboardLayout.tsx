@@ -63,7 +63,7 @@ const ProfileDashboardLayout = ({
             />
           </div>
           <main
-            className={`bg-white mb-4 rounded-xl p-4 ${
+            className={`bg-white mb-4 rounded-xl p-4 min-h-screen ${
               isSideNavOpen ? "lg:w-[93%] xl:w-4/5" : "lg:w-4/5 xl:w-[95%]"
             } duration-300`}
           >

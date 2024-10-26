@@ -1,5 +1,6 @@
 import { profileSideNavItems } from "@/components/userComponents/profileUtils";
 import BasicInfoSettings from "@/components/userComponents/settings/BasicInfoSettings";
+import SecurityInfoSettings from "@/components/userComponents/settings/SecurityInfoSettings";
 import {
   CustomTabPanel,
   CustomTabPanelTabs,
@@ -20,7 +21,7 @@ const Settings = () => {
         <BasicInfoSettings />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <h2>Security Info</h2>
+        <SecurityInfoSettings />
       </CustomTabPanel>
     </div>
   );
