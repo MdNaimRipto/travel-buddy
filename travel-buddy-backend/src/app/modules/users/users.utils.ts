@@ -1,6 +1,8 @@
 import CryptoJS from "crypto-js";
 import config from "../../../config/config";
-import { IUserWithoutPassword } from "./users.interface";
+import { IUser, IUserWithoutPassword } from "./users.interface";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import { Secret } from "jsonwebtoken";
 
 export function generateUID(userRole: "hotelOwner" | "customer") {
   const uidLength = 20;
@@ -41,6 +43,24 @@ export function encryptData(user: IUserWithoutPassword) {
   ).toString();
   return encryptedData;
 }
+
+// Generate AuthToken
+export const generateAuthToken = (user: IUserWithoutPassword) => {
+  const accessToken = jwtHelpers.createToken(
+    {
+      id: user.uid,
+    },
+    config.jwt_secret as Secret,
+    config.jwt_expires_in as string,
+  );
+
+  const encryptedUserData = encryptData(user as any);
+
+  return {
+    token: accessToken,
+    userData: encryptedUserData,
+  };
+};
 
 // ! Do Not remove it
 // export function decryptData(
