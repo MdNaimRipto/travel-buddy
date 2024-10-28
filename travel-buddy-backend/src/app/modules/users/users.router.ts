@@ -17,6 +17,18 @@ router.post(
   UserController.userLogin,
 );
 
+router.post(
+  "/checkUserForProviderLogin",
+  zodValidationRequest(UserValidation.checkUserForProviderLoginValidation),
+  UserController.checkUserForProviderLogin,
+);
+
+router.post(
+  "/providerLogin",
+  zodValidationRequest(UserValidation.providerLoginZodSchema),
+  UserController.providerLogin,
+);
+
 router.patch(
   "/updateUser/:id",
   zodValidationRequest(UserValidation.userUpdateZodSchema),

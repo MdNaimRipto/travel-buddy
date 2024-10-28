@@ -33,6 +33,36 @@ const userLogin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Check User Exists
+const checkUserForProviderLogin = catchAsync(
+  async (req: Request, res: Response) => {
+    const { ...userInfo } = req.body;
+
+    const result = await UserService.checkUserForProviderLogin(userInfo);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Login Successful",
+      data: result,
+    });
+  },
+);
+
+// Check User Exists
+const providerLogin = catchAsync(async (req: Request, res: Response) => {
+  const { userInfo, authMethod } = req.body;
+
+  const result = await UserService.providerLogin(userInfo, authMethod);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Login Successful",
+    data: result,
+  });
+});
+
 // Update User
 const updatedUser = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -80,6 +110,8 @@ const forgotPassword = catchAsync(async (req: Request, res: Response) => {
 export const UserController = {
   userRegister,
   userLogin,
+  checkUserForProviderLogin,
+  providerLogin,
   updatedUser,
   findUserForForgotPassword,
   forgotPassword,

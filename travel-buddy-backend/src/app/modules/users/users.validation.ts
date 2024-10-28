@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { LinkedProvidersEnums, UserRoleEnums } from "./user.constant";
 
 const usersZodSchema = z.object({
   body: z.object({
@@ -17,15 +18,64 @@ const usersZodSchema = z.object({
     profileImage: z
       .string()
       .default("https://i.ibb.co/dcHVrp8/User-Profile-PNG-Image.png"),
-    role: z.string({ required_error: "Role is Required" }),
+    role: z.enum([...UserRoleEnums] as [string, ...string[]], {
+      required_error: "Role is Required",
+    }),
     location: z
       .object({
-        street: z.string().default("empty"),
-        city: z.string().default("empty"),
-        district: z.string().default("empty"),
-        country: z.string().default("empty"),
+        street: z.string().default("Not Updated Yet!"),
+        city: z.string().default("Not Updated Yet!"),
+        district: z.string().default("Not Updated Yet!"),
+        country: z.string().default("Not Updated Yet!"),
       })
       .default({}),
+  }),
+});
+
+const checkUserForProviderLoginValidation = z.object({
+  body: z.object({
+    authMethod: z.enum([...LinkedProvidersEnums] as [string, ...string[]], {
+      required_error: "Unknown Auth Method",
+    }),
+    email: z.string({
+      required_error: "Email is Required",
+    }),
+  }),
+});
+
+const providerLoginZodSchema = z.object({
+  body: z.object({
+    userInfo: z.object({
+      userName: z.string({
+        required_error: "User Name is Required",
+      }),
+      email: z.string({
+        required_error: "Email is Required",
+      }),
+      contactNumber: z.string({
+        required_error: "Contact Number is Required",
+      }),
+      password: z.string({
+        required_error: "Password is Required",
+      }),
+      profileImage: z
+        .string()
+        .default("https://i.ibb.co/dcHVrp8/User-Profile-PNG-Image.png"),
+      role: z.enum([...UserRoleEnums] as [string, ...string[]], {
+        required_error: "Role is Required",
+      }),
+      location: z
+        .object({
+          street: z.string().default("Not Updated Yet!"),
+          city: z.string().default("Not Updated Yet!"),
+          district: z.string().default("Not Updated Yet!"),
+          country: z.string().default("Not Updated Yet!"),
+        })
+        .default({}),
+    }),
+    authMethod: z.enum([...LinkedProvidersEnums] as [string, ...string[]], {
+      required_error: "Unknown Auth Method",
+    }),
   }),
 });
 
@@ -63,5 +113,7 @@ const userUpdateZodSchema = z.object({
 export const UserValidation = {
   usersZodSchema,
   loginUserZodSchema,
+  checkUserForProviderLoginValidation,
+  providerLoginZodSchema,
   userUpdateZodSchema,
 };

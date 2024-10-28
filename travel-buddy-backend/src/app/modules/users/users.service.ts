@@ -2,13 +2,15 @@ import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
 import {
   IAuthUser,
+  ICheckUserExists,
   IForgetPasswordValidator,
   ILoginUser,
   IUpdatePasswordValidator,
   IUser,
+  linkedProvidersEnums,
 } from "./users.interface";
 import { Users } from "./users.schema";
-import { encryptData, generateUID } from "./users.utils";
+import { encryptData, generateAuthToken, generateUID } from "./users.utils";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import config from "../../../config/config";
 import { Secret } from "jsonwebtoken";
@@ -25,7 +27,6 @@ const userRegister = async (payload: IUser): Promise<IAuthUser> => {
   }
 
   const uid = generateUID(role);
-  // Check UID Exists or Not
   const isUIDExists = await Users.findOne({ uid: uid });
   if (isUIDExists) {
     throw new ApiError(
@@ -33,27 +34,13 @@ const userRegister = async (payload: IUser): Promise<IAuthUser> => {
       "Something went wrong! Please try again",
     );
   }
-  // Save UID
   payload.uid = uid as string;
+
+  payload.linkedProviders = ["CUSTOM"];
 
   const user = await Users.create(payload);
 
-  const { uid: userUid } = user;
-
-  const accessToken = jwtHelpers.createToken(
-    {
-      id: userUid,
-    },
-    config.jwt_secret as Secret,
-    config.jwt_expires_in as string,
-  );
-
-  const encryptedUserData = encryptData(user as any);
-
-  return {
-    token: accessToken,
-    userData: encryptedUserData,
-  };
+  return generateAuthToken(user as any);
 };
 
 const userLogin = async (payload: ILoginUser): Promise<IAuthUser> => {
@@ -71,20 +58,77 @@ const userLogin = async (payload: ILoginUser): Promise<IAuthUser> => {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Email Or Password");
   }
 
-  const accessToken = jwtHelpers.createToken(
-    {
-      id: isExists.uid,
-    },
-    config.jwt_secret as Secret,
-    config.jwt_expires_in as string,
-  );
+  return generateAuthToken(isExists as any);
+};
 
-  const encryptedUserData = encryptData(isExists as any);
+const checkUserForProviderLogin = async (
+  payload: ICheckUserExists,
+): Promise<IAuthUser | null> => {
+  const { authMethod, email } = payload;
 
-  return {
-    token: accessToken,
-    userData: encryptedUserData,
-  };
+  const isExistsUser = await Users.findOne({ email });
+  if (!isExistsUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User Dose Not Exists!");
+  }
+
+  const linkedProviders = isExistsUser.linkedProviders;
+
+  if (isExistsUser && !linkedProviders.includes(authMethod)) {
+    linkedProviders.push(authMethod);
+    const updatedUser = await Users.findOneAndUpdate({ email }, isExistsUser, {
+      new: true,
+    });
+    return generateAuthToken(updatedUser as any);
+  }
+
+  if (isExistsUser && linkedProviders.includes(authMethod)) {
+    return generateAuthToken(isExistsUser as any);
+  }
+
+  return null;
+};
+
+const providerLogin = async (
+  payload: IUser,
+  authMethod: linkedProvidersEnums,
+): Promise<IAuthUser> => {
+  const { email, role } = payload;
+
+  const isExistsUser = await Users.findOne({ email });
+  if (isExistsUser) {
+    const linkedProviders = isExistsUser.linkedProviders;
+    if (!linkedProviders.includes(authMethod)) {
+      linkedProviders.push(authMethod);
+      const updatedUser = await Users.findOneAndUpdate(
+        { email },
+        isExistsUser,
+        {
+          new: true,
+        },
+      );
+      return generateAuthToken(updatedUser as any);
+    }
+
+    if (linkedProviders.includes(authMethod)) {
+      return generateAuthToken(isExistsUser as any);
+    }
+  }
+
+  const uid = generateUID(role);
+  const isUIDExists = await Users.findOne({ uid: uid });
+  if (isUIDExists) {
+    throw new ApiError(
+      httpStatus.CONFLICT,
+      "Something went wrong! Please try again",
+    );
+  }
+  payload.uid = uid as string;
+
+  payload.linkedProviders = ["CUSTOM", authMethod];
+
+  const user = await Users.create(payload);
+
+  return generateAuthToken(user as any);
 };
 
 const updateUser = async (
@@ -221,6 +265,8 @@ const forgotPassword = async (
 export const UserService = {
   userRegister,
   userLogin,
+  checkUserForProviderLogin,
+  providerLogin,
   updateUser,
   findUserForForgotPassword,
   forgotPassword,

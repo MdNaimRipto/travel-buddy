@@ -2,25 +2,35 @@ import { model, Schema } from "mongoose";
 import { IUser } from "./users.interface";
 import bcrypt from "bcrypt";
 import config from "../../../config/config";
+import { LinkedProvidersEnums, UserRoleEnums } from "./user.constant";
 
 export const usersSchema = new Schema<IUser>(
   {
-    userName: { type: "string", required: true },
-    email: { type: "string", required: true, unique: true },
-    contactNumber: { type: "string", required: true, unique: true },
+    userName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    contactNumber: { type: String, required: true, unique: true },
     profileImage: {
-      type: "string",
+      type: String,
       required: true,
       default: "https://i.ibb.co/dcHVrp8/User-Profile-PNG-Image.png",
     },
-    password: { type: "string", required: true, unique: true },
-    role: { type: "string", required: true },
-    uid: { type: "string", required: true, unique: true },
+    password: { type: String, required: true, unique: true },
+    role: { type: String, required: true, enum: UserRoleEnums },
+    uid: { type: String, required: true, unique: true },
+    linkedProviders: {
+      type: [
+        {
+          type: String,
+          enum: LinkedProvidersEnums,
+        },
+      ],
+      required: true,
+    },
     location: {
-      street: { type: "string", required: true, default: "empty" },
-      city: { type: "string", required: true, default: "empty" },
-      district: { type: "string", required: true, default: "empty" },
-      country: { type: "string", required: true, default: "empty" },
+      street: { type: String, required: true, default: "Not Updated Yet!" },
+      city: { type: String, required: true, default: "Not Updated Yet!" },
+      district: { type: String, required: true, default: "Not Updated Yet!" },
+      country: { type: String, required: true, default: "Not Updated Yet!" },
     },
   },
   {
