@@ -51,6 +51,28 @@ const userLogin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
         data: result,
     });
 }));
+// Check User Exists
+const checkUserForProviderLogin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userInfo = __rest(req.body, []);
+    const result = yield users_service_1.UserService.checkUserForProviderLogin(userInfo);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Login Successful",
+        data: result,
+    });
+}));
+// Check User Exists
+const providerLogin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userInfo, authMethod } = req.body;
+    const result = yield users_service_1.UserService.providerLogin(userInfo, authMethod);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Login Successful",
+        data: result,
+    });
+}));
 // Update User
 const updatedUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
@@ -71,7 +93,18 @@ const findUserForForgotPassword = (0, catchAsync_1.default)((req, res) => __awai
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: "User Found. Please Update Password.",
+        message: "OTP has been sent to your email",
+        data: result,
+    });
+}));
+// Find User For Forgot Password
+const verifyOtpForForgotPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, otp } = req.body;
+    const result = yield users_service_1.UserService.verifyOtpForForgotPassword(email, otp);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "OTP Successfully Verified!",
         data: result,
     });
 }));
@@ -89,7 +122,10 @@ const forgotPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
 exports.UserController = {
     userRegister,
     userLogin,
+    checkUserForProviderLogin,
+    providerLogin,
     updatedUser,
     findUserForForgotPassword,
+    verifyOtpForForgotPassword,
     forgotPassword,
 };

@@ -10,7 +10,10 @@ exports.businessProfileSchema = new mongoose_1.Schema({
     },
     hotelOwnerId: { type: String, required: true },
     hotelName: { type: String, required: true },
-    hotelLocation: { type: String, required: true },
+    hotelLocation: {
+        area: { type: String, required: true },
+        destination: { type: String, required: true },
+    },
     hotelImages: [{ type: String, required: true }],
     totalReservations: { type: Number, required: true, min: 0, default: 0 },
 }, {

@@ -31,6 +31,10 @@ const users_utils_1 = require("./users.utils");
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../config/config"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const crypto_1 = __importDefault(require("crypto"));
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const redis_1 = require("@upstash/redis");
+// import { redis } from "../../../app";
 const userRegister = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, contactNumber, role } = payload;
     const isExistsUser = yield users_schema_1.Users.findOne({
@@ -40,23 +44,14 @@ const userRegister = (payload) => __awaiter(void 0, void 0, void 0, function* ()
         throw new ApiError_1.default(http_status_1.default.CONFLICT, "Email or Contact Already Exists");
     }
     const uid = (0, users_utils_1.generateUID)(role);
-    // Check UID Exists or Not
     const isUIDExists = yield users_schema_1.Users.findOne({ uid: uid });
     if (isUIDExists) {
         throw new ApiError_1.default(http_status_1.default.CONFLICT, "Something went wrong! Please try again");
     }
-    // Save UID
     payload.uid = uid;
+    payload.linkedProviders = ["CUSTOM"];
     const user = yield users_schema_1.Users.create(payload);
-    const { uid: userUid } = user;
-    const accessToken = jwtHelpers_1.jwtHelpers.createToken({
-        id: userUid,
-    }, config_1.default.jwt_secret, config_1.default.jwt_expires_in);
-    const encryptedUserData = (0, users_utils_1.encryptData)(user);
-    return {
-        token: accessToken,
-        userData: encryptedUserData,
-    };
+    return (0, users_utils_1.generateAuthToken)(user);
 });
 const userLogin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = payload;
@@ -68,15 +63,54 @@ const userLogin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     if (!checkPassword) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Invalid Email Or Password");
     }
-    const accessToken = jwtHelpers_1.jwtHelpers.createToken({
-        id: isExists.uid,
-    }, config_1.default.jwt_secret, config_1.default.jwt_expires_in);
-    const encryptedUserData = (0, users_utils_1.encryptData)(isExists);
-    return {
-        token: accessToken,
-        userData: encryptedUserData,
-    };
+    return (0, users_utils_1.generateAuthToken)(isExists);
 });
+const checkUserForProviderLogin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { authMethod, email } = payload;
+    const isExistsUser = yield users_schema_1.Users.findOne({ email });
+    if (!isExistsUser) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User Dose Not Exists!");
+    }
+    const linkedProviders = isExistsUser.linkedProviders;
+    if (isExistsUser && !linkedProviders.includes(authMethod)) {
+        linkedProviders.push(authMethod);
+        const updatedUser = yield users_schema_1.Users.findOneAndUpdate({ email }, isExistsUser, {
+            new: true,
+        });
+        return (0, users_utils_1.generateAuthToken)(updatedUser);
+    }
+    if (isExistsUser && linkedProviders.includes(authMethod)) {
+        return (0, users_utils_1.generateAuthToken)(isExistsUser);
+    }
+    return null;
+});
+const providerLogin = (payload, authMethod) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, role } = payload;
+    const isExistsUser = yield users_schema_1.Users.findOne({ email });
+    if (isExistsUser) {
+        const linkedProviders = isExistsUser.linkedProviders;
+        if (!linkedProviders.includes(authMethod)) {
+            linkedProviders.push(authMethod);
+            const updatedUser = yield users_schema_1.Users.findOneAndUpdate({ email }, isExistsUser, {
+                new: true,
+            });
+            return (0, users_utils_1.generateAuthToken)(updatedUser);
+        }
+        if (linkedProviders.includes(authMethod)) {
+            return (0, users_utils_1.generateAuthToken)(isExistsUser);
+        }
+    }
+    const uid = (0, users_utils_1.generateUID)(role);
+    const isUIDExists = yield users_schema_1.Users.findOne({ uid: uid });
+    if (isUIDExists) {
+        throw new ApiError_1.default(http_status_1.default.CONFLICT, "Something went wrong! Please try again");
+    }
+    payload.uid = uid;
+    payload.linkedProviders = ["CUSTOM", authMethod];
+    const user = yield users_schema_1.Users.create(payload);
+    return (0, users_utils_1.generateAuthToken)(user);
+});
+// ! Have to remove Update Pass and Make it a new API
 const updateUser = (userID, payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const isExistsUser = yield users_schema_1.Users.findById({ _id: userID });
@@ -124,6 +158,7 @@ const updateUser = (userID, payload, token) => __awaiter(void 0, void 0, void 0,
     const updatedUser = (0, users_utils_1.encryptData)(user);
     return updatedUser;
 });
+// ! Have to implement NodeMailer
 //* Forgot Password Part-1 Find user via email
 const findUserForForgotPassword = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield users_schema_1.Users.findOne({ email: email }, {
@@ -131,16 +166,81 @@ const findUserForForgotPassword = (email) => __awaiter(void 0, void 0, void 0, f
         email: 1,
     }).lean();
     if (!user) {
-        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User Not Found");
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Invalid User!");
     }
+    const redis = new redis_1.Redis({
+        url: config_1.default.redis_host,
+        token: config_1.default.redis_password,
+    });
+    const otp = crypto_1.default.randomInt(100000, 999999).toString();
+    const dataToEncrypt = JSON.stringify({ otp: otp, verified: false });
+    const encryptData = (0, users_utils_1.encryptForgotPasswordResponse)(dataToEncrypt);
+    yield redis.set(email, encryptData, { ex: 180 });
+    const transporter = nodemailer_1.default.createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: config_1.default.nodemailer_user,
+            pass: config_1.default.nodemailer_pass,
+        },
+    });
+    yield transporter.sendMail({
+        to: email,
+        subject: "OTP For Reset Password",
+        text: `Your OTP is ${otp}`,
+    });
     return user;
 });
 //* Forgot Password Part-2
+const verifyOtpForForgotPassword = (email, otp) => __awaiter(void 0, void 0, void 0, function* () {
+    const user = yield users_schema_1.Users.findOne({ email: email }, {
+        _id: 0,
+        email: 1,
+    }).lean();
+    if (!user) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Invalid User!");
+    }
+    const redis = new redis_1.Redis({
+        url: config_1.default.redis_host,
+        token: config_1.default.redis_password,
+    });
+    const encryptData = yield redis.get(email);
+    if (!encryptData) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "OTP expired or not found.");
+    }
+    const decryptedData = (0, users_utils_1.decryptForgotPasswordResponse)(encryptData);
+    const { otp: storedOtp, verified } = JSON.parse(decryptedData);
+    if (Number(storedOtp) !== Number(otp)) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Invalid OTP!");
+    }
+    if (verified === true) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "OTP Already Verified!");
+    }
+    const updatedData = JSON.stringify({ otp: storedOtp, verified: true });
+    const encryptUpdatedData = (0, users_utils_1.encryptForgotPasswordResponse)(updatedData);
+    yield redis.set(email, encryptUpdatedData, { ex: 180 });
+    return { message: "OTP verified successfully." };
+});
+//* Forgot Password Part-3
 const forgotPassword = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = payload;
     const isExistsUser = yield users_schema_1.Users.findOne({ email: email });
     if (!isExistsUser) {
-        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User Not Found");
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Invalid User!");
+    }
+    const redis = new redis_1.Redis({
+        url: config_1.default.redis_host,
+        token: config_1.default.redis_password,
+    });
+    const encryptedRedisResponse = yield redis.get(email);
+    if (!encryptedRedisResponse) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Failed to Update! Please try again.");
+    }
+    const decryptedData = (0, users_utils_1.decryptForgotPasswordResponse)(encryptedRedisResponse);
+    const { verified } = JSON.parse(decryptedData);
+    if (verified !== true) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Failed to Update! Please try again.");
     }
     const isPreviousPass = yield bcrypt_1.default.compare(password, isExistsUser.password);
     if (isPreviousPass) {
@@ -148,16 +248,19 @@ const forgotPassword = (payload) => __awaiter(void 0, void 0, void 0, function* 
     }
     const newPass = yield bcrypt_1.default.hash(password, Number(config_1.default.salt_round));
     payload.password = newPass;
-    const updatedUser = yield users_schema_1.Users.findOneAndUpdate({ email: email }, payload, {
+    yield users_schema_1.Users.findOneAndUpdate({ email: email }, payload, {
         new: true,
     });
-    const result = (0, users_utils_1.encryptData)(updatedUser);
-    return result;
+    yield redis.del(email);
+    return null;
 });
 exports.UserService = {
     userRegister,
     userLogin,
+    checkUserForProviderLogin,
+    providerLogin,
     updateUser,
     findUserForForgotPassword,
+    verifyOtpForForgotPassword,
     forgotPassword,
 };

@@ -18,6 +18,10 @@ exports.reservationsSchema = new mongoose_1.Schema({
     },
     name: { type: String, required: true },
     price: { type: Number, required: true },
+    location: {
+        area: { type: String, required: true },
+        destination: { type: String, required: true },
+    },
     totalReservations: { type: Number, required: true },
     reservationsLeft: { type: Number, required: true },
     description: { type: String, required: true },

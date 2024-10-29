@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateHotelId = void 0;
+exports.generateHotelId = generateHotelId;
 function generateHotelId() {
     const uidLength = 10;
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -11,4 +11,3 @@ function generateHotelId() {
     }
     return hotelId;
 }
-exports.generateHotelId = generateHotelId;

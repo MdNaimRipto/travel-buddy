@@ -89,7 +89,23 @@ const findUserForForgotPassword = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "User Found. Please Update Password.",
+      message: "OTP has been sent to your email",
+      data: result,
+    });
+  },
+);
+
+// Find User For Forgot Password
+const verifyOtpForForgotPassword = catchAsync(
+  async (req: Request, res: Response) => {
+    const { email, otp } = req.body;
+
+    const result = await UserService.verifyOtpForForgotPassword(email, otp);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "OTP Successfully Verified!",
       data: result,
     });
   },
@@ -114,5 +130,6 @@ export const UserController = {
   providerLogin,
   updatedUser,
   findUserForForgotPassword,
+  verifyOtpForForgotPassword,
   forgotPassword,
 };

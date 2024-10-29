@@ -40,6 +40,8 @@ const uploadReservation = (payload, token) => __awaiter(void 0, void 0, void 0, 
     if (!isHotelExists) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Hotel Does not Exists! Create Business Profile First.");
     }
+    const location = isHotelExists.hotelLocation;
+    payload.location = location;
     const isExistsReservation = yield reservations_schema_1.Reservations.findOne({
         $and: [{ profileId }, { reservationClass }, { reservationType }],
     });
