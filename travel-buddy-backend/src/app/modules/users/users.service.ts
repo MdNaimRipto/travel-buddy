@@ -10,11 +10,20 @@ import {
   linkedProvidersEnums,
 } from "./users.interface";
 import { Users } from "./users.schema";
-import { encryptData, generateAuthToken, generateUID } from "./users.utils";
+import {
+  decryptForgotPasswordResponse,
+  encryptData,
+  encryptForgotPasswordResponse,
+  generateAuthToken,
+  generateUID,
+} from "./users.utils";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import config from "../../../config/config";
 import { Secret } from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
+import { Redis } from "@upstash/redis";
 
 const userRegister = async (payload: IUser): Promise<IAuthUser> => {
   const { email, contactNumber, role } = payload;
@@ -131,6 +140,7 @@ const providerLogin = async (
   return generateAuthToken(user as any);
 };
 
+// ! Have to remove Update Pass and Make it a new API
 const updateUser = async (
   userID: string,
   payload: Partial<IUser>,
@@ -223,20 +233,112 @@ const findUserForForgotPassword = async (
     },
   ).lean();
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User Not Found");
+    throw new ApiError(httpStatus.NOT_FOUND, "Invalid User!");
   }
+
+  const redis = new Redis({
+    url: config.redis_host,
+    token: config.redis_password,
+  });
+
+  const otp = crypto.randomInt(100000, 999999).toString();
+  const dataToEncrypt = JSON.stringify({ otp: otp, verified: false });
+  const encryptData = encryptForgotPasswordResponse(dataToEncrypt);
+  await redis.set(email, encryptData, { ex: 180 });
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
+    auth: {
+      user: config.nodemailer_user,
+      pass: config.nodemailer_pass,
+    },
+  });
+
+  await transporter.sendMail({
+    to: email,
+    subject: "OTP For Reset Password",
+    text: `Your OTP is ${otp}`,
+  });
 
   return user;
 };
 
 //* Forgot Password Part-2
+const verifyOtpForForgotPassword = async (email: string, otp: string) => {
+  const user = await Users.findOne(
+    { email: email },
+    {
+      _id: 0,
+      email: 1,
+    },
+  ).lean();
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Invalid User!");
+  }
+
+  const redis = new Redis({
+    url: config.redis_host,
+    token: config.redis_password,
+  });
+
+  const encryptData = await redis.get(email);
+  if (!encryptData) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "OTP expired or not found.");
+  }
+
+  const decryptedData = decryptForgotPasswordResponse(encryptData as string);
+  const { otp: storedOtp, verified } = JSON.parse(decryptedData);
+
+  if (Number(storedOtp) !== Number(otp)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Invalid OTP!");
+  }
+
+  if (verified === true) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "OTP Already Verified!");
+  }
+
+  const updatedData = JSON.stringify({ otp: storedOtp, verified: true });
+  const encryptUpdatedData = encryptForgotPasswordResponse(updatedData);
+  await redis.set(email, encryptUpdatedData, { ex: 180 });
+
+  return { message: "OTP verified successfully." };
+};
+
+//* Forgot Password Part-3
 const forgotPassword = async (
   payload: IUpdatePasswordValidator,
 ): Promise<string | null> => {
   const { email, password } = payload;
   const isExistsUser = await Users.findOne({ email: email });
   if (!isExistsUser) {
-    throw new ApiError(httpStatus.NOT_FOUND, "User Not Found");
+    throw new ApiError(httpStatus.NOT_FOUND, "Invalid User!");
+  }
+
+  const redis = new Redis({
+    url: config.redis_host,
+    token: config.redis_password,
+  });
+
+  const encryptedRedisResponse = await redis.get(email);
+  if (!encryptedRedisResponse) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Failed to Update! Please try again.",
+    );
+  }
+
+  const decryptedData = decryptForgotPasswordResponse(
+    encryptedRedisResponse as string,
+  );
+  const { verified } = JSON.parse(decryptedData);
+
+  if (verified !== true) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Failed to Update! Please try again.",
+    );
   }
 
   const isPreviousPass = await bcrypt.compare(
@@ -253,13 +355,13 @@ const forgotPassword = async (
   const newPass = await bcrypt.hash(password, Number(config.salt_round));
   payload.password = newPass;
 
-  const updatedUser = await Users.findOneAndUpdate({ email: email }, payload, {
+  await Users.findOneAndUpdate({ email: email }, payload, {
     new: true,
   });
 
-  const result = encryptData(updatedUser as any);
+  await redis.del(email);
 
-  return result;
+  return null;
 };
 
 export const UserService = {
@@ -269,5 +371,6 @@ export const UserService = {
   providerLogin,
   updateUser,
   findUserForForgotPassword,
+  verifyOtpForForgotPassword,
   forgotPassword,
 };

@@ -1,6 +1,7 @@
 import CryptoJS from "crypto-js";
+import crypto from "crypto";
 import config from "../../../config/config";
-import { IUser, IUserWithoutPassword } from "./users.interface";
+import { IUserWithoutPassword } from "./users.interface";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import { Secret } from "jsonwebtoken";
 
@@ -60,6 +61,39 @@ export const generateAuthToken = (user: IUserWithoutPassword) => {
     token: accessToken,
     userData: encryptedUserData,
   };
+};
+
+export const encryptForgotPasswordResponse = (data: string) => {
+  const ENCRYPTION_KEY = config.redis_crypto_key;
+  const ALGORITHM = "aes-256-cbc";
+
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv(
+    ALGORITHM,
+    Buffer.from(ENCRYPTION_KEY),
+    iv,
+  );
+  let encryptData = cipher.update(data, "utf8", "hex");
+  encryptData += cipher.final("hex");
+  return iv.toString("hex") + ":" + encryptData;
+};
+
+export const decryptForgotPasswordResponse = (encryptedData: string) => {
+  const ENCRYPTION_KEY = config.redis_crypto_key;
+  const ALGORITHM = "aes-256-cbc";
+
+  const [ivHex, encryptedText] = encryptedData.split(":");
+  const iv = Buffer.from(ivHex, "hex");
+
+  const decipher = crypto.createDecipheriv(
+    ALGORITHM,
+    Buffer.from(ENCRYPTION_KEY),
+    iv,
+  );
+  let decrypted = decipher.update(encryptedText, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+
+  return decrypted;
 };
 
 // ! Do Not remove it

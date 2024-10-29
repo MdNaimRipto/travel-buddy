@@ -35,7 +35,15 @@ router.patch(
   UserController.updatedUser,
 );
 
-router.get("/findUser", UserController.findUserForForgotPassword);
+router.post(
+  "/findUserForForgotPassword",
+  UserController.findUserForForgotPassword,
+);
+
+router.post(
+  "/verifyOtpForForgotPassword",
+  UserController.verifyOtpForForgotPassword,
+);
 
 router.patch("/forgotPassword", UserController.forgotPassword);
 

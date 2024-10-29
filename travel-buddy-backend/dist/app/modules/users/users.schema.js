@@ -16,23 +16,33 @@ exports.Users = exports.usersSchema = void 0;
 const mongoose_1 = require("mongoose");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = __importDefault(require("../../../config/config"));
+const user_constant_1 = require("./user.constant");
 exports.usersSchema = new mongoose_1.Schema({
-    userName: { type: "string", required: true },
-    email: { type: "string", required: true, unique: true },
-    contactNumber: { type: "string", required: true, unique: true },
+    userName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    contactNumber: { type: String, required: true, unique: true },
     profileImage: {
-        type: "string",
+        type: String,
         required: true,
         default: "https://i.ibb.co/dcHVrp8/User-Profile-PNG-Image.png",
     },
-    password: { type: "string", required: true, unique: true },
-    role: { type: "string", required: true },
-    uid: { type: "string", required: true, unique: true },
+    password: { type: String, required: true, unique: true },
+    role: { type: String, required: true, enum: user_constant_1.UserRoleEnums },
+    uid: { type: String, required: true, unique: true },
+    linkedProviders: {
+        type: [
+            {
+                type: String,
+                enum: user_constant_1.LinkedProvidersEnums,
+            },
+        ],
+        required: true,
+    },
     location: {
-        street: { type: "string", required: true, default: "empty" },
-        city: { type: "string", required: true, default: "empty" },
-        district: { type: "string", required: true, default: "empty" },
-        country: { type: "string", required: true, default: "empty" },
+        street: { type: String, required: true, default: "Not Updated Yet!" },
+        city: { type: String, required: true, default: "Not Updated Yet!" },
+        district: { type: String, required: true, default: "Not Updated Yet!" },
+        country: { type: String, required: true, default: "Not Updated Yet!" },
     },
 }, {
     timestamps: true,

@@ -9,7 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.reservationCreated = exports.generateReservationsId = void 0;
+exports.reservationCreated = void 0;
+exports.generateReservationsId = generateReservationsId;
 const reservations_schema_1 = require("./reservations.schema");
 function generateReservationsId() {
     const idLength = 10;
@@ -21,7 +22,6 @@ function generateReservationsId() {
     }
     return reservationId;
 }
-exports.generateReservationsId = generateReservationsId;
 const reservationCreated = (profileId) => __awaiter(void 0, void 0, void 0, function* () {
     const reservations = yield reservations_schema_1.Reservations.find({ profileId });
     const totalReservationsCreated = reservations.reduce((accumulator, currentValue) => accumulator + currentValue.totalReservations, 0);

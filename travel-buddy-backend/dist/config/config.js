@@ -15,7 +15,10 @@ exports.default = {
     admin_uid: process.env.ADMIN_UID,
     jwt_secret: process.env.JWT_SECRET,
     jwt_expires_in: process.env.JWT_EXPIRES_IN,
-    pusher_app_id: process.env.PUSHER_APP_ID,
-    pusher_secret: process.env.PUSHER_SECRET,
-    pusher_key: process.env.PUSHER_KEY,
+    redis_host: process.env.UPSTASH_REDIS_ENDPOINT,
+    redis_password: process.env.UPSTASH_REDIS_PASSWORD,
+    redis_port: process.env.UPSTASH_REDIS_PORT,
+    redis_crypto_key: process.env.REDIS_CRYPTO_KEY,
+    nodemailer_user: process.env.NODEMAILER_USER,
+    nodemailer_pass: process.env.NODEMAILER_PASS,
 };
