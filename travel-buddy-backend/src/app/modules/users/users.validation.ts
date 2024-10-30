@@ -110,10 +110,28 @@ const userUpdateZodSchema = z.object({
   }),
 });
 
+const updatePasswordZodSchema = z.object({
+  body: z.object({
+    currentPassword: z.string({
+      required_error: "Current Password is Required",
+    }),
+    newPassword: z.string({
+      required_error: "New Password is Required",
+    }),
+    confirmPassword: z.string({
+      required_error: "Confirm Password is Required",
+    }),
+    userId: z.string({
+      required_error: "UID is Required",
+    }),
+  }),
+});
+
 export const UserValidation = {
   usersZodSchema,
   loginUserZodSchema,
   checkUserForProviderLoginValidation,
   providerLoginZodSchema,
   userUpdateZodSchema,
+  updatePasswordZodSchema,
 };

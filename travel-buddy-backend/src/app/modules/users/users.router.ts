@@ -35,6 +35,12 @@ router.patch(
   UserController.updatedUser,
 );
 
+router.patch(
+  "/updatePassword",
+  zodValidationRequest(UserValidation.updatePasswordZodSchema),
+  UserController.updatePassword,
+);
+
 router.post(
   "/findUserForForgotPassword",
   UserController.findUserForForgotPassword,
