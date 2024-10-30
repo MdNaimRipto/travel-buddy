@@ -79,6 +79,21 @@ const updatedUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Update User
+const updatePassword = catchAsync(async (req: Request, res: Response) => {
+  const { ...payload } = req.body;
+  const token = verifyAuthToken(req);
+
+  const result = await UserService.updatePassword(payload, token);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "User Updated Successfully",
+    data: result,
+  });
+});
+
 // Find User For Forgot Password
 const findUserForForgotPassword = catchAsync(
   async (req: Request, res: Response) => {
@@ -129,6 +144,7 @@ export const UserController = {
   checkUserForProviderLogin,
   providerLogin,
   updatedUser,
+  updatePassword,
   findUserForForgotPassword,
   verifyOtpForForgotPassword,
   forgotPassword,

@@ -56,6 +56,13 @@ export interface ILoginUser {
   password: string;
 }
 
+export interface IUpdatePassword {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
 export interface IForgetPasswordValidator {
   email: string;
 }

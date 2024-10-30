@@ -5,6 +5,7 @@ import {
   ICheckUserExists,
   IForgetPasswordValidator,
   ILoginUser,
+  IUpdatePassword,
   IUpdatePasswordValidator,
   IUser,
   linkedProvidersEnums,
@@ -12,7 +13,6 @@ import {
 import { Users } from "./users.schema";
 import {
   decryptForgotPasswordResponse,
-  encryptData,
   encryptForgotPasswordResponse,
   generateAuthToken,
   generateUID,
@@ -25,6 +25,7 @@ import crypto from "crypto";
 import nodemailer from "nodemailer";
 import { Redis } from "@upstash/redis";
 
+//* User Register Custom
 const userRegister = async (payload: IUser): Promise<IAuthUser> => {
   const { email, contactNumber, role } = payload;
 
@@ -52,6 +53,7 @@ const userRegister = async (payload: IUser): Promise<IAuthUser> => {
   return generateAuthToken(user as any);
 };
 
+//* User Login Custom
 const userLogin = async (payload: ILoginUser): Promise<IAuthUser> => {
   const { email, password } = payload;
 
@@ -70,6 +72,7 @@ const userLogin = async (payload: ILoginUser): Promise<IAuthUser> => {
   return generateAuthToken(isExists as any);
 };
 
+//* Check User for Provider Login
 const checkUserForProviderLogin = async (
   payload: ICheckUserExists,
 ): Promise<IAuthUser | null> => {
@@ -97,6 +100,7 @@ const checkUserForProviderLogin = async (
   return null;
 };
 
+//* Provider Login
 const providerLogin = async (
   payload: IUser,
   authMethod: linkedProvidersEnums,
@@ -140,12 +144,12 @@ const providerLogin = async (
   return generateAuthToken(user as any);
 };
 
-// ! Have to remove Update Pass and Make it a new API
+//* Update User
 const updateUser = async (
   userID: string,
   payload: Partial<IUser>,
   token: string,
-): Promise<string | null> => {
+): Promise<IAuthUser | null> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
   const isExistsUser = await Users.findById({ _id: userID });
@@ -153,9 +157,9 @@ const updateUser = async (
     throw new ApiError(httpStatus.NOT_FOUND, "User Not Found");
   }
 
-  const { role, uid, location, ...updatePayload } = payload;
+  const { role, uid, password, location, ...updatePayload } = payload;
 
-  if (role !== undefined || uid !== undefined) {
+  if (role !== undefined || uid !== undefined || password !== undefined) {
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
       "Permission Denied! Please Try Again.",
@@ -186,25 +190,6 @@ const updateUser = async (
     updatePayload.contactNumber = payload.contactNumber;
   }
 
-  if (payload.password) {
-    const isPreviousPass = await bcrypt.compare(
-      payload.password,
-      isExistsUser.password as string,
-    );
-
-    if (isPreviousPass) {
-      throw new ApiError(
-        httpStatus.FORBIDDEN,
-        "New Password Cannot be The Previous Password",
-      );
-    }
-    const newPassword = await bcrypt.hash(
-      payload.password,
-      Number(config.salt_round),
-    );
-    updatePayload.password = newPassword;
-  }
-
   if (location && Object.keys(location).length > 0) {
     Object.keys(location).map(key => {
       const locationsKey = `location.${key}`;
@@ -216,9 +201,63 @@ const updateUser = async (
   const user = await Users.findOneAndUpdate({ _id: userID }, updatePayload, {
     new: true,
   });
-  const updatedUser = encryptData(user as any);
 
-  return updatedUser;
+  return generateAuthToken(user as any);
+};
+
+// * For Updating the password
+const updatePassword = async (
+  payload: IUpdatePassword,
+  token: string,
+): Promise<IAuthUser | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
+  const { userId, currentPassword, newPassword, confirmPassword } = payload;
+
+  const isExistsUser = await Users.findById({ _id: userId });
+  if (!isExistsUser) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User Not Found");
+  }
+
+  const isPassMatched = await bcrypt.compare(
+    currentPassword,
+    isExistsUser.password as string,
+  );
+
+  if (!isPassMatched) {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "Incorrect current password. Please try again.",
+    );
+  }
+
+  const isPreviousPass = await bcrypt.compare(
+    newPassword,
+    isExistsUser.password as string,
+  );
+
+  if (isPreviousPass || currentPassword === newPassword) {
+    throw new ApiError(
+      httpStatus.FORBIDDEN,
+      "New Password Cannot be The Previous Password",
+    );
+  }
+
+  if (newPassword !== confirmPassword) {
+    throw new ApiError(
+      httpStatus.FORBIDDEN,
+      "New Password and Confirm Password must match.",
+    );
+  }
+
+  const pass = await bcrypt.hash(newPassword, Number(config.salt_round));
+  isExistsUser.password = pass;
+
+  const user = await Users.findOneAndUpdate({ _id: userId }, isExistsUser, {
+    new: true,
+  });
+
+  return generateAuthToken(user as any);
 };
 
 //* Forgot Password Part-1 Find user via email
@@ -370,6 +409,7 @@ export const UserService = {
   checkUserForProviderLogin,
   providerLogin,
   updateUser,
+  updatePassword,
   findUserForForgotPassword,
   verifyOtpForForgotPassword,
   forgotPassword,
