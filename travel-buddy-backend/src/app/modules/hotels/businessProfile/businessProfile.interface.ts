@@ -19,6 +19,15 @@ export interface IBusinessProfile {
   description: string;
 }
 
+export interface IHotelsFilter {
+  searchTerm?: string;
+  hotelName?: string;
+  area?: string;
+  destination?: string;
+  totalRating?: string;
+  startingPrice?: string;
+}
+
 export interface IUpdateBusinessProfile {
   hotelId: string;
   ownerId: string;

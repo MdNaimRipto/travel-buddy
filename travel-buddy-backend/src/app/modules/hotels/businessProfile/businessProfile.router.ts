@@ -16,6 +16,10 @@ router.get(
   BusinessProfileController.getBusinessProfile,
 );
 
+router.get("/getAllHotels", BusinessProfileController.getAllHotels);
+
+router.get("/getHotelDetails/:id", BusinessProfileController.getHotelDetails);
+
 router.patch(
   "/updateBusinessProfile",
   BusinessProfileController.updateBusinessProfile,
