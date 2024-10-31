@@ -9,11 +9,22 @@ const businessProfileZodSchema = z.object({
       required_error: "Hotel Name is Required",
     }),
     hotelLocation: z.object({
+      street: z.string({
+        required_error: "Street Name is Required",
+      }),
       area: z.string({
         required_error: "Hotel Area is Required",
       }),
       destination: z.string({
         required_error: "Hotel Destination is Required",
+      }),
+      coordinates: z.object({
+        latitude: z.string({
+          required_error: "latitude is Required",
+        }),
+        longitude: z.string({
+          required_error: "longitude is Required",
+        }),
       }),
     }),
     totalReservations: z
@@ -27,6 +38,14 @@ const businessProfileZodSchema = z.object({
         required_error: "Images Required",
       }),
     ),
+    amenities: z.array(
+      z.string({
+        required_error: "Amenities Required",
+      }),
+    ),
+    description: z.string({
+      required_error: "Description is Required",
+    }),
   }),
 });
 

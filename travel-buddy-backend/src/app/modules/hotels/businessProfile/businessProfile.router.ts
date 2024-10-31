@@ -21,11 +21,11 @@ router.patch(
   BusinessProfileController.updateBusinessProfile,
 );
 
-router.patch(
-  "/updateProfileImages",
-  BusinessProfileController.updateProfileImages,
-);
+// router.patch(
+//   "/updateProfileImages",
+//   BusinessProfileController.updateProfileImages,
+// );
 
-router.patch("/uploadNewImage", BusinessProfileController.uploadNewImage);
+// router.patch("/uploadNewImage", BusinessProfileController.uploadNewImage);
 
 export const businessProfileRouter = router;
