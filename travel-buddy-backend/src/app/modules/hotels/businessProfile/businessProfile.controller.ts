@@ -57,45 +57,47 @@ const updateBusinessProfile = catchAsync(
 );
 
 //* Update Profile images
-const updateProfileImages = catchAsync(async (req: Request, res: Response) => {
-  const { ...profileData } = req.body;
-  const token = verifyAuthToken(req);
+// const updateProfileImages = catchAsync(async (req: Request, res: Response) => {
+//   const { ...profileData } = req.body;
+//   const token = verifyAuthToken(req);
 
-  const result = await BusinessProfileService.updateProfileImages(
-    profileData,
-    token,
-  );
+//   const result = await BusinessProfileService.updateProfileImages(
+//     profileData,
+//     token,
+//   );
 
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: "Image Updated Successfully",
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: httpStatus.OK,
+//     message: "Image Updated Successfully",
+//     data: result,
+//   });
+// });
+
+/**/
 
 //* Upload New Image
-const uploadNewImage = catchAsync(async (req: Request, res: Response) => {
-  const { ...profileData } = req.body;
-  const token = verifyAuthToken(req);
+// const uploadNewImage = catchAsync(async (req: Request, res: Response) => {
+//   const { ...profileData } = req.body;
+//   const token = verifyAuthToken(req);
 
-  const result = await BusinessProfileService.uploadNewImage(
-    profileData,
-    token,
-  );
+//   const result = await BusinessProfileService.uploadNewImage(
+//     profileData,
+//     token,
+//   );
 
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: "New Image Uploaded",
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: httpStatus.OK,
+//     message: "New Image Uploaded",
+//     data: result,
+//   });
+// });
 
 export const BusinessProfileController = {
   createBusinessProfile,
   getBusinessProfile,
   updateBusinessProfile,
-  updateProfileImages,
-  uploadNewImage,
+  // updateProfileImages,
+  // uploadNewImage,
 };

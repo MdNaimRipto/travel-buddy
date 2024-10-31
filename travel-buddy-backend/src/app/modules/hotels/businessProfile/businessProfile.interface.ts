@@ -2,12 +2,21 @@ export interface IBusinessProfile {
   hotelId: string;
   hotelOwnerId: string;
   hotelName: string;
+  totalRating: number; // * Will Update while Review and Rating
+  startingPrice: number; // * Will Update while Add Reservation
   hotelLocation: {
-    area: string;
-    destination: string;
+    street: string; // * Hotel Street
+    area: string; // * Hotel Area Ex: Inani Beach
+    destination: string; // * Hotel Destination Ex: Cox's Bazar
+    coordinates: {
+      latitude: string;
+      longitude: string;
+    };
   };
   totalReservations: number;
   hotelImages: string[];
+  amenities: string[];
+  description: string;
 }
 
 export interface IUpdateBusinessProfile {
@@ -16,13 +25,13 @@ export interface IUpdateBusinessProfile {
   updateData: Partial<IBusinessProfile>;
 }
 
-export interface IUpdateProfileImages {
-  hotelId: string;
-  img: string;
-  imgNo: number;
-}
+// export interface IUpdateProfileImages {
+//   hotelId: string;
+//   img: string;
+//   imgNo: number;
+// }
 
-export interface IUploadNewImage {
-  hotelId: string;
-  img: string;
-}
+// export interface IUploadNewImage {
+//   hotelId: string;
+//   img: string;
+// }
