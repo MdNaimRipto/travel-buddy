@@ -1,5 +1,9 @@
 import { model, Schema } from "mongoose";
 import { IBusinessProfile } from "./businessProfile.interface";
+import {
+  AreasConstant,
+  DestinationsConstant,
+} from "./businessProfile.constant";
 
 export const businessProfileSchema = new Schema<IBusinessProfile>(
   {
@@ -14,8 +18,13 @@ export const businessProfileSchema = new Schema<IBusinessProfile>(
     startingPrice: { type: Number, required: true, default: 0, min: 0 },
     hotelLocation: {
       street: { type: String, required: true },
-      area: { type: String, required: true },
-      destination: { type: String, required: true, index: true },
+      area: { type: String, enum: AreasConstant, required: true },
+      destination: {
+        type: String,
+        enum: DestinationsConstant,
+        required: true,
+        index: true,
+      },
       coordinates: {
         latitude: { type: String, required: true },
         longitude: { type: String, required: true },

@@ -7,6 +7,9 @@ import {
 const reservationZodSchema = z.object({
   body: z.object({
     profileId: z.string({
+      required_error: "Hotel Owner Id is Required",
+    }),
+    hotelId: z.string({
       required_error: "Hotel Id is Required",
     }),
     reservationType: z.enum(
@@ -26,6 +29,9 @@ const reservationZodSchema = z.object({
     }),
     price: z.number({
       required_error: "Reservation Price is Required",
+    }),
+    discount: z.number({
+      required_error: "Discount is Required",
     }),
     totalReservations: z.number({
       required_error: "Total Reservation's Count Required",

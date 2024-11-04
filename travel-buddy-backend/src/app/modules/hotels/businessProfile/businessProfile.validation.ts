@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  AreasConstant,
+  DestinationsConstant,
+} from "./businessProfile.constant";
 
 const businessProfileZodSchema = z.object({
   body: z.object({
@@ -12,10 +16,10 @@ const businessProfileZodSchema = z.object({
       street: z.string({
         required_error: "Street Name is Required",
       }),
-      area: z.string({
+      area: z.enum([...AreasConstant] as [string, ...string[]], {
         required_error: "Hotel Area is Required",
       }),
-      destination: z.string({
+      destination: z.enum([...DestinationsConstant] as [string, ...string[]], {
         required_error: "Hotel Destination is Required",
       }),
       coordinates: z.object({

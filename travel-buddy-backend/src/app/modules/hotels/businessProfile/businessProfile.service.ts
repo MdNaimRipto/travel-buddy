@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import ApiError from "../../../../errors/ApiError";
 import {
   IBusinessProfile,
+  IHotelsFilter,
   IUpdateBusinessProfile,
   // IUpdateProfileImages,
   // IUploadNewImage,
@@ -12,12 +13,18 @@ import { jwtHelpers } from "../../../../helpers/jwtHelpers";
 import config from "../../../../config/config";
 import { Secret } from "jsonwebtoken";
 import { Users } from "../../users/users.schema";
+import {
+  IGenericPaginationResponse,
+  IPaginationOptions,
+} from "../../../../interface/pagination";
+import { HotelsSearchableFields } from "./businessProfile.constant";
+import { calculatePaginationFunction } from "../../../../helpers/paginationHelpers";
+import { SortOrder } from "mongoose";
+import { Reservations } from "../reservations/reservations.schema";
 
 /*
 ! APIs Need to create:
 * Get Hotel Statistics
-* Get All Hotels
-* Get Hotel Details
 **/
 
 // * Create Business Profile
@@ -79,20 +86,95 @@ const createProfile = async (
   return result;
 };
 
-// * Get Business Profile
+// * Get Business Profile for Hotel Profile
 const getBusinessProfile = async (
   id: string,
   token: string,
 ): Promise<IBusinessProfile | null> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const result = await BusinessProfile.findOne({ hotelOwnerId: id });
-  if (!result) {
-    throw new ApiError(
-      httpStatus.NOT_FOUND,
-      "Business Profile not found! please create one first",
-    );
+  const result = await BusinessProfile.findOne({ _id: id });
+  return result;
+};
+
+//* Get All Hotels
+const getAllHotels = async (
+  filters: IHotelsFilter,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericPaginationResponse<IBusinessProfile[]>> => {
+  const { searchTerm, ...filterData } = filters;
+  const andConditions = [];
+  if (searchTerm) {
+    andConditions.push({
+      $or: HotelsSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: "i",
+        },
+      })),
+    });
   }
+
+  //
+  if (Object.keys(filterData).length) {
+    const filterConditions: { [x: string]: string }[] = [];
+
+    Object.entries(filterData).forEach(([field, value]) => {
+      if (field === "destination" || field === "area") {
+        filterConditions.push({
+          [`hotelLocation.${field}`]: value,
+        });
+      } else if (field === "totalRating") {
+        const minRating = parseInt(value);
+        const maxRating = parseInt(value) === 5 ? 5 : parseInt(value) + 0.9;
+
+        filterConditions.push({
+          totalRating: { $gte: minRating, $lte: maxRating } as any,
+        });
+      } else {
+        filterConditions.push({ [field]: value });
+      }
+    });
+
+    andConditions.push({
+      $and: filterConditions,
+    });
+  }
+  //
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePaginationFunction(paginationOptions);
+
+  const sortConditions: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder;
+  }
+  //
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = await BusinessProfile.find(checkAndCondition)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit);
+
+  const total = await BusinessProfile.countDocuments();
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
+
+//* Get Hotel Details
+const getHotelDetails = async (
+  id: string,
+): Promise<IBusinessProfile | null> => {
+  const result = await BusinessProfile.findOne({ _id: id });
   return result;
 };
 
@@ -246,6 +328,8 @@ const updateBusinessProfile = async (
 export const BusinessProfileService = {
   createProfile,
   getBusinessProfile,
+  getAllHotels,
+  getHotelDetails,
   updateBusinessProfile,
   // updateProfileImages,
   // uploadNewImage,

@@ -1,15 +1,21 @@
+import { Types } from "mongoose";
+import { IBusinessProfile } from "../businessProfile/businessProfile.interface";
+
 export type ReservationsType = "Single" | "Couple" | "Family";
 export type ReservationsClass = "First" | "Second" | "Third";
 export type ReservationStatus = "Booked" | "Available" | "Blocked";
 
 export type IReservations = {
   profileId: string;
+  hotelId: Types.ObjectId | Partial<IBusinessProfile>;
   reservationId: string;
   reservationType: ReservationsType;
   reservationClass: ReservationsClass;
   name: string;
   price: number;
+  discount: number;
   location: {
+    street: string;
     area: string;
     destination: string;
   };
@@ -20,6 +26,10 @@ export type IReservations = {
   features: string[];
   additionalFacilities: string[];
   images: string[];
+  rating: {
+    total: number;
+    rating: number;
+  };
 };
 
 export interface IReservationFilters {
@@ -27,6 +37,10 @@ export interface IReservationFilters {
   name?: string;
   reservationType?: ReservationsType;
   reservationClass?: ReservationsClass;
+  area?: string;
+  destination?: string;
+  rating?: string;
+  price?: string;
 }
 
 export interface IUpdateReservation {
