@@ -26,6 +26,9 @@ export const ReservationSearchableFields = [
   "name",
   "reservationType",
   "reservationClass",
+  "location.destination",
+  "location.area",
+  "location.street",
 ];
 
 export const ReservationFilterableFields = [
@@ -33,4 +36,8 @@ export const ReservationFilterableFields = [
   "name",
   "reservationType",
   "reservationClass",
+  "area",
+  "destination",
+  "rating",
+  "price",
 ];

@@ -1,3 +1,5 @@
+import { Area, Destination } from "./businessProfile.enums";
+
 export interface IBusinessProfile {
   hotelId: string;
   hotelOwnerId: string;
@@ -6,8 +8,8 @@ export interface IBusinessProfile {
   startingPrice: number; // * Will Update while Add Reservation
   hotelLocation: {
     street: string; // * Hotel Street
-    area: string; // * Hotel Area Ex: Inani Beach
-    destination: string; // * Hotel Destination Ex: Cox's Bazar
+    area: Area; // * Hotel Area Ex: Inani Beach
+    destination: Destination; // * Hotel Destination Ex: Cox's Bazar
     coordinates: {
       latitude: string;
       longitude: string;

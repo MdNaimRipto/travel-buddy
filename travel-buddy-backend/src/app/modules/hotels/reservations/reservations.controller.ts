@@ -97,37 +97,39 @@ const updateReservations = catchAsync(async (req: Request, res: Response) => {
 });
 
 // Upload New Array Data
-const uploadNewArrayData = catchAsync(async (req: Request, res: Response) => {
-  const { ...updateData } = req.body;
-  const token = verifyAuthToken(req);
+// const uploadNewArrayData = catchAsync(async (req: Request, res: Response) => {
+//   const { ...updateData } = req.body;
+//   const token = verifyAuthToken(req);
 
-  const result = await ReservationsService.uploadNewArrayData(
-    updateData,
-    token,
-  );
+//   const result = await ReservationsService.uploadNewArrayData(
+//     updateData,
+//     token,
+//   );
 
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: "New Data Added",
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: httpStatus.OK,
+//     message: "New Data Added",
+//     data: result,
+//   });
+// });
+
+/**/
 
 // Update Array Data
-const updateArrayData = catchAsync(async (req: Request, res: Response) => {
-  const { ...updateData } = req.body;
-  const token = verifyAuthToken(req);
+// const updateArrayData = catchAsync(async (req: Request, res: Response) => {
+//   const { ...updateData } = req.body;
+//   const token = verifyAuthToken(req);
 
-  const result = await ReservationsService.updateArrayData(updateData, token);
+//   const result = await ReservationsService.updateArrayData(updateData, token);
 
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: "Reservations Updated Successfully",
-    data: result,
-  });
-});
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: httpStatus.OK,
+//     message: "Reservations Updated Successfully",
+//     data: result,
+//   });
+// });
 
 export const ReservationsController = {
   uploadReservation,
@@ -135,6 +137,6 @@ export const ReservationsController = {
   getReservationsByHotelId,
   getReservationDetails,
   updateReservations,
-  uploadNewArrayData,
-  updateArrayData,
+  // uploadNewArrayData,
+  // updateArrayData,
 };

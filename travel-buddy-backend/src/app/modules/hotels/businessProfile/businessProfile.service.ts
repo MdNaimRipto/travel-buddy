@@ -20,12 +20,11 @@ import {
 import { HotelsSearchableFields } from "./businessProfile.constant";
 import { calculatePaginationFunction } from "../../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
+import { Reservations } from "../reservations/reservations.schema";
 
 /*
 ! APIs Need to create:
 * Get Hotel Statistics
-* Get All Hotels
-* Get Hotel Details
 **/
 
 // * Create Business Profile
