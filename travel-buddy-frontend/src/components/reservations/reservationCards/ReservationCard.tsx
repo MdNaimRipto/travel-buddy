@@ -23,7 +23,8 @@ const ReservationCard = ({ reservation: r }: { reservation: IReservation }) => {
           alt="Reservation Image"
           width={400}
           height={400}
-          priority
+          // priority
+          loading="lazy"
           className="w-full h-full object-cover brightness-90 hover:scale-105 duration-300"
         />
         <p className="absolute top-3 right-3 bg-success bg-opacity-80 text-white py-2 px-3 text-xs font-inter rounded-full">

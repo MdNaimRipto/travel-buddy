@@ -7,6 +7,9 @@ import reservationImage from "@/assets/reservations/fakeReservationImage.jpg";
 import ReservationCard from "@/components/reservations/reservationCards/ReservationCard";
 
 const Reservations = () => {
+  // const reservationImage =
+  //   "https://i.ibb.co.com/X56GBJt/bangkok-thailand-august-12-2016-beautiful-luxury-bedroom-int.jpg";
+
   const generateReservation = (id: number): IReservation => {
     return {
       profileId: `profile_${id}`,
