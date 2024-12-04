@@ -6,12 +6,13 @@ import httpStatus from "http-status";
 import pick from "../../../shared/shared";
 import { paginationFields } from "../../../constants/pagination.constant";
 import { verifyAuthToken } from "../../../util/verifyAuthToken";
+import { wishlistForEnumTypes } from "./wishlist.interface";
 
-const wishlistReservation = catchAsync(async (req: Request, res: Response) => {
+const addToWishlist = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
   const token = verifyAuthToken(req);
 
-  const result = await WishlistService.wishlistReservation(payload, token);
+  const result = await WishlistService.addToWishlist(payload, token);
 
   sendResponse(res, {
     success: true,
@@ -21,14 +22,16 @@ const wishlistReservation = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getUserWishlistedReservations = catchAsync(
+const getUserWishlistedEntities = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.headers["user-id"];
+    const wishlistFor = req.headers["wishlist-for"];
     const options = pick(req.query, paginationFields);
     const token = verifyAuthToken(req);
 
-    const result = await WishlistService.getUserWishlistedReservations(
+    const result = await WishlistService.getUserWishlistedEntities(
       userId as string,
+      wishlistFor as wishlistForEnumTypes,
       options,
       token,
     );
@@ -41,6 +44,23 @@ const getUserWishlistedReservations = catchAsync(
     });
   },
 );
+
+const isEntityWishlisted = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.headers["user-id"];
+  const entityId = req.headers["entity-id"];
+
+  const result = await WishlistService.isEntityWishlisted(
+    userId as string,
+    entityId as string,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Wishlists Retrieved",
+    data: result,
+  });
+});
 
 const deleteWishlist = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
@@ -57,7 +77,8 @@ const deleteWishlist = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const WishlistController = {
-  wishlistReservation,
-  getUserWishlistedReservations,
+  addToWishlist,
+  getUserWishlistedEntities,
+  isEntityWishlisted,
   deleteWishlist,
 };

@@ -1,7 +1,11 @@
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
 import { Users } from "../users/users.schema";
-import { IDeleteWishlist, IWishlist } from "./wishlist.interface";
+import {
+  IDeleteWishlist,
+  IWishlist,
+  wishlistForEnumTypes,
+} from "./wishlist.interface";
 import { Reservations } from "../hotels/reservations/reservations.schema";
 import { Wishlist } from "./wishlist.schema";
 import {
@@ -13,33 +17,54 @@ import { SortOrder } from "mongoose";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import config from "../../../config/config";
 import { Secret } from "jsonwebtoken";
+import { BusinessProfile } from "../hotels/businessProfile/businessProfile.schema";
 
-const wishlistReservation = async (
+const addToWishlist = async (
   payload: IWishlist,
   token: string,
 ): Promise<IWishlist> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const { userId, reservationId } = payload;
+  const { userId, reservationId, hotelId, wishlistFor } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId });
   if (!isUserExists) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "User Doesn't Exist's");
   }
 
-  const isReservationExists = await Reservations.findOne({
-    _id: reservationId,
-  });
-  if (!isReservationExists) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Reservation Doesn't Exist's");
+  if (wishlistFor === "RESERVATION") {
+    if (!reservationId || reservationId === undefined) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Reservation Id Required");
+    }
+
+    const isReservationExists = await Reservations.findOne({
+      _id: reservationId,
+    });
+    if (!isReservationExists) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Reservation Doesn't Exist's");
+    }
+  }
+
+  if (wishlistFor === "HOTEL") {
+    if (!hotelId || hotelId === undefined) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "Reservation Id Required");
+    }
+
+    const isReservationExists = await BusinessProfile.findOne({
+      _id: hotelId,
+    });
+    if (!isReservationExists) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Reservation Doesn't Exist's");
+    }
   }
 
   const result = await Wishlist.create(payload);
   return result;
 };
 
-const getUserWishlistedReservations = async (
+const getUserWishlistedEntities = async (
   userId: string,
+  wishlistFor: wishlistForEnumTypes,
   paginationOptions: IPaginationOptions,
   token: string,
 ): Promise<IGenericPaginationResponse<IWishlist[]>> => {
@@ -64,9 +89,12 @@ const getUserWishlistedReservations = async (
     ...checkAndCondition,
   };
 
+  const populatePath =
+    wishlistFor === "RESERVATION" ? "reservationId" : "hotelId";
+
   const result = await Wishlist.find(query)
     .populate({
-      path: "reservationId",
+      path: populatePath,
     })
     .sort(sortConditions)
     .skip(skip)
@@ -82,6 +110,18 @@ const getUserWishlistedReservations = async (
     },
     data: result,
   };
+};
+
+const isEntityWishlisted = async (
+  userId: string,
+  entityId: string,
+): Promise<boolean> => {
+  const isEntityWishlisted = await Wishlist.findOne({ userId, _id: entityId });
+  if (isEntityWishlisted) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 const deleteWishlist = async (
@@ -101,7 +141,7 @@ const deleteWishlist = async (
   if (!isWishlistExists) {
     throw new ApiError(
       httpStatus.NOT_FOUND,
-      "Reservation Doesn't Exists on Wishlist",
+      "Entity Doesn't Exists on Wishlist",
     );
   }
 
@@ -123,7 +163,8 @@ const deleteWishlist = async (
 };
 
 export const WishlistService = {
-  wishlistReservation,
-  getUserWishlistedReservations,
+  addToWishlist,
+  getUserWishlistedEntities,
+  isEntityWishlisted,
   deleteWishlist,
 };
