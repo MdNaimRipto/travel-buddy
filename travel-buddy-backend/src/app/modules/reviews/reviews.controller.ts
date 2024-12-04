@@ -20,6 +20,22 @@ const addReview = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// getMiniReviewsCount
+const getMiniReviewsCount = catchAsync(async (req: Request, res: Response) => {
+  const reservationId = req.headers["reservation-id"];
+
+  const result = await ReviewsService.getMiniReviewsCount(
+    reservationId as string,
+  );
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Reviews Retrieved Successfully",
+    data: result,
+  });
+});
+
 // Get Review's
 const getReviews = catchAsync(async (req: Request, res: Response) => {
   const reservationId = req.headers["reservation-id"];
@@ -36,5 +52,6 @@ const getReviews = catchAsync(async (req: Request, res: Response) => {
 
 export const ReviewsController = {
   addReview,
+  getMiniReviewsCount,
   getReviews,
 };

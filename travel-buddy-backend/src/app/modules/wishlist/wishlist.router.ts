@@ -8,13 +8,12 @@ const router = express.Router();
 router.post(
   "/addToWishlist",
   zodValidationRequest(WishlistValidation.wishlistZodSchema),
-  WishlistController.wishlistReservation,
+  WishlistController.addToWishlist,
 );
 
-router.get(
-  "/getUsersWishlist",
-  WishlistController.getUserWishlistedReservations,
-);
+router.get("/getUsersWishlist", WishlistController.getUserWishlistedEntities);
+
+router.get("/getWishlistStatus", WishlistController.isEntityWishlisted);
 
 router.delete(
   "/deleteWishlist",

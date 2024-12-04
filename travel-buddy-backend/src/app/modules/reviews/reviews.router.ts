@@ -13,4 +13,6 @@ router.post(
 
 router.get("/getReviews", ReviewsController.getReviews);
 
+router.get("/getMiniReviewsCount", ReviewsController.getMiniReviewsCount);
+
 export const ReviewsRouter = router;

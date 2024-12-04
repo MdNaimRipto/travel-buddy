@@ -13,6 +13,7 @@ import {
 import { Secret } from "jsonwebtoken";
 import config from "../../../config/config";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import { BusinessProfile } from "../hotels/businessProfile/businessProfile.schema";
 
 const bookReservation = async (
   payload: IBooking,
@@ -20,7 +21,7 @@ const bookReservation = async (
 ): Promise<IBooking> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const { userId, reservationId } = payload;
+  const { userId, reservationId, hotelId } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId });
   if (!isUserExists) {
@@ -32,6 +33,13 @@ const bookReservation = async (
       httpStatus.UNAUTHORIZED,
       "Permission Denied! Please Try With Another account",
     );
+  }
+
+  const isHotelExists = await BusinessProfile.findOne({
+    _id: hotelId,
+  });
+  if (!isHotelExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Hotel Does Not Found!");
   }
 
   const isReservationExists = await Reservations.findOne({
