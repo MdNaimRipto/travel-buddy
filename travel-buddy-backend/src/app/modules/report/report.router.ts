@@ -11,4 +11,6 @@ router.post(
   ReportController.reportReservation,
 );
 
+router.get("/isAlreadyReported", ReportController.isAlreadyReported);
+
 export const ReportRouter = router;

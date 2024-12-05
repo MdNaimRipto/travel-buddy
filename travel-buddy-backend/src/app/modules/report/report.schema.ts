@@ -8,6 +8,7 @@ const reportSchema = new Schema<IReport>({
     ref: "Reservations",
   },
   userId: { type: Schema.Types.ObjectId, required: true, ref: "Users" },
+  bookingId: { type: Schema.Types.ObjectId, required: true },
   report: { type: String, required: true },
 });
 

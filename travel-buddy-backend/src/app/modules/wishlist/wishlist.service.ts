@@ -116,12 +116,9 @@ const isEntityWishlisted = async (
   userId: string,
   entityId: string,
 ): Promise<boolean> => {
-  const isEntityWishlisted = await Wishlist.findOne({ userId, _id: entityId });
-  if (isEntityWishlisted) {
-    return true;
-  } else {
-    return false;
-  }
+  const isEntityWishlisted = await Wishlist.exists({ userId, _id: entityId });
+
+  return !!isEntityWishlisted;
 };
 
 const deleteWishlist = async (

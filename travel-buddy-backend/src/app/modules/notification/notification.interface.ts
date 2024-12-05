@@ -1,4 +1,4 @@
-export type NotificationEnums = "normal" | "warning";
+export type NotificationEnums = "NORMAL" | "WARNING";
 
 export interface INotification {
   receiverId: string;

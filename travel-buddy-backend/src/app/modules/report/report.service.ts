@@ -15,7 +15,7 @@ const reportReservation = async (
 ): Promise<IReport> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const { reservationId, userId } = payload;
+  const { reservationId, userId, bookingId } = payload;
 
   const isUserExists = await Users.findOne({ _id: userId });
   if (!isUserExists) {
@@ -33,7 +33,9 @@ const reportReservation = async (
     userId,
     reservationId,
     status: "completed",
+    _id: bookingId,
   });
+
   if (!isBookedReservationExists) {
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
@@ -41,10 +43,46 @@ const reportReservation = async (
     );
   }
 
+  const isAlreadyReported = await Report.findOne({
+    userId,
+    reservationId,
+    bookingId,
+  });
+
+  if (isAlreadyReported) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Already Added One Report to this Booking!",
+    );
+  }
+
   const result = await Report.create(payload);
   return result;
 };
 
+const isAlreadyReported = async ({
+  token,
+  bookingId,
+  reservationId,
+  userId,
+}: {
+  userId: string;
+  bookingId: string;
+  reservationId: string;
+  token: string;
+}): Promise<boolean> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
+  const isAlreadyReported = await Report.exists({
+    userId,
+    reservationId,
+    bookingId,
+  });
+
+  return !!isAlreadyReported;
+};
+
 export const ReportService = {
   reportReservation,
+  isAlreadyReported,
 };
