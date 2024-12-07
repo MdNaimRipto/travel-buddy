@@ -21,23 +21,40 @@ const wishlist_schema_1 = require("./wishlist.schema");
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../config/config"));
-const wishlistReservation = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
+const businessProfile_schema_1 = require("../hotels/businessProfile/businessProfile.schema");
+const addToWishlist = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { userId, reservationId } = payload;
+    const { userId, reservationId, hotelId, wishlistFor } = payload;
     const isUserExists = yield users_schema_1.Users.findOne({ _id: userId });
     if (!isUserExists) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "User Doesn't Exist's");
     }
-    const isReservationExists = yield reservations_schema_1.Reservations.findOne({
-        _id: reservationId,
-    });
-    if (!isReservationExists) {
-        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Reservation Doesn't Exist's");
+    if (wishlistFor === "RESERVATION") {
+        if (!reservationId || reservationId === undefined) {
+            throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Reservation Id Required");
+        }
+        const isReservationExists = yield reservations_schema_1.Reservations.findOne({
+            _id: reservationId,
+        });
+        if (!isReservationExists) {
+            throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Reservation Doesn't Exist's");
+        }
+    }
+    if (wishlistFor === "HOTEL") {
+        if (!hotelId || hotelId === undefined) {
+            throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Reservation Id Required");
+        }
+        const isReservationExists = yield businessProfile_schema_1.BusinessProfile.findOne({
+            _id: hotelId,
+        });
+        if (!isReservationExists) {
+            throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Reservation Doesn't Exist's");
+        }
     }
     const result = yield wishlist_schema_1.Wishlist.create(payload);
     return result;
 });
-const getUserWishlistedReservations = (userId, paginationOptions, token) => __awaiter(void 0, void 0, void 0, function* () {
+const getUserWishlistedEntities = (userId, wishlistFor, paginationOptions, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const andConditions = [];
     const { page, limit, skip, sortBy, sortOrder } = (0, paginationHelpers_1.calculatePaginationFunction)(paginationOptions);
@@ -48,9 +65,10 @@ const getUserWishlistedReservations = (userId, paginationOptions, token) => __aw
     //
     const checkAndCondition = (andConditions === null || andConditions === void 0 ? void 0 : andConditions.length) > 0 ? { $and: andConditions } : {};
     const query = Object.assign({ userId }, checkAndCondition);
+    const populatePath = wishlistFor === "RESERVATION" ? "reservationId" : "hotelId";
     const result = yield wishlist_schema_1.Wishlist.find(query)
         .populate({
-        path: "reservationId",
+        path: populatePath,
     })
         .sort(sortConditions)
         .skip(skip)
@@ -65,6 +83,10 @@ const getUserWishlistedReservations = (userId, paginationOptions, token) => __aw
         data: result,
     };
 });
+const isEntityWishlisted = (userId, entityId) => __awaiter(void 0, void 0, void 0, function* () {
+    const isEntityWishlisted = yield wishlist_schema_1.Wishlist.exists({ userId, _id: entityId });
+    return !!isEntityWishlisted;
+});
 const deleteWishlist = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const { userId, wishlistId } = payload;
@@ -74,7 +96,7 @@ const deleteWishlist = (payload, token) => __awaiter(void 0, void 0, void 0, fun
     }
     const isWishlistExists = yield wishlist_schema_1.Wishlist.findOne({ _id: wishlistId, userId });
     if (!isWishlistExists) {
-        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Reservation Doesn't Exists on Wishlist");
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Entity Doesn't Exists on Wishlist");
     }
     if (isWishlistExists.userId !== userId) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Permission Denied! Please Try Again.");
@@ -85,7 +107,8 @@ const deleteWishlist = (payload, token) => __awaiter(void 0, void 0, void 0, fun
     return result;
 });
 exports.WishlistService = {
-    wishlistReservation,
-    getUserWishlistedReservations,
+    addToWishlist,
+    getUserWishlistedEntities,
+    isEntityWishlisted,
     deleteWishlist,
 };

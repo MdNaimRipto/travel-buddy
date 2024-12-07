@@ -31,10 +31,10 @@ const http_status_1 = __importDefault(require("http-status"));
 const shared_1 = __importDefault(require("../../../shared/shared"));
 const pagination_constant_1 = require("../../../constants/pagination.constant");
 const verifyAuthToken_1 = require("../../../util/verifyAuthToken");
-const wishlistReservation = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const addToWishlist = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const payload = __rest(req.body, []);
     const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield wishlist_service_1.WishlistService.wishlistReservation(payload, token);
+    const result = yield wishlist_service_1.WishlistService.addToWishlist(payload, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -42,11 +42,23 @@ const wishlistReservation = (0, catchAsync_1.default)((req, res) => __awaiter(vo
         data: result,
     });
 }));
-const getUserWishlistedReservations = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getUserWishlistedEntities = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.headers["user-id"];
+    const wishlistFor = req.headers["wishlist-for"];
     const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
     const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield wishlist_service_1.WishlistService.getUserWishlistedReservations(userId, options, token);
+    const result = yield wishlist_service_1.WishlistService.getUserWishlistedEntities(userId, wishlistFor, options, token);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Wishlists Retrieved",
+        data: result,
+    });
+}));
+const isEntityWishlisted = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.headers["user-id"];
+    const entityId = req.headers["entity-id"];
+    const result = yield wishlist_service_1.WishlistService.isEntityWishlisted(userId, entityId);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -66,7 +78,8 @@ const deleteWishlist = (0, catchAsync_1.default)((req, res) => __awaiter(void 0,
     });
 }));
 exports.WishlistController = {
-    wishlistReservation,
-    getUserWishlistedReservations,
+    addToWishlist,
+    getUserWishlistedEntities,
+    isEntityWishlisted,
     deleteWishlist,
 };

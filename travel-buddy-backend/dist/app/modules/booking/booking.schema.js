@@ -10,9 +10,14 @@ const bookingSchema = new mongoose_1.Schema({
         required: true,
         ref: "Reservations",
     },
+    hotelId: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        required: true,
+        ref: "BusinessProfile",
+    },
     reservedDays: { type: Number, required: true },
-    startingDate: { type: String, required: true },
-    expireDate: { type: String, required: true },
+    startingDate: { type: Date, required: true },
+    expireDate: { type: Date, required: true },
     reservationPrice: { type: Number, required: true },
     status: {
         type: String,
@@ -20,5 +25,7 @@ const bookingSchema = new mongoose_1.Schema({
         enum: booking_constant_1.StatusEnums,
         default: "pending",
     },
+}, {
+    timestamps: true,
 });
 exports.Booking = (0, mongoose_1.model)("Booking", bookingSchema);

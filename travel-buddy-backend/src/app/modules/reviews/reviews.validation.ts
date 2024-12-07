@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RatingEnums, ReviewForEnumTypes } from "./reviews.constant";
+import { ReviewForEnumTypes } from "./reviews.constant";
 
 const reviewZodSchema = z.object({
   body: z.object({

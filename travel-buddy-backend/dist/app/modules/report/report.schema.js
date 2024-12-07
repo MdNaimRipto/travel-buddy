@@ -9,6 +9,7 @@ const reportSchema = new mongoose_1.Schema({
         ref: "Reservations",
     },
     userId: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: "Users" },
+    bookingId: { type: mongoose_1.Schema.Types.ObjectId, required: true },
     report: { type: String, required: true },
 });
 exports.Report = (0, mongoose_1.model)("Report", reportSchema);

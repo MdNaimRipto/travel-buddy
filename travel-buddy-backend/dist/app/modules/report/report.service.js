@@ -23,7 +23,7 @@ const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../config/config"));
 const reportReservation = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { reservationId, userId } = payload;
+    const { reservationId, userId, bookingId } = payload;
     const isUserExists = yield users_schema_1.Users.findOne({ _id: userId });
     if (!isUserExists) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "User Dose not Exists!");
@@ -38,13 +38,32 @@ const reportReservation = (payload, token) => __awaiter(void 0, void 0, void 0, 
         userId,
         reservationId,
         status: "completed",
+        _id: bookingId,
     });
     if (!isBookedReservationExists) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "User is Not Permitted to Report This Reservation");
     }
+    const isAlreadyReported = yield report_schema_1.Report.findOne({
+        userId,
+        reservationId,
+        bookingId,
+    });
+    if (isAlreadyReported) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Already Added One Report to this Booking!");
+    }
     const result = yield report_schema_1.Report.create(payload);
     return result;
 });
+const isAlreadyReported = (_a) => __awaiter(void 0, [_a], void 0, function* ({ token, bookingId, reservationId, userId, }) {
+    jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
+    const isAlreadyReported = yield report_schema_1.Report.exists({
+        userId,
+        reservationId,
+        bookingId,
+    });
+    return !!isAlreadyReported;
+});
 exports.ReportService = {
     reportReservation,
+    isAlreadyReported,
 };

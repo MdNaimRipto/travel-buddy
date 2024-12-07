@@ -34,7 +34,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const crypto_1 = __importDefault(require("crypto"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const redis_1 = require("@upstash/redis");
-// import { redis } from "../../../app";
+//* User Register Custom
 const userRegister = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, contactNumber, role } = payload;
     const isExistsUser = yield users_schema_1.Users.findOne({
@@ -53,6 +53,7 @@ const userRegister = (payload) => __awaiter(void 0, void 0, void 0, function* ()
     const user = yield users_schema_1.Users.create(payload);
     return (0, users_utils_1.generateAuthToken)(user);
 });
+//* User Login Custom
 const userLogin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = payload;
     const isExists = yield users_schema_1.Users.findOne({ email: email });
@@ -65,6 +66,7 @@ const userLogin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     }
     return (0, users_utils_1.generateAuthToken)(isExists);
 });
+//* Check User for Provider Login
 const checkUserForProviderLogin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { authMethod, email } = payload;
     const isExistsUser = yield users_schema_1.Users.findOne({ email });
@@ -84,6 +86,7 @@ const checkUserForProviderLogin = (payload) => __awaiter(void 0, void 0, void 0,
     }
     return null;
 });
+//* Provider Login
 const providerLogin = (payload, authMethod) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, role } = payload;
     const isExistsUser = yield users_schema_1.Users.findOne({ email });
@@ -110,15 +113,15 @@ const providerLogin = (payload, authMethod) => __awaiter(void 0, void 0, void 0,
     const user = yield users_schema_1.Users.create(payload);
     return (0, users_utils_1.generateAuthToken)(user);
 });
-// ! Have to remove Update Pass and Make it a new API
+//* Update User
 const updateUser = (userID, payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const isExistsUser = yield users_schema_1.Users.findById({ _id: userID });
     if (!isExistsUser) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User Not Found");
     }
-    const { role, uid, location } = payload, updatePayload = __rest(payload, ["role", "uid", "location"]);
-    if (role !== undefined || uid !== undefined) {
+    const { role, uid, password, location } = payload, updatePayload = __rest(payload, ["role", "uid", "password", "location"]);
+    if (role !== undefined || uid !== undefined || password !== undefined) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Permission Denied! Please Try Again.");
     }
     if (payload.email) {
@@ -137,14 +140,6 @@ const updateUser = (userID, payload, token) => __awaiter(void 0, void 0, void 0,
         }
         updatePayload.contactNumber = payload.contactNumber;
     }
-    if (payload.password) {
-        const isPreviousPass = yield bcrypt_1.default.compare(payload.password, isExistsUser.password);
-        if (isPreviousPass) {
-            throw new ApiError_1.default(http_status_1.default.FORBIDDEN, "New Password Cannot be The Previous Password");
-        }
-        const newPassword = yield bcrypt_1.default.hash(payload.password, Number(config_1.default.salt_round));
-        updatePayload.password = newPassword;
-    }
     if (location && Object.keys(location).length > 0) {
         Object.keys(location).map(key => {
             const locationsKey = `location.${key}`;
@@ -155,10 +150,34 @@ const updateUser = (userID, payload, token) => __awaiter(void 0, void 0, void 0,
     const user = yield users_schema_1.Users.findOneAndUpdate({ _id: userID }, updatePayload, {
         new: true,
     });
-    const updatedUser = (0, users_utils_1.encryptData)(user);
-    return updatedUser;
+    return (0, users_utils_1.generateAuthToken)(user);
 });
-// ! Have to implement NodeMailer
+// * For Updating the password
+const updatePassword = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
+    jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
+    const { userId, currentPassword, newPassword, confirmPassword } = payload;
+    const isExistsUser = yield users_schema_1.Users.findById({ _id: userId });
+    if (!isExistsUser) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User Not Found");
+    }
+    const isPassMatched = yield bcrypt_1.default.compare(currentPassword, isExistsUser.password);
+    if (!isPassMatched) {
+        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Incorrect current password. Please try again.");
+    }
+    const isPreviousPass = yield bcrypt_1.default.compare(newPassword, isExistsUser.password);
+    if (isPreviousPass || currentPassword === newPassword) {
+        throw new ApiError_1.default(http_status_1.default.FORBIDDEN, "New Password Cannot be The Previous Password");
+    }
+    if (newPassword !== confirmPassword) {
+        throw new ApiError_1.default(http_status_1.default.FORBIDDEN, "New Password and Confirm Password must match.");
+    }
+    const pass = yield bcrypt_1.default.hash(newPassword, Number(config_1.default.salt_round));
+    isExistsUser.password = pass;
+    const user = yield users_schema_1.Users.findOneAndUpdate({ _id: userId }, isExistsUser, {
+        new: true,
+    });
+    return (0, users_utils_1.generateAuthToken)(user);
+});
 //* Forgot Password Part-1 Find user via email
 const findUserForForgotPassword = (email) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield users_schema_1.Users.findOne({ email: email }, {
@@ -260,6 +279,7 @@ exports.UserService = {
     checkUserForProviderLogin,
     providerLogin,
     updateUser,
+    updatePassword,
     findUserForForgotPassword,
     verifyOtpForForgotPassword,
     forgotPassword,

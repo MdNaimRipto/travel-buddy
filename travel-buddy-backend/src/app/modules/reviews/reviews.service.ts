@@ -4,7 +4,6 @@ import { Users } from "../users/users.schema";
 import {
   IGetMiniReviewsCount,
   IGetReviews,
-  IReview,
   IReviews,
 } from "./reviews.interface";
 import { Reservations } from "../hotels/reservations/reservations.schema";
@@ -40,9 +39,7 @@ const addReview = async (
       userId: userId,
       hotelId: reviewForId,
       status: "completed",
-    })
-      .sort({ expireDate: -1 }) // Sort by latest expireDate
-      .exec();
+    });
 
     if (!latestBooking) {
       throw new ApiError(

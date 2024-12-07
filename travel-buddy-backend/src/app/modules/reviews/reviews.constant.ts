@@ -1,6 +1,4 @@
-import { ratingEnums, reviewForEnumTypes } from "./reviews.interface";
-
-export const RatingEnums: ratingEnums[] = ["positive", "negative"];
+import { reviewForEnumTypes } from "./reviews.interface";
 
 export const ReviewForEnumTypes: reviewForEnumTypes[] = [
   "HOTEL",

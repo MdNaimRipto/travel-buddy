@@ -86,6 +86,18 @@ const updatedUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result,
     });
 }));
+// Update User
+const updatePassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const payload = __rest(req.body, []);
+    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
+    const result = yield users_service_1.UserService.updatePassword(payload, token);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "User Updated Successfully",
+        data: result,
+    });
+}));
 // Find User For Forgot Password
 const findUserForForgotPassword = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email } = req.body;
@@ -125,6 +137,7 @@ exports.UserController = {
     checkUserForProviderLogin,
     providerLogin,
     updatedUser,
+    updatePassword,
     findUserForForgotPassword,
     verifyOtpForForgotPassword,
     forgotPassword,

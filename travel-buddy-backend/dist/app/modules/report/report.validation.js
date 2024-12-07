@@ -10,6 +10,9 @@ const reportZodSchema = zod_1.z.object({
         userId: zod_1.z.string({
             required_error: "User Id Required",
         }),
+        bookingId: zod_1.z.string({
+            required_error: "User Id Required",
+        }),
         report: zod_1.z.string({
             required_error: "Report is Required",
         }),

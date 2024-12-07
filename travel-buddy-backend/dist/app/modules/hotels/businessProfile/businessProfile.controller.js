@@ -29,6 +29,9 @@ const sendResponse_1 = __importDefault(require("../../../../shared/sendResponse"
 const http_status_1 = __importDefault(require("http-status"));
 const verifyAuthToken_1 = require("../../../../util/verifyAuthToken");
 const businessProfile_service_1 = require("./businessProfile.service");
+const businessProfile_constant_1 = require("./businessProfile.constant");
+const pagination_constant_1 = require("../../../../constants/pagination.constant");
+const shared_1 = __importDefault(require("../../../../shared/shared"));
 // Create Business Profile
 const createBusinessProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const profileData = __rest(req.body, []);
@@ -38,6 +41,18 @@ const createBusinessProfile = (0, catchAsync_1.default)((req, res) => __awaiter(
         success: true,
         statusCode: http_status_1.default.OK,
         message: "Profile Created Successfully",
+        data: result,
+    });
+}));
+//* Get Business Profile
+const getHotelStatistics = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { hotelId } = req.params;
+    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
+    const result = yield businessProfile_service_1.BusinessProfileService.getHotelStatistics(hotelId, token);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Hotel Statistics Retrieved Successfully",
         data: result,
     });
 }));
@@ -53,6 +68,29 @@ const getBusinessProfile = (0, catchAsync_1.default)((req, res) => __awaiter(voi
         data: result,
     });
 }));
+// * Get all Hotels
+const getAllHotels = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const filters = (0, shared_1.default)(req.query, businessProfile_constant_1.HotelsFilterableFields);
+    const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
+    const result = yield businessProfile_service_1.BusinessProfileService.getAllHotels(filters, options);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Hotels Retrieved Successfully",
+        data: result,
+    });
+}));
+//* Get Hotel Details
+const getHotelDetails = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield businessProfile_service_1.BusinessProfileService.getHotelDetails(id);
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Hotel Retrieved Successfully",
+        data: result,
+    });
+}));
 // * Update Business Profile
 const updateBusinessProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const payload = __rest(req.body, []);
@@ -65,34 +103,11 @@ const updateBusinessProfile = (0, catchAsync_1.default)((req, res) => __awaiter(
         data: result,
     });
 }));
-//* Update Profile images
-const updateProfileImages = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const profileData = __rest(req.body, []);
-    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield businessProfile_service_1.BusinessProfileService.updateProfileImages(profileData, token);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: "Image Updated Successfully",
-        data: result,
-    });
-}));
-//* Upload New Image
-const uploadNewImage = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const profileData = __rest(req.body, []);
-    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield businessProfile_service_1.BusinessProfileService.uploadNewImage(profileData, token);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: "New Image Uploaded",
-        data: result,
-    });
-}));
 exports.BusinessProfileController = {
     createBusinessProfile,
     getBusinessProfile,
+    getAllHotels,
+    getHotelDetails,
     updateBusinessProfile,
-    updateProfileImages,
-    uploadNewImage,
+    getHotelStatistics,
 };

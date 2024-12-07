@@ -11,7 +11,7 @@ router.post(
   NotificationController.sendNotification,
 );
 
-router.get("/getNotifications", NotificationController.getNotification);
+router.get("/getNotifications", NotificationController.getNotifications);
 
 router.delete("/deleteNotification", NotificationController.deleteNotification);
 

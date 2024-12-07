@@ -2,20 +2,35 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BusinessProfile = exports.businessProfileSchema = void 0;
 const mongoose_1 = require("mongoose");
+const businessProfile_constant_1 = require("./businessProfile.constant");
 exports.businessProfileSchema = new mongoose_1.Schema({
     hotelId: {
         type: String,
         required: true,
         unique: true,
     },
-    hotelOwnerId: { type: String, required: true },
+    hotelOwnerId: { type: String, required: true, index: true, unique: true },
     hotelName: { type: String, required: true },
+    totalRating: { type: Number, required: true, default: 0, min: 0, max: 5 },
+    startingPrice: { type: Number, required: true, default: 0, min: 0 },
     hotelLocation: {
-        area: { type: String, required: true },
-        destination: { type: String, required: true },
+        street: { type: String, required: true },
+        area: { type: String, enum: businessProfile_constant_1.AreasConstant, required: true },
+        destination: {
+            type: String,
+            enum: businessProfile_constant_1.DestinationsConstant,
+            required: true,
+            index: true,
+        },
+        coordinates: {
+            latitude: { type: String, required: true },
+            longitude: { type: String, required: true },
+        },
     },
     hotelImages: [{ type: String, required: true }],
     totalReservations: { type: Number, required: true, min: 0, default: 0 },
+    amenities: [{ type: String, required: true }],
+    description: { type: String, required: true },
 }, {
     timestamps: true,
     toJSON: {

@@ -35,8 +35,10 @@ const jwtHelpers_1 = require("../../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../../config/config"));
 const uploadReservation = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { profileId, reservationClass, reservationType, images } = payload;
-    const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({ hotelId: profileId });
+    const { profileId, hotelId, reservationClass, reservationType, images } = payload;
+    const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({
+        $and: [{ hotelId: profileId }, { _id: hotelId }],
+    });
     if (!isHotelExists) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Hotel Does not Exists! Create Business Profile First.");
     }
@@ -63,7 +65,9 @@ const uploadReservation = (payload, token) => __awaiter(void 0, void 0, void 0, 
     if (images.length < 5) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Must Have to Upload 5 or More Images");
     }
-    const result = yield reservations_schema_1.Reservations.create(payload);
+    const result = (yield reservations_schema_1.Reservations.create(payload)).populate({
+        path: "hotelId",
+    });
     return result;
 });
 const getAllReservations = (filters, paginationOptions) => __awaiter(void 0, void 0, void 0, function* () {
@@ -81,10 +85,26 @@ const getAllReservations = (filters, paginationOptions) => __awaiter(void 0, voi
     }
     //
     if (Object.keys(filterData).length) {
+        const filterConditions = [];
+        Object.entries(filterData).forEach(([field, value]) => {
+            if (field === "destination" || field === "area") {
+                filterConditions.push({
+                    [`location.${field}`]: value,
+                });
+            }
+            else if (field === "rating") {
+                const minRating = parseInt(value);
+                const maxRating = parseInt(value) === 5 ? 5 : parseInt(value) + 0.9;
+                filterConditions.push({
+                    ["rating.rating"]: { $gte: minRating, $lte: maxRating },
+                });
+            }
+            else {
+                filterConditions.push({ [field]: value });
+            }
+        });
         andConditions.push({
-            $and: Object.entries(filterData).map(([field, value]) => {
-                return { [field]: value };
-            }),
+            $and: filterConditions,
         });
     }
     //
@@ -135,7 +155,10 @@ const getReservationsByHotelId = (hotel_id, paginationOptions) => __awaiter(void
     };
 });
 const getReservationDetails = (id) => __awaiter(void 0, void 0, void 0, function* () {
-    const reservations = yield reservations_schema_1.Reservations.findById({ _id: id });
+    const reservations = yield reservations_schema_1.Reservations.findById({ _id: id }).populate({
+        path: "hotelId",
+        select: "_id hotelName",
+    });
     return reservations;
 });
 const updateReservations = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
@@ -144,28 +167,61 @@ const updateReservations = (payload, token) => __awaiter(void 0, void 0, void 0,
     if (!id || !hotelId || !updateData) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Failed To Update! Please Try Again");
     }
-    const { profileId, reservationClass, reservationType, images, status, reservationId, features, additionalFacilities, totalReservations, reservationsLeft, } = updateData;
+    const { profileId, hotelId: OwnerHotelId, reservationClass, reservationType, images, status, reservationId, features, additionalFacilities, totalReservations, reservationsLeft, rating, location } = updateData, updatePayload = __rest(updateData, ["profileId", "hotelId", "reservationClass", "reservationType", "images", "status", "reservationId", "features", "additionalFacilities", "totalReservations", "reservationsLeft", "rating", "location"]);
+    const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({ hotelId });
+    if (!isHotelExists) {
+        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Unauthorized User! Please Create Business Profile First");
+    }
     const isReservationExists = yield reservations_schema_1.Reservations.findOne({
         reservationId: id,
     });
     if (!isReservationExists) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Reservation Not found");
     }
-    if (hotelId !== isReservationExists.profileId) {
+    if (isHotelExists.hotelId !== isReservationExists.profileId) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Unauthorized User! Please Try Again");
     }
     if (profileId !== undefined ||
+        OwnerHotelId !== undefined ||
         reservationClass !== undefined ||
         reservationType !== undefined ||
-        images !== undefined ||
         status !== undefined ||
         reservationId !== undefined ||
-        features !== undefined ||
-        additionalFacilities !== undefined ||
-        reservationsLeft !== undefined) {
+        reservationsLeft !== undefined ||
+        rating !== undefined) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Failed To Update! Please Try Again Later");
     }
-    const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({ hotelId });
+    const updatableData = updatePayload;
+    if (location && Object.keys(location).length > 0) {
+        Object.keys(location).map(key => {
+            const updateValue = location[key];
+            const profileValue = isHotelExists.hotelLocation[key];
+            if (updateValue !== profileValue) {
+                throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, `Cannot update reservation location: ${key} value does not match the business profile.`);
+            }
+            const locationKey = `location.${key}`;
+            updatableData[locationKey] =
+                location[key];
+        });
+    }
+    if (images && images.length < 5) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Minimum 5 images required!");
+    }
+    else if (images && images.length >= 5) {
+        updatableData.images = images;
+    }
+    if (features && !features.length) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Features Cannot Be Empty");
+    }
+    else if (features && features.length >= 5) {
+        updatableData.features = features;
+    }
+    if (additionalFacilities && !additionalFacilities.length) {
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Additional facilities Cannot Be Empty");
+    }
+    else if (additionalFacilities && additionalFacilities.length >= 5) {
+        updatableData.additionalFacilities = additionalFacilities;
+    }
     if (isHotelExists) {
         if (totalReservations) {
             const previousReservationsCount = isReservationExists.totalReservations;
@@ -179,51 +235,60 @@ const updateReservations = (payload, token) => __awaiter(void 0, void 0, void 0,
                 throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "No More Reservation Space Left!");
             }
             const addedTotalReservations = totalReservations - previousReservationsCount;
-            updateData.reservationsLeft =
+            updatableData.reservationsLeft =
                 isReservationExists.reservationsLeft + addedTotalReservations;
         }
     }
-    const result = yield reservations_schema_1.Reservations.findOneAndUpdate({ reservationId: id }, updateData, {
+    const result = yield reservations_schema_1.Reservations.findOneAndUpdate({ reservationId: id }, updatableData, {
         new: true,
     });
     return result;
 });
-const uploadNewArrayData = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
-    jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { data, key, reservationId } = payload;
-    const isReservationExists = yield reservations_schema_1.Reservations.findOne({ reservationId });
-    if (!isReservationExists) {
-        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Reservation Not Found");
-    }
-    isReservationExists[key].push(data);
-    const result = yield reservations_schema_1.Reservations.findOneAndUpdate({ reservationId }, isReservationExists, {
-        new: true,
-    });
-    return result;
-});
-const updateArrayData = (updateData, token) => __awaiter(void 0, void 0, void 0, function* () {
-    jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { data, dataNo, reservationId, key } = updateData;
-    const isReservationExists = yield reservations_schema_1.Reservations.findOne({ reservationId });
-    if (!isReservationExists) {
-        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Reservation Not Found");
-    }
-    console.log(isReservationExists[key].length, dataNo);
-    if (dataNo < 0 || dataNo + 1 > isReservationExists[key].length) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Slot Does Not Exists!");
-    }
-    isReservationExists[key][dataNo] = data;
-    const result = yield reservations_schema_1.Reservations.findOneAndUpdate({ reservationId }, isReservationExists, {
-        new: true,
-    });
-    return result;
-});
+// const uploadNewArrayData = async (payload: IUploadArrayData, token: string) => {
+//   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+//   const { data, key, reservationId } = payload;
+//   const isReservationExists = await Reservations.findOne({ reservationId });
+//   if (!isReservationExists) {
+//     throw new ApiError(httpStatus.NOT_FOUND, "Reservation Not Found");
+//   }
+//   isReservationExists[key].push(data);
+//   const result = await Reservations.findOneAndUpdate(
+//     { reservationId },
+//     isReservationExists,
+//     {
+//       new: true,
+//     },
+//   );
+//   return result;
+// };
+/**/
+// const updateArrayData = async (updateData: IUpdateArrayData, token: string) => {
+//   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+//   const { data, dataNo, reservationId, key } = updateData;
+//   const isReservationExists = await Reservations.findOne({ reservationId });
+//   if (!isReservationExists) {
+//     throw new ApiError(httpStatus.NOT_FOUND, "Reservation Not Found");
+//   }
+//   console.log(isReservationExists[key].length, dataNo);
+//   if (dataNo < 0 || dataNo + 1 > isReservationExists[key].length) {
+//     throw new ApiError(httpStatus.BAD_REQUEST, "Slot Does Not Exists!");
+//   }
+//   isReservationExists[key][dataNo] = data;
+//   const result = await Reservations.findOneAndUpdate(
+//     { reservationId },
+//     isReservationExists,
+//     {
+//       new: true,
+//     },
+//   );
+//   return result;
+// };
 exports.ReservationsService = {
     uploadReservation,
     getAllReservations,
     getReservationsByHotelId,
     getReservationDetails,
     updateReservations,
-    uploadNewArrayData,
-    updateArrayData,
+    // uploadNewArrayData,
+    // updateArrayData,
 };

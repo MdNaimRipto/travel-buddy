@@ -17,23 +17,28 @@ const http_status_1 = __importDefault(require("http-status"));
 const users_schema_1 = require("../users/users.schema");
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const notification_schema_1 = require("./notification.schema");
-const sendNotification = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
+const config_1 = __importDefault(require("../../../config/config"));
+const sendNotification = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
+    jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const { receiverId } = payload;
-    const isReceiverExists = yield users_schema_1.Users.findOne({ uid: receiverId });
+    const isReceiverExists = yield users_schema_1.Users.findOne({ _id: receiverId });
     if (!isReceiverExists) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Receiver Dose not Exists!");
     }
     const result = yield notification_schema_1.Notification.create(payload);
     return result;
 });
-const getNotification = (receiverId) => __awaiter(void 0, void 0, void 0, function* () {
+const getNotifications = (receiverId, token) => __awaiter(void 0, void 0, void 0, function* () {
+    jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const notifications = yield notification_schema_1.Notification.find({ receiverId }, {
         _id: 1,
         message: 1,
     });
     return notifications;
 });
-const deleteNotification = (notificationId) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteNotification = (notificationId, token) => __awaiter(void 0, void 0, void 0, function* () {
+    jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const result = yield notification_schema_1.Notification.findOneAndDelete({ _id: notificationId }, {
         new: true,
     });
@@ -41,6 +46,6 @@ const deleteNotification = (notificationId) => __awaiter(void 0, void 0, void 0,
 });
 exports.NotificationService = {
     sendNotification,
-    getNotification,
+    getNotifications,
     deleteNotification,
 };

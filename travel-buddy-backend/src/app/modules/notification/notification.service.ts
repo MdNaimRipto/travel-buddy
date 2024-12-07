@@ -3,13 +3,19 @@ import { Users } from "../users/users.schema";
 import ApiError from "../../../errors/ApiError";
 import { INotification } from "./notification.interface";
 import { Notification } from "./notification.schema";
+import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import config from "../../../config/config";
+import { Secret } from "jsonwebtoken";
 
 const sendNotification = async (
   payload: INotification,
+  token: string,
 ): Promise<INotification> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const { receiverId } = payload;
 
-  const isReceiverExists = await Users.findOne({ uid: receiverId });
+  const isReceiverExists = await Users.findOne({ _id: receiverId });
   if (!isReceiverExists) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Receiver Dose not Exists!");
   }
@@ -18,9 +24,12 @@ const sendNotification = async (
   return result;
 };
 
-const getNotification = async (
+const getNotifications = async (
   receiverId: string,
+  token: string,
 ): Promise<INotification[]> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const notifications = await Notification.find(
     { receiverId },
     {
@@ -33,7 +42,10 @@ const getNotification = async (
 
 const deleteNotification = async (
   notificationId: string,
+  token: string,
 ): Promise<INotification | null> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
   const result = await Notification.findOneAndDelete(
     { _id: notificationId },
     {
@@ -46,6 +58,6 @@ const deleteNotification = async (
 
 export const NotificationService = {
   sendNotification,
-  getNotification,
+  getNotifications,
   deleteNotification,
 };

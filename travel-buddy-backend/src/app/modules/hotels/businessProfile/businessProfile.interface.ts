@@ -36,13 +36,14 @@ export interface IUpdateBusinessProfile {
   updateData: Partial<IBusinessProfile>;
 }
 
-// export interface IUpdateProfileImages {
-//   hotelId: string;
-//   img: string;
-//   imgNo: number;
-// }
-
-// export interface IUploadNewImage {
-//   hotelId: string;
-//   img: string;
-// }
+export interface IHotelStatistics {
+  totalBookings: number;
+  totalCompletedBookings: number;
+  totalPendingBookings: number;
+  totalOnGoingBookings: number;
+  totalCanceledBookings: number;
+  totalReviews: number;
+  totalPositiveReviews: number;
+  totalNegativeReviews: number;
+  totalMixedReviews: number;
+}

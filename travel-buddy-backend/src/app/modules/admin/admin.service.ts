@@ -2,13 +2,16 @@ import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
 import { IBooking } from "../booking/booking.interface";
 import { Booking } from "../booking/booking.schema";
-import { IReservations } from "../hotels/reservations/reservations.interface";
+import {
+  IReservations,
+  ReservationStatus,
+} from "../hotels/reservations/reservations.interface";
 import { Reservations } from "../hotels/reservations/reservations.schema";
 import { IReport } from "../report/report.interface";
 import { Report } from "../report/report.schema";
-import { IReview } from "../reviews/reviews.interface";
+import { IReviews } from "../reviews/reviews.interface";
 import { Reviews } from "../reviews/reviews.schema";
-import { IUser } from "../users/users.interface";
+import { IUser, userRoleEnums } from "../users/users.interface";
 import { Users } from "../users/users.schema";
 import { IAdmin } from "./admin.interface";
 import {
@@ -24,71 +27,110 @@ import { Secret } from "jsonwebtoken";
 const getDashboardInfo = async (token: string): Promise<IAdmin> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const totalUsers = await Users.countDocuments();
-  const totalOwners = await Users.countDocuments({ role: "hotelOwner" });
-  const totalCustomers = await Users.countDocuments({ role: "customer" });
+  // Run parallel queries for faster execution
+  const [userCounts, bookingCounts, reviewCounts, aggregatedBookings] =
+    await Promise.all([
+      // Aggregate user counts
+      Users.aggregate([
+        {
+          $facet: {
+            totalUsers: [{ $count: "count" }],
+            totalOwners: [
+              { $match: { role: "hotelOwner" } },
+              { $count: "count" },
+            ],
+            totalCustomers: [
+              { $match: { role: "customer" } },
+              { $count: "count" },
+            ],
+          },
+        },
+      ]),
+      // Aggregate booking counts
+      Booking.aggregate([
+        {
+          $facet: {
+            totalBookings: [{ $count: "count" }],
+            totalOnboardBookings: [
+              { $match: { status: "onboard" } },
+              { $count: "count" },
+            ],
+            totalSuccessfulBookings: [
+              { $match: { status: "completed" } },
+              { $count: "count" },
+            ],
+            totalCancelledBookings: [
+              { $match: { status: "cancelled" } },
+              { $count: "count" },
+            ],
+          },
+        },
+      ]),
+      // Aggregate review counts
+      Reviews.aggregate([
+        {
+          $facet: {
+            totalReviews: [{ $count: "count" }],
+            totalPositiveReviews: [
+              { $match: { rating: "positive" } },
+              { $count: "count" },
+            ],
+            totalNegativeReviews: [
+              { $match: { rating: "negative" } },
+              { $count: "count" },
+            ],
+          },
+        },
+      ]),
+      // Aggregate booking info based on expireDate
+      Booking.aggregate([
+        {
+          $group: {
+            _id: "$expireDate",
+            totalBooking: { $sum: 1 },
+            totalSuccess: {
+              $sum: { $cond: [{ $eq: ["$status", "completed"] }, 1, 0] },
+            },
+            totalCancelled: {
+              $sum: { $cond: [{ $eq: ["$status", "cancelled"] }, 1, 0] },
+            },
+          },
+        },
+        { $sort: { _id: 1 } }, // Sort by expireDate
+      ]),
+    ]);
 
-  const totalBookings = await Booking.countDocuments();
-  const totalOnboardBookings = await Booking.countDocuments({
-    status: "onboard",
-  });
-  const totalSuccessfulBookings = await Booking.countDocuments({
-    status: "completed",
-  });
-  const totalCancelledBookings = await Booking.countDocuments({
-    status: "cancelled",
-  });
+  // Extract results from aggregation
+  const {
+    totalUsers: [{ count: totalUsers } = { count: 0 }],
+    totalOwners: [{ count: totalOwners } = { count: 0 }],
+    totalCustomers: [{ count: totalCustomers } = { count: 0 }],
+  } = userCounts[0];
 
-  const totalReviews = await Reviews.countDocuments();
-  const totalPositiveReviews = await Reviews.countDocuments({
-    rating: "positive",
-  });
-  const totalNegativeReviews = await Reviews.countDocuments({
-    rating: "negative",
-  });
+  const {
+    totalBookings: [{ count: totalBookings } = { count: 0 }],
+    totalOnboardBookings: [{ count: totalOnboardBookings } = { count: 0 }],
+    totalSuccessfulBookings: [
+      { count: totalSuccessfulBookings } = { count: 0 },
+    ],
+    totalCancelledBookings: [{ count: totalCancelledBookings } = { count: 0 }],
+  } = bookingCounts[0];
 
-  const bookingInfoOutput: {
-    checkoutDate: string;
-    totalBooking: number;
-    totalSuccess: number;
-    totalCancelled: number;
-  }[] = [];
+  const {
+    totalReviews: [{ count: totalReviews } = { count: 0 }],
+    totalPositiveReviews: [{ count: totalPositiveReviews } = { count: 0 }],
+    totalNegativeReviews: [{ count: totalNegativeReviews } = { count: 0 }],
+  } = reviewCounts[0];
 
-  const bookingsInfo = await Booking.find();
-  for (let i = 0; i < bookingsInfo.length; i++) {
-    const { expireDate } = bookingsInfo[i];
+  // Format aggregated booking info
+  const bookingInfoOutput = aggregatedBookings.map(info => ({
+    checkoutDate: info._id.toISOString(), // Convert Date to String
+    totalBooking: info.totalBooking,
+    totalSuccess: info.totalSuccess,
+    totalCancelled: info.totalCancelled,
+  }));
 
-    const totalBooking = await Booking.countDocuments({ expireDate });
-
-    const totalSuccess = await Booking.countDocuments({
-      expireDate,
-      status: "completed",
-    });
-    const totalCancelled = await Booking.countDocuments({
-      expireDate,
-      status: "cancelled",
-    });
-
-    const existingBooking = bookingInfoOutput.find(
-      booking => booking.checkoutDate === expireDate,
-    );
-
-    if (existingBooking) {
-      // If bookingDate is already in the output, update the totals
-      existingBooking.totalBooking = totalBooking;
-      existingBooking.totalSuccess = totalSuccess;
-      existingBooking.totalCancelled = totalCancelled;
-    } else {
-      // If bookingDate is not already in the output, add a new entry
-      bookingInfoOutput.push({
-        checkoutDate: expireDate,
-        totalBooking: totalBooking,
-        totalSuccess: totalSuccess,
-        totalCancelled,
-      });
-    }
-  }
-
+  // Build the final dashboard info object
   const dashboardInfo: IAdmin = {
     totalUsers,
     totalOwners,
@@ -106,8 +148,9 @@ const getDashboardInfo = async (token: string): Promise<IAdmin> => {
   return dashboardInfo;
 };
 
-const getAllOwners = async (
+const getAllUsers = async (
   paginationOptions: IPaginationOptions,
+  userType: userRoleEnums,
   token: string,
 ): Promise<IGenericPaginationResponse<IUser[]>> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
@@ -127,7 +170,7 @@ const getAllOwners = async (
     andConditions?.length > 0 ? { $and: andConditions } : {};
 
   const query = {
-    role: "hotelOwner",
+    role: userType,
     ...checkAndCondition,
   };
 
@@ -135,49 +178,7 @@ const getAllOwners = async (
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
-  const total = await Users.countDocuments({ role: "hotelOwner" });
-
-  return {
-    meta: {
-      page,
-      limit,
-      total,
-    },
-    data: owners,
-  };
-};
-
-const getAllCustomers = async (
-  paginationOptions: IPaginationOptions,
-  token: string,
-): Promise<IGenericPaginationResponse<IUser[]>> => {
-  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
-
-  const andConditions: string | any[] = [];
-
-  const { page, limit, skip, sortBy, sortOrder } =
-    calculatePaginationFunction(paginationOptions);
-
-  const sortConditions: { [key: string]: SortOrder } = {};
-
-  if (sortBy && sortOrder) {
-    sortConditions[sortBy] = sortOrder;
-  }
-  //
-  const checkAndCondition =
-    andConditions?.length > 0 ? { $and: andConditions } : {};
-
-  const query = {
-    role: "customer",
-    ...checkAndCondition,
-  };
-
-  const owners = await Users.find(query)
-    .sort(sortConditions)
-    .skip(skip)
-    .limit(limit);
-
-  const total = await Users.countDocuments({ role: "customer" });
+  const total = await Users.countDocuments({ role: userType });
 
   return {
     meta: {
@@ -191,6 +192,7 @@ const getAllCustomers = async (
 
 const getAllReservations = async (
   paginationOptions: IPaginationOptions,
+  reservationStatus: ReservationStatus,
   token: string,
 ): Promise<IGenericPaginationResponse<IReservations[]>> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
@@ -209,12 +211,19 @@ const getAllReservations = async (
   const checkAndCondition =
     andConditions?.length > 0 ? { $and: andConditions } : {};
 
-  const result = await Reservations.find(checkAndCondition)
+  const query = {
+    status: reservationStatus,
+    ...checkAndCondition,
+  };
+
+  const result = await Reservations.find(query)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
-  const total = await Reservations.countDocuments();
+  const total = await Reservations.countDocuments({
+    status: reservationStatus,
+  });
 
   return {
     meta: {
@@ -266,7 +275,7 @@ const getAllBookings = async (
 const getAllReviews = async (
   paginationOptions: IPaginationOptions,
   token: string,
-): Promise<IGenericPaginationResponse<IReview[]>> => {
+): Promise<IGenericPaginationResponse<IReviews[]>> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
   const andConditions: string | any[] = [];
@@ -337,52 +346,11 @@ const getAllReports = async (
   };
 };
 
-const getReportsCount = async (
-  reservationId: string,
-  token: string,
-): Promise<Number> => {
-  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
-
-  const count = await Report.countDocuments({ reservationId });
-  return count;
-};
-
-const blockReservation = async (
-  reservationId: string,
-  token: string,
-): Promise<IReservations | null> => {
-  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
-
-  const isReservationExists = await Reservations.findOne({ reservationId });
-  if (!isReservationExists) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Reservation Doesn't Exists!");
-  }
-
-  if (isReservationExists.status === "Blocked") {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Reservation Already Blocked");
-  }
-
-  isReservationExists.status = "Blocked";
-
-  const result = await Reservations.findOneAndUpdate(
-    { reservationId },
-    isReservationExists,
-    {
-      new: true,
-    },
-  );
-
-  return result;
-};
-
 export const AdminService = {
   getDashboardInfo,
-  getAllOwners,
-  getAllCustomers,
+  getAllUsers,
   getAllReservations,
   getAllBookings,
   getAllReviews,
   getAllReports,
-  getReportsCount,
-  blockReservation,
 };

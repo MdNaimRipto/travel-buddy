@@ -3,11 +3,13 @@ import catchAsync from "../../../shared/catchAsync";
 import { NotificationService } from "./notification.service";
 import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
+import { verifyAuthToken } from "../../../util/verifyAuthToken";
 
 const sendNotification = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await NotificationService.sendNotification(payload);
+  const result = await NotificationService.sendNotification(payload, token);
 
   sendResponse(res, {
     success: true,
@@ -17,11 +19,13 @@ const sendNotification = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getNotification = catchAsync(async (req: Request, res: Response) => {
+const getNotifications = catchAsync(async (req: Request, res: Response) => {
   const receiverId = req.headers["receiver-id"];
+  const token = verifyAuthToken(req);
 
-  const result = await NotificationService.getNotification(
+  const result = await NotificationService.getNotifications(
     receiverId as string,
+    token,
   );
 
   sendResponse(res, {
@@ -34,8 +38,12 @@ const getNotification = catchAsync(async (req: Request, res: Response) => {
 
 const deleteNotification = catchAsync(async (req: Request, res: Response) => {
   const { notificationId } = req.body;
+  const token = verifyAuthToken(req);
 
-  const result = await NotificationService.deleteNotification(notificationId);
+  const result = await NotificationService.deleteNotification(
+    notificationId,
+    token,
+  );
 
   sendResponse(res, {
     success: true,
@@ -47,6 +55,6 @@ const deleteNotification = catchAsync(async (req: Request, res: Response) => {
 
 export const NotificationController = {
   sendNotification,
-  getNotification,
+  getNotifications,
   deleteNotification,
 };

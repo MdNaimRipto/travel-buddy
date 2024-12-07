@@ -29,6 +29,22 @@ const createBusinessProfile = catchAsync(
 );
 
 //* Get Business Profile
+const getHotelStatistics = catchAsync(async (req: Request, res: Response) => {
+  const { hotelId } = req.params;
+  const token = verifyAuthToken(req);
+  const result = await BusinessProfileService.getHotelStatistics(
+    hotelId,
+    token,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Hotel Statistics Retrieved Successfully",
+    data: result,
+  });
+});
+
+//* Get Business Profile
 const getBusinessProfile = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const token = verifyAuthToken(req);
@@ -84,50 +100,11 @@ const updateBusinessProfile = catchAsync(
   },
 );
 
-//* Update Profile images
-// const updateProfileImages = catchAsync(async (req: Request, res: Response) => {
-//   const { ...profileData } = req.body;
-//   const token = verifyAuthToken(req);
-
-//   const result = await BusinessProfileService.updateProfileImages(
-//     profileData,
-//     token,
-//   );
-
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: "Image Updated Successfully",
-//     data: result,
-//   });
-// });
-
-/**/
-
-//* Upload New Image
-// const uploadNewImage = catchAsync(async (req: Request, res: Response) => {
-//   const { ...profileData } = req.body;
-//   const token = verifyAuthToken(req);
-
-//   const result = await BusinessProfileService.uploadNewImage(
-//     profileData,
-//     token,
-//   );
-
-//   sendResponse(res, {
-//     success: true,
-//     statusCode: httpStatus.OK,
-//     message: "New Image Uploaded",
-//     data: result,
-//   });
-// });
-
 export const BusinessProfileController = {
   createBusinessProfile,
   getBusinessProfile,
   getAllHotels,
   getHotelDetails,
   updateBusinessProfile,
-  // updateProfileImages,
-  // uploadNewImage,
+  getHotelStatistics,
 };
