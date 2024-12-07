@@ -3,6 +3,7 @@ import ApiError from "../../../../errors/ApiError";
 import {
   IBusinessProfile,
   IHotelsFilter,
+  IHotelStatistics,
   IUpdateBusinessProfile,
   // IUpdateProfileImages,
   // IUploadNewImage,
@@ -21,11 +22,8 @@ import { HotelsSearchableFields } from "./businessProfile.constant";
 import { calculatePaginationFunction } from "../../../../helpers/paginationHelpers";
 import { SortOrder } from "mongoose";
 import { Reservations } from "../reservations/reservations.schema";
-
-/*
-! APIs Need to create:
-* Get Hotel Statistics
-**/
+import { Booking } from "../../booking/booking.schema";
+import { Reviews } from "../../reviews/reviews.schema";
 
 // * Create Business Profile
 const createProfile = async (
@@ -84,6 +82,58 @@ const createProfile = async (
 
   const result = await BusinessProfile.create(payload);
   return result;
+};
+
+// * Get HotelStatistics
+const getHotelStatistics = async (
+  hotelId: string,
+  token: string,
+): Promise<IHotelStatistics> => {
+  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+
+  const totalBookings = await Booking.countDocuments({ hotelId });
+  const totalCompletedBookings = await Booking.countDocuments({
+    hotelId,
+    status: "completed",
+  });
+  const totalPendingBookings = await Booking.countDocuments({
+    hotelId,
+    status: "pending",
+  });
+  const totalOnGoingBookings = await Booking.countDocuments({
+    hotelId,
+    status: "onboard",
+  });
+  const totalCanceledBookings = await Booking.countDocuments({
+    hotelId,
+    status: "cancelled",
+  });
+
+  const totalReviews = await Reviews.countDocuments({ reviewFor: "HOTEL" });
+  const totalPositiveReviews = await Reviews.countDocuments({
+    reviewFor: "HOTEL",
+    rating: { $gt: 3 },
+  });
+  const totalNegativeReviews = await Reviews.countDocuments({
+    reviewFor: "HOTEL",
+    rating: { $lt: 3 },
+  });
+  const totalMixedReviews = await Reviews.countDocuments({
+    reviewFor: "HOTEL",
+    rating: 3,
+  });
+
+  return {
+    totalBookings,
+    totalCompletedBookings,
+    totalOnGoingBookings,
+    totalCanceledBookings,
+    totalMixedReviews,
+    totalNegativeReviews,
+    totalPendingBookings,
+    totalPositiveReviews,
+    totalReviews,
+  };
 };
 
 // * Get Business Profile for Hotel Profile
@@ -327,6 +377,7 @@ const updateBusinessProfile = async (
 
 export const BusinessProfileService = {
   createProfile,
+  getHotelStatistics,
   getBusinessProfile,
   getAllHotels,
   getHotelDetails,

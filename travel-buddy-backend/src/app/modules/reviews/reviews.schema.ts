@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { IReviews } from "./reviews.interface";
-import { RatingEnums, ReviewForEnumTypes } from "./reviews.constant";
+import { ReviewForEnumTypes } from "./reviews.constant";
 
 const reviewsSchema = new Schema<IReviews>(
   {

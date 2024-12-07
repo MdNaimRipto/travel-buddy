@@ -14,6 +14,7 @@ router.post("/login", (0, zodValidationRequest_1.default)(users_validation_1.Use
 router.post("/checkUserForProviderLogin", (0, zodValidationRequest_1.default)(users_validation_1.UserValidation.checkUserForProviderLoginValidation), users_controller_1.UserController.checkUserForProviderLogin);
 router.post("/providerLogin", (0, zodValidationRequest_1.default)(users_validation_1.UserValidation.providerLoginZodSchema), users_controller_1.UserController.providerLogin);
 router.patch("/updateUser/:id", (0, zodValidationRequest_1.default)(users_validation_1.UserValidation.userUpdateZodSchema), users_controller_1.UserController.updatedUser);
+router.patch("/updatePassword", (0, zodValidationRequest_1.default)(users_validation_1.UserValidation.updatePasswordZodSchema), users_controller_1.UserController.updatePassword);
 router.post("/findUserForForgotPassword", users_controller_1.UserController.findUserForForgotPassword);
 router.post("/verifyOtpForForgotPassword", users_controller_1.UserController.verifyOtpForForgotPassword);
 router.patch("/forgotPassword", users_controller_1.UserController.forgotPassword);

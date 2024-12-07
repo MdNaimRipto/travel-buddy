@@ -6,6 +6,9 @@ const reservations_constant_1 = require("./reservations.constant");
 const reservationZodSchema = zod_1.z.object({
     body: zod_1.z.object({
         profileId: zod_1.z.string({
+            required_error: "Hotel Owner Id is Required",
+        }),
+        hotelId: zod_1.z.string({
             required_error: "Hotel Id is Required",
         }),
         reservationType: zod_1.z.enum([...reservations_constant_1.ReservationsTypeConstant], {
@@ -19,6 +22,9 @@ const reservationZodSchema = zod_1.z.object({
         }),
         price: zod_1.z.number({
             required_error: "Reservation Price is Required",
+        }),
+        discount: zod_1.z.number({
+            required_error: "Discount is Required",
         }),
         totalReservations: zod_1.z.number({
             required_error: "Total Reservation's Count Required",

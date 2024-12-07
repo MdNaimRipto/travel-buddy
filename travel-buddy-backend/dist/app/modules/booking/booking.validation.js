@@ -10,6 +10,9 @@ const bookingZodSchema = zod_1.z.object({
         reservationId: zod_1.z.string({
             required_error: "Reservation ID is Required",
         }),
+        hotelId: zod_1.z.string({
+            required_error: "Hotel ID is Required",
+        }),
         reservedDays: zod_1.z.number({
             required_error: "Reserved Days Required",
         }),

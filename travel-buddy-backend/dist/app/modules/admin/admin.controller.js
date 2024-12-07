@@ -30,32 +30,23 @@ const getDashboardInfo = (0, catchAsync_1.default)((req, res) => __awaiter(void 
         data: result,
     });
 }));
-const getAllOwners = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
+    const { userType } = req.query;
     const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield admin_service_1.AdminService.getAllOwners(options, token);
+    const result = yield admin_service_1.AdminService.getAllUsers(options, userType, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: "HotelOwners Retrieved Successfully",
-        data: result,
-    });
-}));
-const getAllCustomers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
-    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield admin_service_1.AdminService.getAllCustomers(options, token);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: "Customers Retrieved Successfully",
+        message: "Users Retrieved Successfully",
         data: result,
     });
 }));
 const getAllReservations = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
+    const { status } = req.query;
     const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield admin_service_1.AdminService.getAllReservations(options, token);
+    const result = yield admin_service_1.AdminService.getAllReservations(options, status, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -96,36 +87,11 @@ const getAllReports = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result,
     });
 }));
-const getReportsCount = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reservationId = req.headers["reservation-id"];
-    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield admin_service_1.AdminService.getReportsCount(reservationId, token);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: "Reports Count Retrieved Successfully",
-        data: result,
-    });
-}));
-const blockReservation = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { reservationId } = req.body;
-    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield admin_service_1.AdminService.blockReservation(reservationId, token);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: "Reservation Blocked Successfully",
-        data: result,
-    });
-}));
 exports.AdminController = {
     getDashboardInfo,
-    getAllOwners,
-    getAllCustomers,
+    getAllUsers,
     getAllReservations,
     getAllBookings,
     getAllReviews,
     getAllReports,
-    getReportsCount,
-    blockReservation,
 };

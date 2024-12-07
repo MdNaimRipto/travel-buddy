@@ -10,4 +10,5 @@ const report_validation_1 = require("./report.validation");
 const report_controller_1 = require("./report.controller");
 const router = express_1.default.Router();
 router.post("/reportReservation", (0, zodValidationRequest_1.default)(report_validation_1.ReportValidation.reportZodSchema), report_controller_1.ReportController.reportReservation);
+router.get("/isAlreadyReported", report_controller_1.ReportController.isAlreadyReported);
 exports.ReportRouter = router;

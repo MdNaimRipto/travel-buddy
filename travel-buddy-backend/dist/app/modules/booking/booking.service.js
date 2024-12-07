@@ -22,15 +22,22 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const config_1 = __importDefault(require("../../../config/config"));
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
+const businessProfile_schema_1 = require("../hotels/businessProfile/businessProfile.schema");
 const bookReservation = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { userId, reservationId } = payload;
+    const { userId, reservationId, hotelId } = payload;
     const isUserExists = yield users_schema_1.Users.findOne({ _id: userId });
     if (!isUserExists) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "User Doesn't Exist");
     }
     if (isUserExists.role === "hotelOwner") {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Permission Denied! Please Try With Another account");
+    }
+    const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({
+        _id: hotelId,
+    });
+    if (!isHotelExists) {
+        throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Hotel Does Not Found!");
     }
     const isReservationExists = yield reservations_schema_1.Reservations.findOne({
         _id: reservationId,

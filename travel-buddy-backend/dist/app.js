@@ -24,20 +24,6 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-// Initialize Redis
-// export const redis = new Redis({
-//   host: config.redis_host,
-//   port: Number(config.redis_port),
-//   password: config.redis_password,
-//   retryStrategy: times => {
-//     console.log(`Retry attempt #${times}`);
-//     return Math.min(times * 50, 2000);
-//   },
-// });
-// export const redis = new Redis({
-//   url: config.redis_host,
-//   token: config.redis_password,
-// });
 // * Basic Page
 app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(http_status_1.default.OK).send({

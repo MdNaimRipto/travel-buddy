@@ -9,7 +9,8 @@ const zodValidationRequest_1 = __importDefault(require("../../../middlewares/zod
 const wishlist_validation_1 = require("./wishlist.validation");
 const wishlist_controller_1 = require("./wishlist.controller");
 const router = express_1.default.Router();
-router.post("/addToWishlist", (0, zodValidationRequest_1.default)(wishlist_validation_1.WishlistValidation.wishlistZodSchema), wishlist_controller_1.WishlistController.wishlistReservation);
-router.get("/getUsersWishlist", wishlist_controller_1.WishlistController.getUserWishlistedReservations);
+router.post("/addToWishlist", (0, zodValidationRequest_1.default)(wishlist_validation_1.WishlistValidation.wishlistZodSchema), wishlist_controller_1.WishlistController.addToWishlist);
+router.get("/getUsersWishlist", wishlist_controller_1.WishlistController.getUserWishlistedEntities);
+router.get("/getWishlistStatus", wishlist_controller_1.WishlistController.isEntityWishlisted);
 router.delete("/deleteWishlist", (0, zodValidationRequest_1.default)(wishlist_validation_1.WishlistValidation.deleteWishlistZodSchema), wishlist_controller_1.WishlistController.deleteWishlist);
 exports.WishlistRouter = router;

@@ -92,35 +92,39 @@ const updateReservations = (0, catchAsync_1.default)((req, res) => __awaiter(voi
     });
 }));
 // Upload New Array Data
-const uploadNewArrayData = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const updateData = __rest(req.body, []);
-    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield reservations_service_1.ReservationsService.uploadNewArrayData(updateData, token);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: "New Data Added",
-        data: result,
-    });
-}));
+// const uploadNewArrayData = catchAsync(async (req: Request, res: Response) => {
+//   const { ...updateData } = req.body;
+//   const token = verifyAuthToken(req);
+//   const result = await ReservationsService.uploadNewArrayData(
+//     updateData,
+//     token,
+//   );
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: httpStatus.OK,
+//     message: "New Data Added",
+//     data: result,
+//   });
+// });
+/**/
 // Update Array Data
-const updateArrayData = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const updateData = __rest(req.body, []);
-    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield reservations_service_1.ReservationsService.updateArrayData(updateData, token);
-    (0, sendResponse_1.default)(res, {
-        success: true,
-        statusCode: http_status_1.default.OK,
-        message: "Reservations Updated Successfully",
-        data: result,
-    });
-}));
+// const updateArrayData = catchAsync(async (req: Request, res: Response) => {
+//   const { ...updateData } = req.body;
+//   const token = verifyAuthToken(req);
+//   const result = await ReservationsService.updateArrayData(updateData, token);
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: httpStatus.OK,
+//     message: "Reservations Updated Successfully",
+//     data: result,
+//   });
+// });
 exports.ReservationsController = {
     uploadReservation,
     getAllReservations,
     getReservationsByHotelId,
     getReservationDetails,
     updateReservations,
-    uploadNewArrayData,
-    updateArrayData,
+    // uploadNewArrayData,
+    // updateArrayData,
 };

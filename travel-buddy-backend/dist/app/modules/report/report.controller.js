@@ -36,10 +36,29 @@ const reportReservation = (0, catchAsync_1.default)((req, res) => __awaiter(void
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
-        message: "Reservation Reported",
+        message: "Booking Reported!",
+        data: result,
+    });
+}));
+const isAlreadyReported = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.headers["user-id"];
+    const bookingId = req.headers["booking-id"];
+    const reservationId = req.headers["reservation-id"];
+    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
+    const result = yield report_service_1.ReportService.isAlreadyReported({
+        token,
+        userId: String(userId),
+        bookingId: String(bookingId),
+        reservationId: String(reservationId),
+    });
+    (0, sendResponse_1.default)(res, {
+        success: true,
+        statusCode: http_status_1.default.OK,
+        message: "Report Status Checked!",
         data: result,
     });
 }));
 exports.ReportController = {
     reportReservation,
+    isAlreadyReported,
 };

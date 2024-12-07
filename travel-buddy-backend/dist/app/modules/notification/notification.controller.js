@@ -28,9 +28,11 @@ const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const notification_service_1 = require("./notification.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const http_status_1 = __importDefault(require("http-status"));
+const verifyAuthToken_1 = require("../../../util/verifyAuthToken");
 const sendNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const payload = __rest(req.body, []);
-    const result = yield notification_service_1.NotificationService.sendNotification(payload);
+    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
+    const result = yield notification_service_1.NotificationService.sendNotification(payload, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -38,9 +40,10 @@ const sendNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 
         data: result,
     });
 }));
-const getNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getNotifications = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const receiverId = req.headers["receiver-id"];
-    const result = yield notification_service_1.NotificationService.getNotification(receiverId);
+    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
+    const result = yield notification_service_1.NotificationService.getNotifications(receiverId, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -50,7 +53,8 @@ const getNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0
 }));
 const deleteNotification = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { notificationId } = req.body;
-    const result = yield notification_service_1.NotificationService.deleteNotification(notificationId);
+    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
+    const result = yield notification_service_1.NotificationService.deleteNotification(notificationId, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -60,6 +64,6 @@ const deleteNotification = (0, catchAsync_1.default)((req, res) => __awaiter(voi
 }));
 exports.NotificationController = {
     sendNotification,
-    getNotification,
+    getNotifications,
     deleteNotification,
 };

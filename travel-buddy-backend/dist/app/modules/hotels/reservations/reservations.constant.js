@@ -20,10 +20,17 @@ exports.ReservationSearchableFields = [
     "name",
     "reservationType",
     "reservationClass",
+    "location.destination",
+    "location.area",
+    "location.street",
 ];
 exports.ReservationFilterableFields = [
     "searchTerm",
     "name",
     "reservationType",
     "reservationClass",
+    "area",
+    "destination",
+    "rating",
+    "price",
 ];

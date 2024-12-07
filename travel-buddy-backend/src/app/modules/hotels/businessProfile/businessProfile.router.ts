@@ -16,6 +16,11 @@ router.get(
   BusinessProfileController.getBusinessProfile,
 );
 
+router.get(
+  "/getHotelStatistics/:hotelId",
+  BusinessProfileController.getHotelStatistics,
+);
+
 router.get("/getAllHotels", BusinessProfileController.getAllHotels);
 
 router.get("/getHotelDetails/:id", BusinessProfileController.getHotelDetails);
@@ -24,12 +29,5 @@ router.patch(
   "/updateBusinessProfile",
   BusinessProfileController.updateBusinessProfile,
 );
-
-// router.patch(
-//   "/updateProfileImages",
-//   BusinessProfileController.updateProfileImages,
-// );
-
-// router.patch("/uploadNewImage", BusinessProfileController.uploadNewImage);
 
 export const businessProfileRouter = router;
