@@ -8,15 +8,30 @@ import PasswordInputField from "@/components/auth/authInputFields/PasswordInputF
 import Facebook from "@/components/auth/authProviderOptions/Facebook";
 import Google from "@/components/auth/authProviderOptions/Google";
 import Twitter from "@/components/auth/authProviderOptions/Twitter";
+import { decryptUser } from "@/components/auth/decryptUser";
 import AuthBtn from "@/components/common/buttons/AuthBtn";
+import { ErrorToast } from "@/components/common/toasts/ErrorToast";
+import { SuccessToast } from "@/components/common/toasts/SuccessToast";
+import { useUserContext } from "@/context/AuthContext";
+import { useCustomLoginMutation } from "@/redux/features/authApi";
+import {
+  IApiErrorResponse,
+  IAuthApiSuccessResponse,
+} from "@/types/apiResponseTypes";
+import { UseCommonImports } from "@/utils/UseCommonImports";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const Login = () => {
+  const { setUser } = useUserContext();
+  const { Cookies, Router } = UseCommonImports();
+
   const [value, setValue] = useState({
     email: false,
     password: false,
   });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputBlur =
     (fieldName: string) => (e: { target: { value: any } }) => {
@@ -25,6 +40,48 @@ const Login = () => {
         [fieldName]: !e.target.value,
       });
     };
+
+  const [customLogin] = useCustomLoginMutation();
+
+  const handleCustomLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsLoading(true);
+
+    const form = e.target as HTMLFormElement;
+
+    const email = form.email.value;
+    const password = form.password.value;
+
+    try {
+      const option = {
+        data: {
+          email,
+          password,
+        },
+      };
+
+      const res: IAuthApiSuccessResponse = await customLogin(option).unwrap();
+      if (res.success) {
+        console.log(res);
+        SuccessToast(res.message);
+        const userData = decryptUser(String(res.data?.userData));
+        setUser(userData);
+
+        Cookies.set("userData", String(res.data?.userData), { expires: 3 });
+        Cookies.set("token", String(res.data?.token), { expires: 3 });
+
+        Router.push("/user/profile");
+
+        form.reset();
+      }
+    } catch (e) {
+      const error = e as IApiErrorResponse;
+      ErrorToast(error.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <OpacityTransition>
@@ -37,7 +94,7 @@ const Login = () => {
           />
         </div>
         <div className="flex flex-col md:flex-row gap-4 w-full">
-          <form className="w-full">
+          <form className="w-full" onSubmit={handleCustomLogin}>
             <GeneralAuthInputField
               label="Email Address"
               name="email"
@@ -63,7 +120,7 @@ const Login = () => {
                 Forgot Password?
               </Link>
             </div>
-            <AuthBtn title="Login" />
+            <AuthBtn title="Login" isLoading={isLoading} />
           </form>
           <div className="flex md:hidden items-center justify-center gap-1 mt-1">
             <p className="text-xs font-poppins">{`Don't Have An Account?`}</p>

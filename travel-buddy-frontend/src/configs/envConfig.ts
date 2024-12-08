@@ -1,4 +1,5 @@
 export const envConfig = {
-  MUX_TOKEN_ID: process.env.MUX_TOKEN_ID,
-  MUX_TOKEN_SECRET: process.env.MUX_TOKEN_SECRET,
+  secret_key: process.env.DB_SECRET_KEY as string,
+  image_api_key: process.env.DB_IMAGE_KEY as string,
+  admin_uid: process.env.ADMIN_UID,
 };

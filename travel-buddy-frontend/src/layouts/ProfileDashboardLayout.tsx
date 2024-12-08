@@ -1,8 +1,10 @@
+import Loader from "@/components/common/Loader";
 import MenuToggler from "@/components/profileAndDashboard/MenuToggler";
 import ProfileAndDashboardSideNav from "@/components/profileAndDashboard/ProfileAndDashboardSideNav";
+import { useUserContext } from "@/context/AuthContext";
 import Navbar from "@/shared/navbar/Navbar";
 import ProfileDashboardFooter from "@/shared/profileDashboardFooter/ProfileDashboardFooter";
-import { Button } from "@mui/material";
+import { UseCommonImports } from "@/utils/UseCommonImports";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { IconType } from "react-icons/lib";
 
@@ -19,6 +21,11 @@ const ProfileDashboardLayout = ({
   children: ReactElement;
   sideNavItem: Array<ISideNav>;
 }) => {
+  const { user } = useUserContext();
+  const { Cookies, Router } = UseCommonImports();
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const sideNavRef = useRef<HTMLDivElement>(null);
   const [isSideNavOpen, setIsSideNavOpen] = useState(true);
   const [isSticky, setIsSticky] = useState(false);
@@ -38,6 +45,27 @@ const ProfileDashboardLayout = ({
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const token = Cookies.get("token");
+
+  useEffect(() => {
+    if (
+      !user ||
+      user === null ||
+      user === undefined ||
+      !token ||
+      token === undefined ||
+      token === null
+    ) {
+      Router.replace("/auth/login");
+    } else {
+      setIsLoading(false);
+    }
+  }, [Router, token, user]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="bg-[#e7e6e644] pt-[80px] relative">

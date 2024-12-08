@@ -1,21 +1,29 @@
 import React from "react";
 import UserInfoBlock from "./UserInfoBlock";
 import { Divider } from "@mui/material";
+import { useUserContext } from "@/context/AuthContext";
+import { IUser } from "@/types/userTypes";
 
 const ProfileUserDetailsRightContent = () => {
+  const { user } = useUserContext();
+
+  const typedUser = user as IUser;
+
+  const location = typedUser?.location;
+
   const info = {
     personalInfo: [
       {
         name: "Email",
-        value: "naimurtsc567@gmail.com",
+        value: String(typedUser?.email),
       },
       {
         name: "Phone Number",
-        value: "+8801632970990",
+        value: String(typedUser?.contactNumber),
       },
       {
         name: "Address",
-        value: "946 Melvina Coves, CA, Mountain view",
+        value: `${location?.street}, ${location?.city}, ${location?.district}`,
       },
     ],
     socialInfo: [

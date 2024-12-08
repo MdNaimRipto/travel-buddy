@@ -1,8 +1,14 @@
 import { colorConfig } from "@/configs/colorConfig";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import React from "react";
 
-const AuthBtn = ({ title }: { title: string }) => {
+const AuthBtn = ({
+  title,
+  isLoading,
+}: {
+  title: string;
+  isLoading: boolean;
+}) => {
   return (
     <Button
       className="titleFont"
@@ -25,7 +31,14 @@ const AuthBtn = ({ title }: { title: string }) => {
         },
       }}
     >
-      {title}
+      {isLoading ? (
+        <span className="flex items-center gap-2">
+          <CircularProgress sx={{ color: colorConfig.white }} size={20} />{" "}
+          Loading...
+        </span>
+      ) : (
+        <span>{title}</span>
+      )}
     </Button>
   );
 };
