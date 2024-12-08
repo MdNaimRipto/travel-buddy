@@ -1,4 +1,4 @@
-import Loader from "@/components/common/Loader";
+import Loader from "@/components/common/loader/Loader";
 import MenuToggler from "@/components/profileAndDashboard/MenuToggler";
 import ProfileAndDashboardSideNav from "@/components/profileAndDashboard/ProfileAndDashboardSideNav";
 import { useUserContext } from "@/context/AuthContext";

@@ -9,7 +9,7 @@ import React, {
   useCallback,
 } from "react";
 import Cookies from "js-cookie";
-import Loader from "@/components/common/Loader";
+import Loader from "@/components/common/loader/Loader";
 import { decryptUser } from "@/components/auth/decryptUser";
 
 interface UserContextType {
