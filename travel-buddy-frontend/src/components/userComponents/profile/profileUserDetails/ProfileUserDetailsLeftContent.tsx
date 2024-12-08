@@ -8,8 +8,15 @@ import {
 } from "react-icons/fa";
 import { colorConfig } from "@/configs/colorConfig";
 import { Avatar, Button, IconButton } from "@mui/material";
+import { useUserContext } from "@/context/AuthContext";
+import { IUser } from "@/types/userTypes";
+import { formatDate } from "@/components/common/dateFormatter";
 
 const ProfileUserDetailsLeftContent = () => {
+  const { user } = useUserContext();
+
+  const typedUser = user as IUser;
+
   const options = [
     {
       logo: FacebookIcon,
@@ -34,7 +41,7 @@ const ProfileUserDetailsLeftContent = () => {
         }}
       >
         <Avatar
-          src=""
+          src={typedUser?.profileImage}
           sx={{
             width: 100,
             height: 100,
@@ -43,13 +50,13 @@ const ProfileUserDetailsLeftContent = () => {
         <EditIcon className="absolute bottom-1 right-0 bg-white p-0" />
       </IconButton>
       <h2 className="text-xl lg:text-base xl:text-xl font-inter text-black mt-5 whitespace-nowrap overflow-hidden">
-        MD Naimur Rahman
+        {typedUser?.userName}
       </h2>
       <h6 className="font-inter text-sm lg:text-xs xl:text-sm text-gray font-light whitespace-nowrap overflow-hidden">
-        Customer
+        {typedUser?.role.toUpperCase()}
       </h6>
       <h6 className="font-inter text-sm lg:text-xs xl:text-sm text-gray font-light mb-3 whitespace-nowrap overflow-hidden">
-        Member Since: 12-03-2024
+        Member Since: {formatDate(String(typedUser?.createdAt))}
       </h6>
       <Button
         sx={{

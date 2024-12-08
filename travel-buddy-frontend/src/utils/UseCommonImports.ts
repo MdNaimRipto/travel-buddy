@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 export function UseCommonImports() {
   const router = useRouter();
 
   return {
     Router: router,
-    Toast: toast,
+    Cookies: Cookies,
   };
 }
