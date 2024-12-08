@@ -1,8 +1,8 @@
 import React from "react";
 import Lottie from "lottie-react";
-import loaderAnimation from "../../../public/loaderAnimation.json";
+import loaderAnimation from "../../../../public/loaderAnimation.json";
 
-const Loader = () => {
+const LottieReact = () => {
   return (
     <div
       style={{
@@ -21,4 +21,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default LottieReact;
