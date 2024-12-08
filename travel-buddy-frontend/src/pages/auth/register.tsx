@@ -30,6 +30,8 @@ const Register = () => {
     role: false,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleInputBlur =
     (fieldName: string) => (e: { target: { value: any } }) => {
       setValue({
@@ -145,7 +147,7 @@ const Register = () => {
               </RadioGroup>
             </div>
 
-            <AuthBtn title="Register" />
+            <AuthBtn title="Register" isLoading={isLoading} />
           </form>
           <div className="flex md:hidden items-center justify-center gap-1 mt-1">
             <p className="text-xs font-poppins">{`Already Have An Account?`}</p>
