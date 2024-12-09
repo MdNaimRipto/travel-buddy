@@ -19,6 +19,12 @@ export interface IBusinessProfile {
   hotelImages: string[];
   amenities: string[];
   description: string;
+  socialLinks: {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    linkedin: string;
+  };
 }
 
 export interface IHotelsFilter {

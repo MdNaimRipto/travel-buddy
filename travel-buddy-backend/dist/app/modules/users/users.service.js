@@ -120,7 +120,7 @@ const updateUser = (userID, payload, token) => __awaiter(void 0, void 0, void 0,
     if (!isExistsUser) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User Not Found");
     }
-    const { role, uid, password, location } = payload, updatePayload = __rest(payload, ["role", "uid", "password", "location"]);
+    const { role, uid, password, location, socialLinks } = payload, updatePayload = __rest(payload, ["role", "uid", "password", "location", "socialLinks"]);
     if (role !== undefined || uid !== undefined || password !== undefined) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Permission Denied! Please Try Again.");
     }
@@ -145,6 +145,13 @@ const updateUser = (userID, payload, token) => __awaiter(void 0, void 0, void 0,
             const locationsKey = `location.${key}`;
             updatePayload[locationsKey] =
                 location[key];
+        });
+    }
+    if (socialLinks && Object.keys(socialLinks).length > 0) {
+        Object.keys(socialLinks).map(key => {
+            const locationsKey = `socialLinks.${key}`;
+            updatePayload[locationsKey] =
+                socialLinks[key];
         });
     }
     const user = yield users_schema_1.Users.findOneAndUpdate({ _id: userID }, updatePayload, {

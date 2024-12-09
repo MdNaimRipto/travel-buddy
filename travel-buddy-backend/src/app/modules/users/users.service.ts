@@ -157,7 +157,8 @@ const updateUser = async (
     throw new ApiError(httpStatus.NOT_FOUND, "User Not Found");
   }
 
-  const { role, uid, password, location, ...updatePayload } = payload;
+  const { role, uid, password, location, socialLinks, ...updatePayload } =
+    payload;
 
   if (role !== undefined || uid !== undefined || password !== undefined) {
     throw new ApiError(
@@ -195,6 +196,14 @@ const updateUser = async (
       const locationsKey = `location.${key}`;
       (updatePayload as any)[locationsKey] =
         location[key as keyof typeof location];
+    });
+  }
+
+  if (socialLinks && Object.keys(socialLinks).length > 0) {
+    Object.keys(socialLinks).map(key => {
+      const locationsKey = `socialLinks.${key}`;
+      (updatePayload as any)[locationsKey] =
+        socialLinks[key as keyof typeof socialLinks];
     });
   }
 

@@ -20,6 +20,12 @@ export interface IUser {
     district: string;
     country: string;
   };
+  socialLinks: {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    linkedin: string;
+  };
 }
 
 export interface ICheckUserExists {

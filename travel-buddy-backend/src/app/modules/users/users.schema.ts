@@ -32,6 +32,12 @@ export const usersSchema = new Schema<IUser>(
       district: { type: String, required: true, default: "Not Updated Yet!" },
       country: { type: String, required: true, default: "Not Updated Yet!" },
     },
+    socialLinks: {
+      facebook: { type: String, required: true, default: "Not Updated Yet!" },
+      instagram: { type: String, required: true, default: "Not Updated Yet!" },
+      twitter: { type: String, required: true, default: "Not Updated Yet!" },
+      linkedin: { type: String, required: true, default: "Not Updated Yet!" },
+    },
   },
   {
     timestamps: true,
