@@ -14,6 +14,4 @@ router.get("/getAllReservations", reservations_controller_1.ReservationsControll
 router.get("/getReservationsByHotelId", reservations_controller_1.ReservationsController.getReservationsByHotelId);
 router.get("/getReservationDetails/:id", reservations_controller_1.ReservationsController.getReservationDetails);
 router.patch("/updateReservation", reservations_controller_1.ReservationsController.updateReservations);
-// router.patch("/uploadNewArrayData", ReservationsController.uploadNewArrayData);
-// router.patch("/updateArrayData", ReservationsController.updateArrayData);
 exports.ReservationRouter = router;

@@ -34,6 +34,12 @@ export const businessProfileSchema = new Schema<IBusinessProfile>(
     totalReservations: { type: Number, required: true, min: 0, default: 0 },
     amenities: [{ type: String, required: true }],
     description: { type: String, required: true },
+    socialLinks: {
+      facebook: { type: String, required: true, default: "Not Updated Yet!" },
+      instagram: { type: String, required: true, default: "Not Updated Yet!" },
+      twitter: { type: String, required: true, default: "Not Updated Yet!" },
+      linkedin: { type: String, required: true, default: "Not Updated Yet!" },
+    },
   },
   {
     timestamps: true,
