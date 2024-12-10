@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import logo from "@/assets/auth/google.png";
 import CommonProviderBtn from "./CommonProviderBtn";
 import { signIn, useSession } from "next-auth/react";

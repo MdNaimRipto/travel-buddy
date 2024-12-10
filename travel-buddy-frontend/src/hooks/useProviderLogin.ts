@@ -24,7 +24,10 @@ export const useHandleProviderLogin = ({
   useEffect(() => {
     const baseURL = apiConfig.BASE_URL;
 
-    if (status !== "loading") {
+    const queryParams = new URLSearchParams(window.location.search);
+    const method = queryParams.get("method");
+
+    if (status !== "loading" && method === authMethod) {
       if (data && status === "authenticated") {
         window.sessionStorage.setItem(
           "tempProviderData",
