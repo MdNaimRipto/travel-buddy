@@ -1,4 +1,6 @@
-import { Button, IconButton } from "@mui/material";
+import { colorConfig } from "@/configs/colorConfig";
+import { UseCommonImports } from "@/utils/UseCommonImports";
+import { Button, CircularProgress, IconButton } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
@@ -8,10 +10,26 @@ interface ILogo {
   height: number;
 }
 
-const CommonProviderBtn = ({ logo, title }: { logo: ILogo; title: string }) => {
+const CommonProviderBtn = ({
+  logo,
+  title,
+  handleLogin,
+  authMethod,
+}: {
+  logo: ILogo;
+  title: string;
+  handleLogin: any;
+  authMethod: string;
+}) => {
+  const { Router } = UseCommonImports();
+
+  const { method } = Router.query;
+
   return (
     <>
       <IconButton
+        onClick={handleLogin}
+        disabled={method !== undefined}
         sx={{
           width: "50px",
           display: {
@@ -20,16 +38,22 @@ const CommonProviderBtn = ({ logo, title }: { logo: ILogo; title: string }) => {
           },
         }}
       >
-        <Image
-          src={logo.src}
-          width={logo.width}
-          height={logo.height}
-          alt="Google Logo"
-          className=""
-          priority
-        />
+        {method && authMethod === method ? (
+          <CircularProgress />
+        ) : (
+          <Image
+            src={logo.src}
+            width={logo.width}
+            height={logo.height}
+            alt="Google Logo"
+            className=""
+            priority
+          />
+        )}
       </IconButton>
       <Button
+        disabled={method !== undefined}
+        onClick={handleLogin}
         sx={{
           display: {
             xs: "none",
@@ -42,15 +66,23 @@ const CommonProviderBtn = ({ logo, title }: { logo: ILogo; title: string }) => {
           borderRadius: 100,
         }}
       >
-        <Image
-          src={logo.src}
-          width={logo.width}
-          height={logo.height}
-          alt="Google Logo"
-          className="w-[10%] h-[90%] object-contain"
-          priority
-        />
-        <p className="text-black font-poppins font-normal w-[90%]">{title}</p>
+        {method && authMethod === method ? (
+          <CircularProgress sx={{ color: colorConfig.secondary }} />
+        ) : (
+          <>
+            <Image
+              src={logo.src}
+              width={logo.width}
+              height={logo.height}
+              alt="Google Logo"
+              className="w-[10%] h-[90%] object-contain"
+              priority
+            />
+            <p className="text-black font-poppins font-normal w-[90%]">
+              {title}
+            </p>
+          </>
+        )}
       </Button>
     </>
   );

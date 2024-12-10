@@ -8,8 +8,19 @@ import PasswordInputField from "@/components/auth/authInputFields/PasswordInputF
 import Facebook from "@/components/auth/authProviderOptions/Facebook";
 import Google from "@/components/auth/authProviderOptions/Google";
 import Twitter from "@/components/auth/authProviderOptions/Twitter";
+import { decryptUser } from "@/components/auth/decryptUser";
 import AuthBtn from "@/components/common/buttons/AuthBtn";
+import { ErrorToast } from "@/components/common/toasts/ErrorToast";
+import { SuccessToast } from "@/components/common/toasts/SuccessToast";
 import { colorConfig } from "@/configs/colorConfig";
+import { useUserContext } from "@/context/AuthContext";
+import { useCustomRegisterMutation } from "@/redux/features/userApi";
+import {
+  IApiErrorResponse,
+  IAuthApiSuccessResponse,
+} from "@/types/apiResponseTypes";
+import { IUserRegister, IUserRoleEnums } from "@/types/userTypes";
+import { UseCommonImports } from "@/utils/UseCommonImports";
 import {
   FormControl,
   FormControlLabel,
@@ -21,6 +32,9 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 const Register = () => {
+  const { setUser } = useUserContext();
+  const { Cookies, Router } = UseCommonImports();
+
   const [value, setValue] = useState({
     firstName: false,
     lastName: false,
@@ -31,6 +45,7 @@ const Register = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isRememberMeSelected, setIsRememberSelected] = useState(false);
 
   const handleInputBlur =
     (fieldName: string) => (e: { target: { value: any } }) => {
@@ -39,6 +54,64 @@ const Register = () => {
         [fieldName]: !e.target.value,
       });
     };
+
+  const [customRegister] = useCustomRegisterMutation();
+
+  const handleCustomRegister = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsLoading(true);
+
+    const form = e.target as any;
+
+    const firstName = form.firstName.value;
+    const lastName = form.lastName.value;
+    const email = form.email.value;
+    const contactNumber = form.contactNumber.value;
+    const password = form.password.value;
+    const role = form.role.value;
+
+    try {
+      const option: {
+        data: IUserRegister;
+      } = {
+        data: {
+          userName: `${firstName} ${lastName}`,
+          contactNumber,
+          email,
+          password,
+          role: role as IUserRoleEnums,
+        },
+      };
+
+      const res: IAuthApiSuccessResponse = await customRegister(
+        option
+      ).unwrap();
+      if (res.success) {
+        console.log(res);
+        SuccessToast(res.message);
+        const userData = decryptUser(String(res.data?.userData));
+        setUser(userData);
+
+        if (isRememberMeSelected) {
+          Cookies.set("userData", String(res.data?.userData), { expires: 3 });
+          Cookies.set("token", String(res.data?.token), { expires: 3 });
+        } else {
+          Cookies.set("userData", String(res.data?.userData));
+          Cookies.set("token", String(res.data?.token));
+        }
+
+        Router.push("/user/profile");
+
+        form.reset();
+      }
+    } catch (e) {
+      const error = e as IApiErrorResponse;
+      ErrorToast(error.data.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const registerRole = [
     { name: "Customer", value: "customer" },
@@ -56,7 +129,7 @@ const Register = () => {
           />
         </div>
         <div className="flex flex-col md:flex-row gap-4 w-full">
-          <form className="w-full">
+          <form className="w-full" onSubmit={handleCustomRegister}>
             <div className="grid lg:grid-cols-2 lg:gap-4">
               <GeneralAuthInputField
                 label="First name"
@@ -103,7 +176,10 @@ const Register = () => {
             />
             <div className="flex items-center justify-between mb-5 mt-1">
               <div className="flex items-center gap-2">
-                <RadioSwitch inputProps={{ "aria-label": "ant design" }} />
+                <RadioSwitch
+                  inputProps={{ "aria-label": "ant design" }}
+                  onChange={() => setIsRememberSelected(!isRememberMeSelected)}
+                />
                 <p className="font-poppins text-xs md:text-sm">Remember me</p>
               </div>
               <Link

@@ -1,9 +1,13 @@
-export type userRoleEnums = "hotelOwner" | "customer";
-export type linkedProvidersEnums =
-  | "CUSTOM"
-  | "FACEBOOK"
-  | "TWITTER"
-  | "INSTAGRAM";
+export type IUserRoleEnums = "hotelOwner" | "customer";
+export type linkedProvidersEnums = "CUSTOM" | "FACEBOOK" | "TWITTER" | "GOOGLE";
+
+export interface IUserRegister {
+  userName: string;
+  email: string;
+  contactNumber: string;
+  password: string;
+  role: IUserRoleEnums;
+}
 
 export interface IUser {
   userName: string;
@@ -11,7 +15,7 @@ export interface IUser {
   contactNumber: string;
   password: string;
   profileImage: string;
-  role: userRoleEnums;
+  role: IUserRoleEnums;
   uid: string;
   linkedProviders: Array<linkedProvidersEnums>;
   location: {

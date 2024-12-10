@@ -47,7 +47,7 @@ const AuthContext = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setContextLoading(false);
-    }, 1500);
+    }, 2500);
 
     return () => clearTimeout(timeoutId);
   }, [contextLoading]);
