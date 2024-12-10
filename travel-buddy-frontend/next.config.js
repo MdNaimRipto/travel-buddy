@@ -2,11 +2,12 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    DB_SECRET_KEY: process.env.DB_SECRET_KEY,
-    DB_IMAGE_KEY: process.env.DB_IMAGE_KEY,
-    DB_ADMIN_UID: process.env.DB_ADMIN_UID,
-    DB_GOOGLE_ID: process.env.DB_GOOGLE_ID,
-    DB_GOOGLE_SECRET: process.env.DB_GOOGLE_SECRET,
+    SECRET_KEY: process.env.SECRET_KEY,
+    IMAGE_KEY: process.env.IMAGE_KEY,
+    ADMIN_UID: process.env.ADMIN_UID,
+    GOOGLE_ID: process.env.GOOGLE_ID,
+    GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+    BASE_URL: process.env.BASE_URL,
   },
   images: {
     remotePatterns: [
