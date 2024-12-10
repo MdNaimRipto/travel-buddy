@@ -4,7 +4,9 @@ const nextConfig = {
   env: {
     DB_SECRET_KEY: process.env.DB_SECRET_KEY,
     DB_IMAGE_KEY: process.env.DB_IMAGE_KEY,
-    ADMIN_UID: process.env.ADMIN_UID,
+    DB_ADMIN_UID: process.env.DB_ADMIN_UID,
+    DB_GOOGLE_ID: process.env.DB_GOOGLE_ID,
+    DB_GOOGLE_SECRET: process.env.DB_GOOGLE_SECRET,
   },
   images: {
     remotePatterns: [

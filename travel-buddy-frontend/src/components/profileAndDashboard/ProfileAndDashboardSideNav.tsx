@@ -7,6 +7,9 @@ import { CiBoxList as MenuIcon } from "react-icons/ci";
 import { colorConfig } from "@/configs/colorConfig";
 import ProfileAndDashboardSideNavButton from "./ProfileAndDashboardSideNavButton";
 import { UseCommonImports } from "@/utils/UseCommonImports";
+import { useUserContext } from "@/context/AuthContext";
+import { SuccessToast } from "../common/toasts/SuccessToast";
+import { signOut } from "next-auth/react";
 
 interface ISideNav {
   icon: IconType;
@@ -23,11 +26,25 @@ const ProfileAndDashboardSideNav = ({
   isSideNavOpen: boolean;
   setIsSideNavOpen: any;
 }) => {
-  const { Router } = UseCommonImports();
+  const { setUser } = useUserContext();
+
+  const { Router, Cookies } = UseCommonImports();
   const { route } = Router;
 
   const handleSideNavOpen = () => {
     setIsSideNavOpen(!isSideNavOpen);
+  };
+
+  const handleLogout = () => {
+    signOut({ redirect: false });
+    window.sessionStorage.clear();
+
+    setTimeout(() => {
+      Cookies.remove("userData");
+      Cookies.remove("token");
+      setUser(null);
+      SuccessToast("Logout Successful!");
+    }, 500);
   };
 
   return (
@@ -87,6 +104,7 @@ const ProfileAndDashboardSideNav = ({
           hoverBackgroundColor={colorConfig.white}
           radiusStyle="14px"
           isSideNavOpen={isSideNavOpen}
+          handlerFunction={handleLogout}
         />
       </div>
     </div>

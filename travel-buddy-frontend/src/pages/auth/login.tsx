@@ -13,7 +13,7 @@ import AuthBtn from "@/components/common/buttons/AuthBtn";
 import { ErrorToast } from "@/components/common/toasts/ErrorToast";
 import { SuccessToast } from "@/components/common/toasts/SuccessToast";
 import { useUserContext } from "@/context/AuthContext";
-import { useCustomLoginMutation } from "@/redux/features/authApi";
+import { useCustomLoginMutation } from "@/redux/features/userApi";
 import {
   IApiErrorResponse,
   IAuthApiSuccessResponse,
@@ -32,6 +32,7 @@ const Login = () => {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isRememberMeSelected, setIsRememberSelected] = useState(false);
 
   const handleInputBlur =
     (fieldName: string) => (e: { target: { value: any } }) => {
@@ -68,8 +69,13 @@ const Login = () => {
         const userData = decryptUser(String(res.data?.userData));
         setUser(userData);
 
-        Cookies.set("userData", String(res.data?.userData), { expires: 3 });
-        Cookies.set("token", String(res.data?.token), { expires: 3 });
+        if (isRememberMeSelected) {
+          Cookies.set("userData", String(res.data?.userData), { expires: 3 });
+          Cookies.set("token", String(res.data?.token), { expires: 3 });
+        } else {
+          Cookies.set("userData", String(res.data?.userData));
+          Cookies.set("token", String(res.data?.token));
+        }
 
         Router.push("/user/profile");
 
@@ -110,7 +116,10 @@ const Login = () => {
             />
             <div className="flex items-center justify-between mb-5 mt-1">
               <div className="flex items-center gap-2">
-                <RadioSwitch inputProps={{ "aria-label": "ant design" }} />
+                <RadioSwitch
+                  inputProps={{ "aria-label": "ant design" }}
+                  onChange={() => setIsRememberSelected(!isRememberMeSelected)}
+                />
                 <p className="font-poppins text-xs md:text-sm">Remember me</p>
               </div>
               <Link

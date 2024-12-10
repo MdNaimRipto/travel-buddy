@@ -1,7 +1,7 @@
 import React from "react";
 import { GrCheckmark } from "react-icons/gr";
 import { colorConfig } from "@/configs/colorConfig";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, CircularProgress } from "@mui/material";
 import { UseCommonImports } from "@/utils/UseCommonImports";
 
 interface IQueryType {
@@ -11,42 +11,76 @@ interface IQueryType {
   password: string;
 }
 
-const VerifyProgress = ({ nextPath }: { nextPath: string }) => {
+const VerifyProgress = ({
+  nextPath,
+  isLoading,
+  isFinished,
+}: {
+  nextPath: string;
+  isLoading?: boolean;
+  isFinished?: boolean;
+}) => {
   const { Router } = UseCommonImports();
   const { query } = Router;
 
-  const { email, password, tab, userRole } = query as unknown as IQueryType;
+  const { tab, userRole } = query as unknown as IQueryType;
 
   return (
     <div className="flex flex-col md:flex-row items-center justify-between mt-5">
       <div className="flex flex-wrap items-center gap-2 mb-5 md:mb-0">
         <p className={`flex items-center gap-2`}>
           <span
-            className={`border border-lightGray rounded-full p-[2px] w-5 h-5 text-xs flex items-center justify-center`}
+            className={`border rounded-full p-[2px] w-5 h-5 text-xs flex items-center justify-center ${
+              userRole
+                ? "border-secondary bg-primary"
+                : "border-lightGray bg-white"
+            }`}
           >
-            <GrCheckmark color={colorConfig.lightGray} />
+            <GrCheckmark
+              color={userRole ? colorConfig.white : colorConfig.lightGray}
+            />
           </span>
           <span className="text-xs font-poppins text-black font-medium">
             Role
           </span>
         </p>
-        <p className="w-4 xl:w-6 h-[1px] bg-lightGray"></p>
+        <p
+          className={`w-4 xl:w-6 h-[2px] ${
+            tab === "password" ? "bg-secondary" : "bg-lightGray"
+          }`}
+        ></p>
         <p className={`flex items-center gap-2`}>
           <span
-            className={`border border-lightGray rounded-full p-[2px] w-5 h-5 text-xs flex items-center justify-center`}
+            className={`border rounded-full p-[2px] w-5 h-5 text-xs flex items-center justify-center ${
+              isLoading || isFinished
+                ? "border-secondary bg-primary"
+                : "border-lightGray bg-white"
+            }`}
           >
-            <GrCheckmark color={colorConfig.lightGray} />
+            <GrCheckmark
+              color={isLoading ? colorConfig.white : colorConfig.lightGray}
+            />
           </span>
           <span className="text-xs font-poppins text-black font-medium">
             Password
           </span>
         </p>
-        <p className="w-4 xl:w-6 h-[1px] bg-lightGray"></p>
+        <p
+          className={`w-4 xl:w-6 h-[2px] ${
+            isLoading || isFinished ? "bg-secondary" : "bg-lightGray"
+          }`}
+        ></p>
         <p className={`flex items-center gap-2`}>
           <span
-            className={`border border-lightGray rounded-full p-[2px] w-5 h-5 text-xs flex items-center justify-center`}
+            className={`border rounded-full p-[2px] w-5 h-5 text-xs flex items-center justify-center ${
+              isFinished
+                ? "border-secondary bg-primary"
+                : "border-lightGray bg-white"
+            }`}
           >
-            <GrCheckmark color={colorConfig.lightGray} />
+            <GrCheckmark
+              color={isFinished ? colorConfig.white : colorConfig.lightGray}
+            />
           </span>
           <span className="text-xs font-poppins text-black font-medium">
             Finish
@@ -70,14 +104,28 @@ const VerifyProgress = ({ nextPath }: { nextPath: string }) => {
         </Button>
         {tab === "password" ? (
           <Button
+            type="submit"
             variant="contained"
+            disabled={isLoading || isFinished}
             sx={{
               width: 100,
               background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
               boxShadow: "none",
             }}
           >
-            Finish
+            {isLoading ? (
+              <CircularProgress
+                size={18}
+                sx={{ color: colorConfig.white, my: "3px" }}
+              />
+            ) : isFinished ? (
+              <CircularProgress
+                size={18}
+                sx={{ color: colorConfig.white, my: "3px" }}
+              />
+            ) : (
+              <span>Finish</span>
+            )}
           </Button>
         ) : (
           <Button

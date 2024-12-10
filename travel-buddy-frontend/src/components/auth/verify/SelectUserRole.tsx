@@ -10,9 +10,14 @@ import AuthSubTitle from "../AuthSubTitle";
 import { GrUserAdmin, GrUser } from "react-icons/gr";
 import VerifyProgress from "./VerifyProgress";
 import OpacityTransition from "@/components/animation/OpacityTransition";
+import { UseCommonImports } from "@/utils/UseCommonImports";
 
 const SelectUserRole = () => {
-  const [role, setRole] = useState("");
+  const { Router } = UseCommonImports();
+
+  const { userRole } = Router.query;
+
+  // const [role, setRole] = useState(userRole ? userRole : "");
 
   const options = [
     {
@@ -49,7 +54,8 @@ const SelectUserRole = () => {
             <RadioGroup
               row
               aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
+              name="userRole"
+              defaultValue={userRole}
               sx={{
                 display: "flex",
                 flexDirection: {
@@ -63,7 +69,17 @@ const SelectUserRole = () => {
                   sm: 4,
                 },
               }}
-              onChange={e => setRole(String(e.target.value))}
+              onChange={e => {
+                // setRole(String(e.target.value));
+                Router.replace(
+                  {
+                    pathname: Router.pathname,
+                    query: { ...Router.query, userRole: e.target.value },
+                  },
+                  undefined,
+                  { shallow: true }
+                );
+              }}
             >
               {options.map((o, i) => (
                 <FormControlLabel
@@ -73,7 +89,7 @@ const SelectUserRole = () => {
                   label={
                     <div
                       className={`w-full h-full flex flex-col items-center justify-center gap-2 border rounded-xl ${
-                        role === o.value
+                        userRole === o.value
                           ? "bg-gradient-to-l from-primary to-secondary text-white border-secondary"
                           : "bg-white border-lightGray text-black"
                       }`}
