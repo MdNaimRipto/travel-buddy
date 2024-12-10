@@ -4,13 +4,14 @@ import CommonProviderBtn from "./CommonProviderBtn";
 import { apiConfig } from "@/configs/apiConfig";
 import { signIn, useSession } from "next-auth/react";
 import { useHandleProviderLogin } from "@/hooks/useProviderLogin";
+import { envConfig } from "@/configs/envConfig";
 
 const Twitter = () => {
   const checkUserEndPoint = apiConfig.USER.CHECK_PROVIDER_LOGIN;
 
   const handleTwitterLogin = () => {
     signIn("twitter", {
-      callbackUrl: "http://localhost:3000/auth/login?method=TWITTER",
+      callbackUrl: `${envConfig.base_url}/auth/login?method=TWITTER`,
     });
   };
 
