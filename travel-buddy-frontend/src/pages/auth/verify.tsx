@@ -1,7 +1,8 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import SelectUserRole from "@/components/auth/verify/SelectUserRole";
 import CreatePassword from "@/components/auth/verify/CreatePassword";
 import { useRouter } from "next/router";
+import AuthLayout from "@/layouts/AuthLayout";
 
 interface IQueryType {
   tab: "userRole" | "password";
@@ -27,3 +28,7 @@ const Verify = () => {
 };
 
 export default Verify;
+
+Verify.getLayout = function getLayout(page: ReactNode) {
+  return <AuthLayout>{page}</AuthLayout>;
+};

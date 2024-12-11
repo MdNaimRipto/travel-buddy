@@ -14,6 +14,7 @@ const ProfileAndDashboardSideNavButton = ({
   radiusStyle,
   handlerFunction,
   isSideNavOpen,
+  isLoading,
 }: {
   title: string;
   Icon: IconType;
@@ -25,12 +26,14 @@ const ProfileAndDashboardSideNavButton = ({
   radiusStyle: string;
   handlerFunction?: any;
   isSideNavOpen: boolean;
+  isLoading?: boolean;
 }) => {
   return (
     <Tooltip title={title}>
       <Button
         onClick={handlerFunction}
         variant={variant}
+        disabled={isLoading}
         sx={{
           color: color,
           background: `${backgroundColor} !important`,
@@ -73,7 +76,7 @@ const ProfileAndDashboardSideNavButton = ({
               : "lg:opacity-100 xl:opacity-0 lg:w-auto xl:w-0"
           } duration-300`}
         >
-          {title}
+          {isLoading ? "Logging Out..." : title}
         </span>
       </Button>
     </Tooltip>

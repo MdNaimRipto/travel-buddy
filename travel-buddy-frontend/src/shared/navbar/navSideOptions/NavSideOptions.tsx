@@ -7,6 +7,8 @@ import ResponsiveMenuHandlerButton from "./ResponsiveMenuHandlerButton";
 import SearchMenu from "./SearchMenuOptions/SearchMenu";
 import ContactUs from "./contactUs/ContactUs";
 import Link from "next/link";
+import { useUserContext } from "@/context/AuthContext";
+import ProfileAndDashboardDropDown from "./ProfileAndDashboardDropDown";
 
 const NavSideOptions = ({
   isNavOpen,
@@ -19,12 +21,15 @@ const NavSideOptions = ({
   isScrolled: boolean;
   isHomePage: boolean;
 }) => {
+  const { user } = useUserContext();
+
   return (
     <div className="flex items-center gap-1 justify-end w-full md:w-[70%] xl:w-auto">
       <SearchMenu isScrolled={isScrolled} isHomePage={isHomePage} />
-      <Tooltip title="My Wishlist">
-        <Link href="/user/wishlist">
+      <Tooltip title={user ? "My Wishlist" : ""}>
+        <Link href={user ? "/user/wishlist" : ""}>
           <IconButton
+            disabled={!user}
             sx={{
               color:
                 !isScrolled && isHomePage
@@ -34,6 +39,13 @@ const NavSideOptions = ({
               p: 0.3,
               "&:hover": {
                 color: colorConfig.secondary,
+              },
+              ":disabled": {
+                cursor: "not-allowed",
+                pointerEvents: "all !important",
+                "&:hover": {
+                  color: colorConfig.lightGray,
+                },
               },
             }}
           >
@@ -47,7 +59,15 @@ const NavSideOptions = ({
         isScrolled={isScrolled}
         isHomePage={isHomePage}
       />
-      <AuthOptions isScrolled={isScrolled} isHomePage={isHomePage} />
+      {!user ? (
+        <AuthOptions isScrolled={isScrolled} isHomePage={isHomePage} />
+      ) : (
+        <ProfileAndDashboardDropDown
+          user={user}
+          isScrolled={isScrolled}
+          isHomePage={isHomePage}
+        />
+      )}
       <ContactUs
         isScrolled={isScrolled}
         isHomePage={isHomePage}

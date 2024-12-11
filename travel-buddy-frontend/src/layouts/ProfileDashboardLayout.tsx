@@ -21,7 +21,7 @@ const ProfileDashboardLayout = ({
   children: ReactElement;
   sideNavItem: Array<ISideNav>;
 }) => {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
   const { Cookies, Router } = UseCommonImports();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -57,11 +57,14 @@ const ProfileDashboardLayout = ({
       token === undefined ||
       token === null
     ) {
+      setUser(null);
+      Cookies.remove("userData");
+      Cookies.remove("token");
       Router.replace("/auth/login");
     } else {
       setIsLoading(false);
     }
-  }, [Router, token, user]);
+  }, [Cookies, Router, setUser, token, user]);
 
   if (isLoading) {
     return <Loader />;

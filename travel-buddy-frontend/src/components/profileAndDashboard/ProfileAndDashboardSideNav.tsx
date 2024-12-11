@@ -1,6 +1,6 @@
 import { Divider } from "@mui/material";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { IconType } from "react-icons/lib";
 import { BiSolidDoorOpen as LogoutIcon } from "react-icons/bi";
 import { CiBoxList as MenuIcon } from "react-icons/ci";
@@ -31,20 +31,27 @@ const ProfileAndDashboardSideNav = ({
   const { Router, Cookies } = UseCommonImports();
   const { route } = Router;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleSideNavOpen = () => {
     setIsSideNavOpen(!isSideNavOpen);
   };
 
   const handleLogout = () => {
-    signOut({ redirect: false });
-    window.sessionStorage.clear();
+    setIsLoading(true);
+
+    setTimeout(() => {
+      signOut({ redirect: false });
+      window.sessionStorage.clear();
+    }, 500);
 
     setTimeout(() => {
       Cookies.remove("userData");
       Cookies.remove("token");
       setUser(null);
       SuccessToast("Logout Successful!");
-    }, 500);
+      setIsLoading(false);
+    }, 1000);
   };
 
   return (
@@ -105,6 +112,7 @@ const ProfileAndDashboardSideNav = ({
           radiusStyle="14px"
           isSideNavOpen={isSideNavOpen}
           handlerFunction={handleLogout}
+          isLoading={isLoading}
         />
       </div>
     </div>

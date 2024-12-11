@@ -10,7 +10,7 @@ import React, {
 } from "react";
 import Cookies from "js-cookie";
 import Loader from "@/components/common/loader/Loader";
-import { decryptUser } from "@/components/auth/decryptUser";
+import { decryptData } from "@/components/auth/userEncription";
 
 interface UserContextType {
   user: null | any;
@@ -34,7 +34,7 @@ const AuthContext = ({ children }: { children: ReactNode }) => {
   const getUserData = useCallback(() => {
     if (Cookies.get("userData")) {
       const value = Cookies.get("userData");
-      const userData = decryptUser(value as string);
+      const userData = decryptData(value as string);
       return userData;
     }
   }, []);
