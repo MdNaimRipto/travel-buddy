@@ -12,7 +12,9 @@ const Facebook = () => {
   const handleFacebookLogin = () => {
     signIn("facebook", {
       callbackUrl: `${envConfig.base_url}/auth/login?method=FACEBOOK`,
+      // redirect: false,
     });
+    console.log(envConfig.facebook_id, envConfig.facebook_secret);
   };
 
   const { data, status } = useSession();
