@@ -4,5 +4,9 @@ export const envConfig = {
   admin_uid: process.env.ADMIN_UID as string,
   google_id: process.env.GOOGLE_ID as string,
   google_secret: process.env.GOOGLE_SECRET as string,
+  facebook_id: process.env.FACEBOOK_ID as string,
+  facebook_secret: process.env.FACEBOOK_SECRET as string,
+  twitter_id: process.env.TWITTER_ID as string,
+  twitter_secret: process.env.TWITTER_SECRET as string,
   base_url: process.env.BASE_URL as string,
 };

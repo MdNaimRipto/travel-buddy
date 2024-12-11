@@ -7,6 +7,10 @@ const nextConfig = {
     ADMIN_UID: process.env.ADMIN_UID,
     GOOGLE_ID: process.env.GOOGLE_ID,
     GOOGLE_SECRET: process.env.GOOGLE_SECRET,
+    FACEBOOK_ID: process.env.FACEBOOK_ID,
+    FACEBOOK_SECRET: process.env.FACEBOOK_SECRET,
+    TWITTER_ID: process.env.TWITTER_ID,
+    TWITTER_SECRET: process.env.TWITTER_SECRET,
     BASE_URL: process.env.BASE_URL,
   },
   images: {

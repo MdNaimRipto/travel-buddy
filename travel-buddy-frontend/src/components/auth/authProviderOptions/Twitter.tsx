@@ -10,9 +10,10 @@ const Twitter = () => {
   const checkUserEndPoint = apiConfig.USER.CHECK_PROVIDER_LOGIN;
 
   const handleTwitterLogin = () => {
-    signIn("twitter", {
-      callbackUrl: `${envConfig.base_url}/auth/login?method=TWITTER`,
-    });
+    // signIn("twitter", {
+    //   callbackUrl: `${envConfig.base_url}/auth/login?method=TWITTER`,
+    // });
+    console.log(envConfig.twitter_id, envConfig.twitter_secret);
   };
 
   const { data, status } = useSession();
