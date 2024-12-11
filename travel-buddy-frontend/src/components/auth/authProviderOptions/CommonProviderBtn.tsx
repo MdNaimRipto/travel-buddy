@@ -29,12 +29,24 @@ const CommonProviderBtn = ({
     <>
       <IconButton
         onClick={handleLogin}
-        disabled={method !== undefined}
+        disabled={
+          method !== undefined ||
+          authMethod === "FACEBOOK" ||
+          authMethod === "TWITTER"
+        }
         sx={{
           width: "50px",
           display: {
             xs: "block",
             sm: "none",
+          },
+          ":disabled": {
+            cursor: "not-allowed",
+            pointerEvents: "all !important",
+            opacity: 0.4,
+            ":hover": {
+              backgroundColor: "#00000000",
+            },
           },
         }}
       >
@@ -52,7 +64,11 @@ const CommonProviderBtn = ({
         )}
       </IconButton>
       <Button
-        disabled={method !== undefined}
+        disabled={
+          method !== undefined ||
+          authMethod === "FACEBOOK" ||
+          authMethod === "TWITTER"
+        }
         onClick={handleLogin}
         sx={{
           display: {
@@ -64,6 +80,14 @@ const CommonProviderBtn = ({
           width: "100%",
           height: "50px",
           borderRadius: 100,
+          ":disabled": {
+            cursor: "not-allowed",
+            pointerEvents: "all !important",
+            opacity: 0.4,
+            ":hover": {
+              backgroundColor: "#00000000",
+            },
+          },
         }}
       >
         {method && authMethod === method ? (

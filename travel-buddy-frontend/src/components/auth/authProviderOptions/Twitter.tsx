@@ -13,7 +13,6 @@ const Twitter = () => {
     signIn("twitter", {
       callbackUrl: `${envConfig.base_url}/auth/login?method=TWITTER`,
     });
-    console.log(envConfig.twitter_id, envConfig.twitter_secret);
   };
 
   const { data, status } = useSession();
