@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SuccessToast } from "@/components/common/toasts/SuccessToast";
 import { ErrorToast } from "@/components/common/toasts/ErrorToast";
-import { decryptUser } from "@/components/auth/decryptUser";
+import { decryptData, encryptData } from "@/components/auth/userEncription";
 import { apiConfig } from "@/configs/apiConfig";
 import { useUserContext } from "@/context/AuthContext";
 import { UseCommonImports } from "@/utils/UseCommonImports";
@@ -29,9 +29,11 @@ export const useHandleProviderLogin = ({
 
     if (status !== "loading" && method === authMethod) {
       if (data && status === "authenticated") {
+        const encryptedUser = encryptData(data.user);
+
         window.sessionStorage.setItem(
           "tempProviderData",
-          JSON.stringify(data.user)
+          JSON.stringify(encryptedUser)
         );
 
         const option = {
@@ -56,7 +58,7 @@ export const useHandleProviderLogin = ({
           const result = await res.json();
           if (result.success) {
             SuccessToast(result.message);
-            const userData = decryptUser(String(result.data?.userData));
+            const userData = decryptData(String(result.data?.userData));
             setUser(userData);
 
             Cookies.set("userData", String(result.data?.userData), {
@@ -69,9 +71,7 @@ export const useHandleProviderLogin = ({
               Router.push("/user/profile");
             }, 500);
           } else if (!result.success) {
-            Router.push(
-              `/auth/verify?tab=userRole&email=${data.email}&authMethod=${authMethod}`
-            );
+            Router.push(`/auth/verify?tab=userRole&authMethod=${authMethod}`);
             SuccessToast("Please Fill The Info To Complete Login");
           } else {
             ErrorToast("Failed To Login. Try Again!");

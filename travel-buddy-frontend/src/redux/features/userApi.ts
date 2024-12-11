@@ -53,6 +53,69 @@ const userApi = userApiSlice.injectEndpoints({
       }),
       invalidatesTags: [],
     }),
+
+    //
+    // * Verify Email For Forget Password
+    //
+    verifyEmailForForgetPassword: builder.mutation({
+      query: ({
+        data,
+      }: {
+        data: {
+          email: string;
+        };
+      }) => ({
+        url: apiConfig.USER.FIND_USER_FOR_FORGOT_PASSWORD,
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [],
+    }),
+    //
+    // * Verify Email For Forget Password
+    //
+    verifyOtpForForgetPassword: builder.mutation({
+      query: ({
+        data,
+      }: {
+        data: {
+          email: string;
+          otp: string;
+        };
+      }) => ({
+        url: apiConfig.USER.VERIFY_OTP_FOR_FORGOT_PASSWORD,
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [],
+    }),
+    //
+    // * Reset / Forget Password
+    //
+    forgetPassword: builder.mutation({
+      query: ({
+        data,
+      }: {
+        data: {
+          email: string;
+          password: string;
+        };
+      }) => ({
+        url: apiConfig.USER.FORGOT_PASSWORD,
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [],
+    }),
   }),
 });
 
@@ -60,4 +123,7 @@ export const {
   useCustomLoginMutation,
   useCustomRegisterMutation,
   useProviderLoginMutation,
+  useVerifyEmailForForgetPasswordMutation,
+  useVerifyOtpForForgetPasswordMutation,
+  useForgetPasswordMutation,
 } = userApi;

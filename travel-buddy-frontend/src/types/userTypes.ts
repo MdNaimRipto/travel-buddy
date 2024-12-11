@@ -1,4 +1,4 @@
-export type IUserRoleEnums = "hotelOwner" | "customer";
+export type IUserRoleEnums = "hotelOwner" | "customer" | "admin";
 export type linkedProvidersEnums = "CUSTOM" | "FACEBOOK" | "TWITTER" | "GOOGLE";
 
 export interface IUserRegister {

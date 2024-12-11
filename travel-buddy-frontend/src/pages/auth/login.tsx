@@ -8,11 +8,12 @@ import PasswordInputField from "@/components/auth/authInputFields/PasswordInputF
 import Facebook from "@/components/auth/authProviderOptions/Facebook";
 import Google from "@/components/auth/authProviderOptions/Google";
 import Twitter from "@/components/auth/authProviderOptions/Twitter";
-import { decryptUser } from "@/components/auth/decryptUser";
+import { decryptData } from "@/components/auth/userEncription";
 import AuthBtn from "@/components/common/buttons/AuthBtn";
 import { ErrorToast } from "@/components/common/toasts/ErrorToast";
 import { SuccessToast } from "@/components/common/toasts/SuccessToast";
 import { useUserContext } from "@/context/AuthContext";
+import AuthLayout from "@/layouts/AuthLayout";
 import { useCustomLoginMutation } from "@/redux/features/userApi";
 import {
   IApiErrorResponse,
@@ -20,7 +21,7 @@ import {
 } from "@/types/apiResponseTypes";
 import { UseCommonImports } from "@/utils/UseCommonImports";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 const Login = () => {
   const { setUser } = useUserContext();
@@ -66,7 +67,7 @@ const Login = () => {
       if (res.success) {
         console.log(res);
         SuccessToast(res.message);
-        const userData = decryptUser(String(res.data?.userData));
+        const userData = decryptData(String(res.data?.userData));
         setUser(userData);
 
         if (isRememberMeSelected) {
@@ -123,7 +124,7 @@ const Login = () => {
                 <p className="font-poppins text-xs md:text-sm">Remember me</p>
               </div>
               <Link
-                href=""
+                href="/auth/forgetPassword/verifyEmail"
                 className="text-black hover:text-secondary duration-300 text-xs md:text-sm font-poppins cursor-pointer"
               >
                 Forgot Password?
@@ -167,3 +168,7 @@ const Login = () => {
 };
 
 export default Login;
+
+Login.getLayout = function getLayout(page: ReactNode) {
+  return <AuthLayout>{page}</AuthLayout>;
+};

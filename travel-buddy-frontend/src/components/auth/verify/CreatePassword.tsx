@@ -12,7 +12,7 @@ import {
   IAuthApiSuccessResponse,
 } from "@/types/apiResponseTypes";
 import { SuccessToast } from "@/components/common/toasts/SuccessToast";
-import { decryptUser } from "../decryptUser";
+import { decryptData } from "../userEncription";
 import { useUserContext } from "@/context/AuthContext";
 import { ErrorToast } from "@/components/common/toasts/ErrorToast";
 import { signOut } from "next-auth/react";
@@ -48,9 +48,11 @@ const CreatePassword = () => {
     const form = e.target;
     const password = form.password.value;
 
-    const tempProviderData = JSON.parse(
+    const encryptedData = JSON.parse(
       window.sessionStorage.getItem("tempProviderData") as string
     );
+
+    const tempProviderData = decryptData(encryptedData);
 
     const option = {
       data: {
@@ -74,8 +76,9 @@ const CreatePassword = () => {
         }, 1500);
 
         setTimeout(() => {
+          window.sessionStorage.removeItem("tempProviderData");
           SuccessToast(res.message);
-          const userData = decryptUser(String(res.data?.userData));
+          const userData = decryptData(String(res.data?.userData));
           setUser(userData);
 
           Cookies.set("userData", String(res.data?.userData), { expires: 3 });

@@ -19,3 +19,10 @@ export interface IAuthApiSuccessResponse {
   statusCode: number;
   success: boolean;
 }
+
+export interface IApiSuccessResponse {
+  data: any;
+  message: string;
+  statusCode: number;
+  success: boolean;
+}
