@@ -190,20 +190,22 @@ const ProfileUserDetailsLeftContent = () => {
       <h6 className="font-inter text-sm lg:text-xs xl:text-sm text-gray font-light mb-3 whitespace-nowrap overflow-hidden">
         Member Since: {formatDate(String(typedUser?.createdAt))}
       </h6>
-      <Button
-        sx={{
-          borderRadius: 0,
-          background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
-          color: colorConfig.white,
-          width: "60%",
-          textTransform: "none",
-        }}
-      >
-        <span className="font-inter mr-2 whitespace-nowrap overflow-hidden">
-          Edit Profile
-        </span>
-        <EditIcon />
-      </Button>
+      <Link href="/user/settings" className="w-full mx-auto text-center">
+        <Button
+          sx={{
+            borderRadius: 0,
+            background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
+            color: colorConfig.white,
+            width: "60%",
+            textTransform: "none",
+          }}
+        >
+          <span className="font-inter mr-2 whitespace-nowrap overflow-hidden">
+            Edit Profile
+          </span>
+          <EditIcon />
+        </Button>
+      </Link>
       <div className="flex items-center justify-center gap-1 mt-3">
         {options.map((o, i) =>
           o.link ? (

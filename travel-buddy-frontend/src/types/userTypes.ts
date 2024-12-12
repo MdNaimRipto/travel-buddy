@@ -1,5 +1,6 @@
 export type IUserRoleEnums = "hotelOwner" | "customer" | "admin";
 export type linkedProvidersEnums = "CUSTOM" | "FACEBOOK" | "TWITTER" | "GOOGLE";
+export type genderEnums = "MALE" | "FEMALE";
 
 export interface IUserRegister {
   userName: string;
@@ -10,6 +11,7 @@ export interface IUserRegister {
 }
 
 export interface IUser {
+  _id: string;
   userName: string;
   email: string;
   contactNumber: string;
@@ -29,6 +31,12 @@ export interface IUser {
     instagram: string;
     twitter: string;
     linkedin: string;
+  };
+  gender: genderEnums;
+  dateOfBirth: {
+    date: string;
+    month: string;
+    year: string;
   };
   createdAt: string;
   updatedAt: string;

@@ -1,6 +1,7 @@
+import { IUser } from "@/types/userTypes";
 import React from "react";
 
-const DateOfBirthSelectBox = () => {
+const DateOfBirthSelectBox = ({ typedUser }: { typedUser: IUser }) => {
   let dates = [];
   for (let i = 1; i <= 31; i++) {
     dates.push(String(i).padStart(2, "0"));
@@ -31,42 +32,59 @@ const DateOfBirthSelectBox = () => {
       <label className="font-inter font-medium text-sm text-black">
         Date of Birth
       </label>
-      <div className="grid grid-cols-3 gap-4">
-        <select
-          className="p-3 rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray cursor-pointer"
-          required={false}
-        >
-          <option value="">dd</option>
-          {dates.map((d, i) => (
-            <option value={d} key={i}>
-              {d}
-            </option>
-          ))}
-        </select>
-        <select
-          className="p-3 rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray cursor-pointer"
-          required={false}
-        >
-          <option value="">mm</option>
-          {months.map((m, i) => (
-            <option value={m} key={i}>
-              {m}
-            </option>
-          ))}
-        </select>
-        <select
-          className="p-3 rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray cursor-pointer"
-          required={false}
-        >
-          <option value="">yyyy</option>
-          {years.map((y, i) => (
-            <option value={y} key={i}>
-              {y}
-            </option>
-          ))}
-        </select>
+      <div className="md:grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="w-full mb-3 lg:mb-0">
+          <select
+            name="date"
+            className="mb-3 p-3 w-full rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray cursor-pointer"
+            required={false}
+          >
+            <option value="">dd</option>
+            {dates.map((d, i) => (
+              <option value={d} key={i}>
+                {d}
+              </option>
+            ))}
+          </select>
+          <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
+            Current ({typedUser?.dateOfBirth?.date})
+          </span>
+        </div>
+        <div className="w-full mb-3 lg:mb-0">
+          <select
+            name="month"
+            className="mb-3 p-3 w-full rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray cursor-pointer"
+            required={false}
+          >
+            <option value="">mm</option>
+            {months.map((m, i) => (
+              <option value={m} key={i}>
+                {m}
+              </option>
+            ))}
+          </select>
+          <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
+            Current ({typedUser?.dateOfBirth?.month})
+          </span>
+        </div>
+        <div className="w-full mb-3 lg:mb-0">
+          <select
+            name="year"
+            className="mb-3 p-3 w-full rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray cursor-pointer"
+            required={false}
+          >
+            <option value="">yyyy</option>
+            {years.map((y, i) => (
+              <option value={y} key={i}>
+                {y}
+              </option>
+            ))}
+          </select>
+          <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
+            Current ({typedUser?.dateOfBirth?.year})
+          </span>
+        </div>
       </div>
-      <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light"></span>
     </div>
   );
 };

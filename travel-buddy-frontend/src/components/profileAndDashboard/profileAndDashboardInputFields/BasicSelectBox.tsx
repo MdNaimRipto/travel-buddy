@@ -8,6 +8,7 @@ interface IBasicSelectBox {
   }>;
   required: boolean;
   message?: string;
+  name: string;
 }
 
 const BasicSelectBox = ({
@@ -15,6 +16,7 @@ const BasicSelectBox = ({
   options,
   required,
   message,
+  name,
 }: IBasicSelectBox) => {
   return (
     <div className="flex flex-col gap-3">
@@ -22,6 +24,7 @@ const BasicSelectBox = ({
         {label}
       </label>
       <select
+        name={name}
         className="p-3 rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray cursor-pointer"
         required={required}
       >
