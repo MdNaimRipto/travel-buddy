@@ -5,6 +5,8 @@ interface ILocationSelectBox {
   api: string;
   label: string;
   required: boolean;
+  message?: string;
+  name: string;
 }
 
 interface OverpassElement {
@@ -15,7 +17,13 @@ interface OverpassApiResponse {
   elements: OverpassElement[];
 }
 
-const LocationSelectBox = ({ api, label, required }: ILocationSelectBox) => {
+const LocationSelectBox = ({
+  api,
+  label,
+  required,
+  message,
+  name,
+}: ILocationSelectBox) => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<OverpassApiResponse | null>(null);
 
@@ -48,7 +56,9 @@ const LocationSelectBox = ({ api, label, required }: ILocationSelectBox) => {
         >
           <option value="">Loading...</option>
         </select>
-        <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light"></span>
+        <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
+          Not Updated Yet!
+        </span>
       </div>
     );
   }
@@ -65,7 +75,9 @@ const LocationSelectBox = ({ api, label, required }: ILocationSelectBox) => {
         >
           <option value="">Select {label}</option>
         </select>
-        <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light"></span>
+        <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
+          Not Updated Yet!
+        </span>
       </div>
     );
   }
@@ -89,7 +101,8 @@ const LocationSelectBox = ({ api, label, required }: ILocationSelectBox) => {
       label={label}
       options={options}
       required={required}
-      message="Not Update Yet!"
+      message={message}
+      name={name}
     />
   );
 };

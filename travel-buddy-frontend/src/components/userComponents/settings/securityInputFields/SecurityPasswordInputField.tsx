@@ -6,9 +6,13 @@ import { colorConfig } from "@/configs/colorConfig";
 
 interface ISecurityPasswordInputField {
   label: string;
+  name: string;
 }
 
-const SecurityPasswordInputField = ({ label }: ISecurityPasswordInputField) => {
+const SecurityPasswordInputField = ({
+  label,
+  name,
+}: ISecurityPasswordInputField) => {
   const [isPassHidden, setIsPassHidden] = useState(true);
 
   return (
@@ -18,7 +22,7 @@ const SecurityPasswordInputField = ({ label }: ISecurityPasswordInputField) => {
       </label>
       <div className="relative">
         <input
-          name="password"
+          name={name}
           id="password"
           type={isPassHidden ? "password" : "text"}
           placeholder="Enter Password"
