@@ -18,7 +18,7 @@ const UserInfoBlock = ({
             <h6 className="text-sm lg:text-xs xl:text-sm font-inter text-black mb-3">
               {info.name}
             </h6>
-            <p className="text-sm lg:text-xs xl:text-sm leading-8 font-inter text-gray font-light max-h-14 overflow-hidden">
+            <p className="text-sm lg:text-xs xl:text-sm leading-8 lg:leading-7 xl:leading-8 font-inter text-gray font-light max-h-14 overflow-hidden">
               {info.value}
             </p>
           </div>

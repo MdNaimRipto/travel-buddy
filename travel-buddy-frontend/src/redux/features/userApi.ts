@@ -1,5 +1,10 @@
 import { apiConfig } from "@/configs/apiConfig";
-import { IUserRegister, linkedProvidersEnums } from "@/types/userTypes";
+import {
+  IUpdatePassword,
+  IUser,
+  IUserRegister,
+  linkedProvidersEnums,
+} from "@/types/userTypes";
 import { userApiSlice } from "../apis/userApiSlice";
 
 const userApi = userApiSlice.injectEndpoints({
@@ -53,7 +58,44 @@ const userApi = userApiSlice.injectEndpoints({
       }),
       invalidatesTags: [],
     }),
-
+    //
+    // * Update User
+    //
+    updateUser: builder.mutation({
+      query: ({
+        data,
+        token,
+        userID,
+      }: {
+        data: Partial<IUser>;
+        userID: string;
+        token: string;
+      }) => ({
+        url: `${apiConfig.USER.UPDATE_USER}/${userID}`,
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [],
+    }),
+    //
+    // * Update Password
+    //
+    updatePassword: builder.mutation({
+      query: ({ data, token }: { data: IUpdatePassword; token: string }) => ({
+        url: apiConfig.USER.UPDATE_PASSWORD,
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      }),
+      invalidatesTags: [],
+    }),
     //
     // * Verify Email For Forget Password
     //
@@ -123,6 +165,8 @@ export const {
   useCustomLoginMutation,
   useCustomRegisterMutation,
   useProviderLoginMutation,
+  useUpdateUserMutation,
+  useUpdatePasswordMutation,
   useVerifyEmailForForgetPasswordMutation,
   useVerifyOtpForForgetPasswordMutation,
   useForgetPasswordMutation,

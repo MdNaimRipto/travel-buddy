@@ -11,6 +11,8 @@ const ProfileUserDetailsRightContent = () => {
 
   const location = typedUser?.location;
 
+  const { facebook, instagram, linkedin, twitter } = typedUser?.socialLinks;
+
   const info = {
     personalInfo: [
       {
@@ -29,19 +31,19 @@ const ProfileUserDetailsRightContent = () => {
     socialInfo: [
       {
         name: "Facebook",
-        value: "https://www.facebook.com",
+        value: facebook,
       },
       {
         name: "Instagram",
-        value: "https://www.instagram.com",
+        value: instagram,
       },
       {
         name: "Twitter",
-        value: "https://www.x.com",
+        value: twitter,
       },
       {
         name: "Linkedin",
-        value: "https://www.linkedin.com",
+        value: linkedin,
       },
     ],
   };

@@ -43,8 +43,15 @@ const NavSideOptions = ({
               ":disabled": {
                 cursor: "not-allowed",
                 pointerEvents: "all !important",
+                color:
+                  !isScrolled && isHomePage
+                    ? colorConfig.white
+                    : colorConfig.lightGray,
                 "&:hover": {
-                  color: colorConfig.lightGray,
+                  color:
+                    !isScrolled && isHomePage
+                      ? colorConfig.white
+                      : colorConfig.lightGray,
                 },
               },
             }}
