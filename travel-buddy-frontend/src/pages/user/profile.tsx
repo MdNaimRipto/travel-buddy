@@ -5,20 +5,23 @@ import { colorConfig } from "@/configs/colorConfig";
 import ProfileDashboardLayout from "@/layouts/ProfileDashboardLayout";
 import { Divider } from "@mui/material";
 import React, { ReactElement } from "react";
+import OpacityTransition from "@/components/animation/OpacityTransition";
 
 const Profile = () => {
   return (
-    <div className="">
-      <ProfileUserDetails />
-      <Divider
-        sx={{
-          my: 4,
-          mx: 5,
-          borderColor: `${colorConfig.extraLightGray} !important`,
-        }}
-      />
-      <ProfileUserStats />
-    </div>
+    <OpacityTransition>
+      <>
+        <ProfileUserDetails />
+        <Divider
+          sx={{
+            my: 4,
+            mx: 5,
+            borderColor: `${colorConfig.extraLightGray} !important`,
+          }}
+        />
+        <ProfileUserStats />
+      </>
+    </OpacityTransition>
   );
 };
 

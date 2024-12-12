@@ -24,5 +24,19 @@ export interface IUser {
     district: string;
     country: string;
   };
+  socialLinks: {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    linkedin: string;
+  };
   createdAt: string;
+  updatedAt: string;
+}
+
+export interface IUpdatePassword {
+  userId: string;
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
 }
