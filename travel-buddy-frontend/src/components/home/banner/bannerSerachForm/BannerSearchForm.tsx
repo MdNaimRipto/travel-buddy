@@ -44,7 +44,7 @@ const BannerSearchForm = () => {
   };
 
   return (
-    <div className="container hidden lg:block h-2/5 relative z-0 overflow-hidden">
+    <div className="container hidden lg:block h-2/5 relative z-20 overflow-hidden">
       <form
         onSubmit={handleSearch}
         className="bg-white bg-opacity-20 backdrop-blur rounded-full absolute top-0 left-1/2 -translate-x-1/2 w-[94%] h-2/5 grid grid-cols-4 py-8 px-8"
