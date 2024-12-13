@@ -35,23 +35,13 @@ const BannerSlider = () => {
       title: "Explore Mount Fuji's City and Lake Charm",
     },
     {
-      videoSrc: "/videos/banner04.mp4",
+      videoSrc: "/videos/banner03.mp4",
       img: banner03.src,
       title: "Escape to the Charm of Countryside Living",
     },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    bannerCards.forEach(card => {
-      const link = document.createElement("link");
-      link.rel = "preload";
-      link.as = "video";
-      link.href = card.videoSrc;
-      document.head.appendChild(link);
-    });
-  }, [bannerCards]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
