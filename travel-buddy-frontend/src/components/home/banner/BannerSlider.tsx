@@ -26,14 +26,17 @@ const BannerSlider = () => {
   const bannerCards = [
     {
       videoSrc: "/videos/banner01.mp4",
+      img: banner01.src,
       title: "Unwind in the Tranquility of the Mountains",
     },
     {
       videoSrc: "/videos/banner02.mp4",
+      img: banner02.src,
       title: "Explore Mount Fuji's City and Lake Charm",
     },
     {
-      videoSrc: "/videos/banner03.mp4",
+      videoSrc: "/videos/banner04.mp4",
+      img: banner03.src,
       title: "Escape to the Charm of Countryside Living",
     },
   ];
@@ -80,6 +83,7 @@ const BannerSlider = () => {
           } transition-opacity duration-[1.2s] ease-in-out`}
         >
           <video
+            poster={card.img}
             src={card.videoSrc}
             autoPlay
             loop
