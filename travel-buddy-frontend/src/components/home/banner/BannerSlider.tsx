@@ -22,21 +22,18 @@ const BannerSlider = () => {
   //   },
   // ];
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const bannerCards = [
     {
       videoSrc: "/videos/banner01.mp4",
-      title: "Find Your Perfect Beach Getaway",
-    },
-    {
-      videoSrc: "/videos/banner02.mp4",
       title: "Unwind in the Tranquility of the Mountains",
     },
     {
-      videoSrc: "/videos/banner03.mp4",
+      videoSrc: "/videos/banner02.mp4",
       title: "Explore Mount Fuji's City and Lake Charm",
     },
     {
-      videoSrc: "/videos/banner04.mp4",
+      videoSrc: "/videos/banner03.mp4",
       title: "Escape to the Charm of Countryside Living",
     },
   ];
@@ -44,10 +41,20 @@ const BannerSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
+    bannerCards.forEach(card => {
+      const link = document.createElement("link");
+      link.rel = "preload";
+      link.as = "video";
+      link.href = card.videoSrc;
+      document.head.appendChild(link);
+    });
+  }, [bannerCards]);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       const nextSlide = (currentSlide + 1) % bannerCards.length;
       setCurrentSlide(nextSlide);
-    }, 7000);
+    }, 3500);
 
     return () => {
       clearTimeout(timer);
@@ -70,7 +77,7 @@ const BannerSlider = () => {
           // }}
           className={`absolute w-full h-full top-0 left-0 ${
             currentSlide === i ? "opacity-100" : "opacity-0"
-          } transition-opacity duration-[2.5s] ease-in-out`}
+          } transition-opacity duration-[1.2s] ease-in-out`}
         >
           <video
             src={card.videoSrc}
@@ -78,10 +85,10 @@ const BannerSlider = () => {
             loop
             muted
             playsInline
-            className={`w-full h-full object-cover absolute z-0 brightness-[.65] ${
+            className={`w-full bg-lightGray h-full object-cover absolute z-0 brightness-[.65] ${
               currentSlide === i ? "opacity-100" : "opacity-0"
-            } duration-[2.5s]`}
-          ></video>
+            } duration-[1.2s]`}
+          />
           <Transition>
             <div className="relative z-10 w-full container flex items-center justify-center h-full lg:h-4/5 pt-0 md:pt-[50px] lg:pt-0">
               <div className="w-full px-4 md:px-0 md:w-[88%]">
