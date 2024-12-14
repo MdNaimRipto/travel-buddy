@@ -47,7 +47,7 @@ const BannerSlider = () => {
     const timer = setTimeout(() => {
       const nextSlide = (currentSlide + 1) % bannerCards.length;
       setCurrentSlide(nextSlide);
-    }, 5000);
+    }, 7000);
 
     return () => {
       clearTimeout(timer);
@@ -70,7 +70,7 @@ const BannerSlider = () => {
           // }}
           className={`absolute w-full h-full top-0 left-0 ${
             currentSlide === i ? "opacity-100" : "opacity-0"
-          } transition-opacity duration-[1.8s] ease-in-out`}
+          } transition-opacity duration-[2.5s] ease-in-out`}
         >
           <video
             poster={card.img}
@@ -81,7 +81,7 @@ const BannerSlider = () => {
             playsInline
             className={`w-full bg-lightGray h-full object-cover absolute z-0 brightness-[.65] ${
               currentSlide === i ? "opacity-100" : "opacity-0"
-            } duration-[1.8s]`}
+            } duration-[2.5s]`}
             preload="metadata"
           />
           <Transition>
