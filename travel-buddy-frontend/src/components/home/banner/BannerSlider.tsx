@@ -25,17 +25,17 @@ const BannerSlider = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const bannerCards = [
     {
-      videoSrc: "/videos/banner01.mp4",
+      videoSrc: "https://travel-buddy-demo.vercel.app/videos/banner001.mp4",
       img: banner01.src,
-      title: "Unwind in the Tranquility of the Mountains",
+      title: "Explore the Serenity of the Mountains",
     },
     {
-      videoSrc: "/videos/banner02.mp4",
+      videoSrc: "https://travel-buddy-demo.vercel.app/videos/banner002.mp4",
       img: banner02.src,
       title: "Explore Mount Fuji's City and Lake Charm",
     },
     {
-      videoSrc: "/videos/banner03.mp4",
+      videoSrc: "https://travel-buddy-demo.vercel.app/videos/banner003.mp4",
       img: banner03.src,
       title: "Escape to the Charm of Countryside Living",
     },
@@ -47,7 +47,7 @@ const BannerSlider = () => {
     const timer = setTimeout(() => {
       const nextSlide = (currentSlide + 1) % bannerCards.length;
       setCurrentSlide(nextSlide);
-    }, 3500);
+    }, 5000);
 
     return () => {
       clearTimeout(timer);
@@ -70,7 +70,7 @@ const BannerSlider = () => {
           // }}
           className={`absolute w-full h-full top-0 left-0 ${
             currentSlide === i ? "opacity-100" : "opacity-0"
-          } transition-opacity duration-[1.2s] ease-in-out`}
+          } transition-opacity duration-[1.8s] ease-in-out`}
         >
           <video
             poster={card.img}
@@ -81,7 +81,8 @@ const BannerSlider = () => {
             playsInline
             className={`w-full bg-lightGray h-full object-cover absolute z-0 brightness-[.65] ${
               currentSlide === i ? "opacity-100" : "opacity-0"
-            } duration-[1.2s]`}
+            } duration-[1.8s]`}
+            preload="metadata"
           />
           <Transition>
             <div className="relative z-10 w-full container flex items-center justify-center h-full lg:h-4/5 pt-0 md:pt-[50px] lg:pt-0">
