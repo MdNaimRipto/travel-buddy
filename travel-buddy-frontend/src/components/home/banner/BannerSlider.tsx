@@ -25,17 +25,17 @@ const BannerSlider = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const bannerCards = [
     {
-      videoSrc: "https://travel-buddy-demo.vercel.app/videos/banner001.mp4",
+      videoSrc: "https://travel-buddy-demo.vercel.app/videos/Banner001.mp4",
       img: banner01.src,
       title: "Explore the Serenity of the Mountains",
     },
     {
-      videoSrc: "https://travel-buddy-demo.vercel.app/videos/banner002.mp4",
+      videoSrc: "https://travel-buddy-demo.vercel.app/videos/Banner002.mp4",
       img: banner02.src,
       title: "Explore Mount Fuji's City and Lake Charm",
     },
     {
-      videoSrc: "https://travel-buddy-demo.vercel.app/videos/banner003.mp4",
+      videoSrc: "https://travel-buddy-demo.vercel.app/videos/Banner003.mp4",
       img: banner03.src,
       title: "Escape to the Charm of Countryside Living",
     },
