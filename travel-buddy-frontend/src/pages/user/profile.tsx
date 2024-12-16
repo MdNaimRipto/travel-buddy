@@ -29,7 +29,10 @@ export default Profile;
 
 Profile.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ProfileDashboardLayout sideNavItem={profileSideNavItems}>
+    <ProfileDashboardLayout
+      sideNavItem={profileSideNavItems}
+      title="Account Menu"
+    >
       {page}
     </ProfileDashboardLayout>
   );

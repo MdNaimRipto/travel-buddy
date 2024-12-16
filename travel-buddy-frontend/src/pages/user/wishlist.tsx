@@ -41,7 +41,10 @@ export default Wishlist;
 
 Wishlist.getLayout = function getLayout(page: ReactElement) {
   return (
-    <ProfileDashboardLayout sideNavItem={profileSideNavItems}>
+    <ProfileDashboardLayout
+      sideNavItem={profileSideNavItems}
+      title="Account Menu"
+    >
       {page}
     </ProfileDashboardLayout>
   );

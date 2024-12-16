@@ -164,7 +164,10 @@ const ProfileAndDashboardDropDown = ({
         )}
         {user.role === "hotelOwner" && (
           <MenuItem onClick={handleClose} disabled={isLoading}>
-            <Link href="/" className="w-44 flex items-center gap-3">
+            <Link
+              href="/dashboard/seller/hotelStatistics"
+              className="w-44 flex items-center gap-3"
+            >
               <SpaceDashboard color="action" />{" "}
               <span className="font-inter font-normal">Hotel Dashboard</span>
             </Link>

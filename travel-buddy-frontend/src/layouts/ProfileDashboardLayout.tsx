@@ -17,9 +17,11 @@ interface ISideNav {
 const ProfileDashboardLayout = ({
   children,
   sideNavItem,
+  title,
 }: {
   children: ReactElement;
   sideNavItem: Array<ISideNav>;
+  title: string;
 }) => {
   const { user, setUser } = useUserContext();
   const { Cookies, Router } = UseCommonImports();
@@ -91,6 +93,7 @@ const ProfileDashboardLayout = ({
               items={sideNavItem}
               isSideNavOpen={isSideNavOpen}
               setIsSideNavOpen={setIsSideNavOpen}
+              title={title}
             />
           </div>
           <main
