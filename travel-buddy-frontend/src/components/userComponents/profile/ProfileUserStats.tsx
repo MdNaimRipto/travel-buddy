@@ -3,27 +3,27 @@ import React from "react";
 const ProfileUserStats = () => {
   const stats = [
     {
-      bg: "from-[#007bff] to-[#0056b3]",
+      bg: "from-[#0091ff] to-[#237ddf]",
       title: "Total Bookings",
       value: "330",
     },
     {
-      bg: "from-[#28a745] to-[#1e7e34]",
+      bg: "from-[#24b650] to-[#36b74e]",
       title: "Successful Bookings",
       value: "300",
     },
     {
-      bg: "from-[#dc3545] to-[#c82333]",
+      bg: "from-[#fc4d4d] to-[#ff2f2f]",
       title: "Canceled Bookings",
       value: "30",
     },
     {
-      bg: "from-[#ffc107] to-[#e0a800]",
+      bg: "from-[#ffd300] to-[#f2b300]",
       title: "Wishlisted Hotels",
       value: "20",
     },
     {
-      bg: "from-[#6f42c1] to-[#563d7c]",
+      bg: "from-[#8a46ff] to-[#6d44ca]",
       title: "Wishlisted Reservations",
       value: "48",
     },
