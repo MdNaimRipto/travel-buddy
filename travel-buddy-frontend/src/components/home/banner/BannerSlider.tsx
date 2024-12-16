@@ -7,22 +7,6 @@ import CommonButton from "@/components/common/buttons/CommonButton";
 import Transition from "@/components/animation/Transition";
 
 const BannerSlider = () => {
-  // const bannerCards = [
-  //   {
-  //     img: banner01.src,
-  //     title: "Discover Your Ideal Mountain Retreat",
-  //   },
-  //   {
-  //     img: banner02.src,
-  //     title: "Find Your Perfect Beach Getaway",
-  //   },
-  //   {
-  //     img: banner03.src,
-  //     title: "Plan Your Serene Nature Adventure",
-  //   },
-  // ];
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const bannerCards = [
     {
       videoSrc: "https://travel-buddy-demo.vercel.app/videos/Banner001.mp4",
@@ -59,15 +43,6 @@ const BannerSlider = () => {
       {bannerCards.map((card, i) => (
         <div
           key={i}
-          // className="absolute w-full h-full top-0 left-0"
-          // style={{
-          //   background: `linear-gradient(45deg, #0000006e, #00000080), url(${card.img})`,
-          // backgroundPosition: "center",
-          // backgroundSize: "cover",
-          // backgroundRepeat: "no-repeat",
-          // opacity: currentSlide === i ? 1 : 0,
-          // transition: "1.5s ease-in-out",
-          // }}
           className={`absolute w-full h-full top-0 left-0 ${
             currentSlide === i ? "opacity-100" : "opacity-0"
           } transition-opacity duration-[2.5s] ease-in-out`}
