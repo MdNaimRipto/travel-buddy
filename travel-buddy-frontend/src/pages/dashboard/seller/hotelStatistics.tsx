@@ -1,4 +1,6 @@
 import { sellerSideNavItems } from "@/components/dashboardComponents/sellerDashboard/sellerUtils";
+import HotelBookingsQuickInfo from "@/components/dashboardComponents/sellerDashboard/statistics/HotelBookingsQuickInfo";
+import HotelReviewQuickInfo from "@/components/dashboardComponents/sellerDashboard/statistics/HotelReviewQuickInfo";
 import HotelLayoutWrapper, {
   useHotelDetailsContext,
 } from "@/layouts/layoutWrapper/HotelLayoutWrapper";
@@ -8,15 +10,20 @@ import { IBusinessProfile } from "@/types/hotelTypes";
 import React, { ReactElement } from "react";
 
 const HotelStatistics = () => {
-  const hotelDetails: IApiSuccessResponse = useHotelDetailsContext();
+  // const hotelDetails: IApiSuccessResponse = useHotelDetailsContext();
 
-  const details = hotelDetails?.data as IBusinessProfile;
+  // const details = hotelDetails?.data as IBusinessProfile;
 
-  if (!details) {
-    return <p>No Profile Found</p>;
-  }
+  // if (!details) {
+  //   return <p>No Profile Found</p>;
+  // }
 
-  return <div>Hotel Statistics</div>;
+  return (
+    <div>
+      <HotelBookingsQuickInfo />
+      <HotelReviewQuickInfo />
+    </div>
+  );
 };
 
 export default HotelStatistics;
