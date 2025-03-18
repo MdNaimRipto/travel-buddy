@@ -42,28 +42,28 @@ const ProfileUserDetailsLeftContent = () => {
       link:
         typedUser?.socialLinks.facebook === "Not Updated Yet!"
           ? null
-          : typedUser.socialLinks.facebook,
+          : typedUser?.socialLinks.facebook,
     },
     {
       logo: InstagramIcon,
       link:
         typedUser?.socialLinks.instagram === "Not Updated Yet!"
           ? null
-          : typedUser.socialLinks.instagram,
+          : typedUser?.socialLinks.instagram,
     },
     {
       logo: XIcon,
       link:
         typedUser?.socialLinks.twitter === "Not Updated Yet!"
           ? null
-          : typedUser.socialLinks.twitter,
+          : typedUser?.socialLinks.twitter,
     },
     {
       logo: LinkedInIcon,
       link:
         typedUser?.socialLinks.linkedin === "Not Updated Yet!"
           ? null
-          : typedUser.socialLinks.linkedin,
+          : typedUser?.socialLinks.linkedin,
     },
   ];
 

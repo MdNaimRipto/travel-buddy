@@ -35,7 +35,7 @@ const SecurityInfoSettings = () => {
 
     const option = {
       data: {
-        userId: typedUser._id,
+        userId: typedUser?._id,
         currentPassword,
         newPassword,
         confirmPassword,
