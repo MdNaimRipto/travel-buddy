@@ -16,7 +16,7 @@ const DetailsPageImageViewer = ({
 }: {
   isViewerOpen: boolean;
   setIsImageViewerOpen: any;
-  viewerImages: Array<{ img: StaticImageData }>;
+  viewerImages: Array<string>;
   title: string;
 }) => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -61,10 +61,12 @@ const DetailsPageImageViewer = ({
                 <BackwardIcon className="text-white disabled:text-extraLightGray" />
               </IconButton>
               <Image
-                src={viewerImages[Number(currentImage)].img}
+                src={viewerImages[Number(currentImage)]}
                 alt={title}
                 className={`w-full h-full object-cover`}
                 priority
+                width={800}
+                height={800}
               />
               <IconButton
                 sx={{
@@ -115,7 +117,7 @@ const DetailsPageImageViewer = ({
                       }}
                     >
                       <Image
-                        src={img.img}
+                        src={img}
                         alt="Reservation Images"
                         className={`w-full h-full object-cover ${
                           i + displayedImages.prevCount === currentImage
@@ -123,6 +125,8 @@ const DetailsPageImageViewer = ({
                             : "brightness-75 opacity-70"
                         }`}
                         priority
+                        width={200}
+                        height={200}
                       />
                     </Button>
                   ))}

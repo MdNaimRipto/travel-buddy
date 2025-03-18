@@ -34,26 +34,6 @@ const HotelBookingsQuickInfo = () => {
       title: "Ongoing Bookings",
       value: 90,
     },
-    // {
-    //   bg: "from-[#8a46ff] to-[#6d44ca]",
-    //   title: "Total  Reviews",
-    //   value: "48",
-    // },
-    // {
-    //   bg: "from-[#24b650] to-[#36b74e]",
-    //   title: "Positive Reviews",
-    //   value: "48",
-    // },
-    // {
-    //   bg: "from-[#fc4d4d] to-[#ff2f2f]",
-    //   title: "Negative Reviews",
-    //   value: "48",
-    // },
-    // {
-    //   bg: "from-[#ffa3ff] to-[#d98cd0]",
-    //   title: "Mixed Reviews",
-    //   value: "48",
-    // },
   ];
 
   const totalBookings =

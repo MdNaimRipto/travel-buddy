@@ -79,7 +79,7 @@ const BasicInfoSettings = () => {
         }),
       },
       token: Cookies.get("token") as string,
-      userID: typedUser._id,
+      userID: typedUser?._id,
     };
 
     try {

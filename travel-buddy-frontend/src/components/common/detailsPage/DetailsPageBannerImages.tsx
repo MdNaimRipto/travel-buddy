@@ -8,11 +8,11 @@ const DetailsPageBannerImages = ({
   setIsImageViewerOpen,
   images,
 }: {
-  images: Array<{ img: StaticImageData; gridStyle: string }>;
+  images: Array<{ img: string; gridStyle: string }>;
   setIsImageViewerOpen: any;
 }) => {
   return (
-    <div className="md:grid grid-cols-5 grid-rows-2 gap-4 h-[200px] md:h-[380px] xl:h-[500px] relative rounded-lg overflow-hidden">
+    <div className="md:grid grid-cols-5 grid-rows-2 gap-4 h-full relative rounded-lg overflow-hidden">
       {images.map((img, i) => (
         <div
           key={i}
@@ -23,6 +23,8 @@ const DetailsPageBannerImages = ({
             alt="Reservation Images"
             className={`w-full h-full object-cover brightness-90`}
             priority
+            width={600}
+            height={600}
           />
         </div>
       ))}
