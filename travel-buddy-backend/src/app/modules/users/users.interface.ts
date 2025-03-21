@@ -1,9 +1,6 @@
 export type userRoleEnums = "hotelOwner" | "customer";
-export type linkedProvidersEnums =
-  | "CUSTOM"
-  | "FACEBOOK"
-  | "TWITTER"
-  | "INSTAGRAM";
+export type linkedProvidersEnums = "CUSTOM" | "FACEBOOK" | "TWITTER" | "GOOGLE";
+export type genderEnums = "MALE" | "FEMALE";
 
 export interface IUser {
   userName: string;
@@ -26,6 +23,12 @@ export interface IUser {
     twitter: string;
     linkedin: string;
   };
+  gender?: genderEnums;
+  dateOfBirth: {
+    date: string;
+    month: string;
+    year: string;
+  };
 }
 
 export interface ICheckUserExists {
@@ -47,6 +50,18 @@ export interface IUserWithoutPassword {
     city: string;
     district: string;
     country: string;
+  };
+  socialLinks: {
+    facebook: string;
+    instagram: string;
+    twitter: string;
+    linkedin: string;
+  };
+  gender?: genderEnums;
+  dateOfBirth: {
+    date: string;
+    month: string;
+    year: string;
   };
   createdAt: Date;
   updatedAt: Date;

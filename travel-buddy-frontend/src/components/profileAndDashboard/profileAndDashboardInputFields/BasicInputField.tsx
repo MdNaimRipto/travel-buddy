@@ -2,7 +2,7 @@ import React from "react";
 
 interface IBasicInputField {
   label: string;
-  type: "text" | "email" | "tel";
+  type: "text" | "email" | "tel" | "number";
   placeholder: string;
   message?: string;
   required: boolean;

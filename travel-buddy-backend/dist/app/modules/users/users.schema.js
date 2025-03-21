@@ -20,13 +20,13 @@ const user_constant_1 = require("./user.constant");
 exports.usersSchema = new mongoose_1.Schema({
     userName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    contactNumber: { type: String, required: true, unique: true },
+    contactNumber: { type: String, required: true },
     profileImage: {
         type: String,
         required: true,
         default: "https://i.ibb.co/dcHVrp8/User-Profile-PNG-Image.png",
     },
-    password: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     role: { type: String, required: true, enum: user_constant_1.UserRoleEnums },
     uid: { type: String, required: true, unique: true },
     linkedProviders: {
@@ -42,13 +42,23 @@ exports.usersSchema = new mongoose_1.Schema({
         street: { type: String, required: true, default: "Not Updated Yet!" },
         city: { type: String, required: true, default: "Not Updated Yet!" },
         district: { type: String, required: true, default: "Not Updated Yet!" },
-        country: { type: String, required: true, default: "Not Updated Yet!" },
+        country: { type: String, required: true, default: "Bangladesh" },
     },
     socialLinks: {
         facebook: { type: String, required: true, default: "Not Updated Yet!" },
         instagram: { type: String, required: true, default: "Not Updated Yet!" },
         twitter: { type: String, required: true, default: "Not Updated Yet!" },
         linkedin: { type: String, required: true, default: "Not Updated Yet!" },
+    },
+    gender: {
+        type: String,
+        enum: user_constant_1.GenderEnums,
+        required: false,
+    },
+    dateOfBirth: {
+        date: { type: String, required: true, default: "Not Updated Yet!" },
+        year: { type: String, required: true, default: "Not Updated Yet!" },
+        month: { type: String, required: true, default: "Not Updated Yet!" },
     },
 }, {
     timestamps: true,

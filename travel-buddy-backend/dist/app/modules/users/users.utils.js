@@ -38,6 +38,9 @@ function encryptData(user) {
         location: user.location,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+        socialLinks: user.socialLinks,
+        gender: user === null || user === void 0 ? void 0 : user.gender,
+        dateOfBirth: user.dateOfBirth,
     };
     const encryptedData = crypto_js_1.default.AES.encrypt(JSON.stringify(authData), String(config_1.default.jwt_secret)).toString();
     return encryptedData;

@@ -18,7 +18,7 @@ async function main() {
     await mongoose.connect(`${uri}`);
     console.log(`🛢 Database Connected Successfully`);
 
-    app.listen(port, () => {
+    server = app.listen(port, () => {
       console.log(`Server is running on  http://localhost:${port}`);
     });
   } finally {

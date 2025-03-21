@@ -124,15 +124,15 @@ const getHotelStatistics = async (
   });
 
   return {
-    totalBookings,
-    totalCompletedBookings,
-    totalOnGoingBookings,
-    totalCanceledBookings,
-    totalMixedReviews,
-    totalNegativeReviews,
-    totalPendingBookings,
-    totalPositiveReviews,
-    totalReviews,
+    totalBookings, //
+    totalCompletedBookings, //
+    totalOnGoingBookings, //
+    totalCanceledBookings, //
+    totalMixedReviews, //
+    totalNegativeReviews, //
+    totalPendingBookings, //
+    totalPositiveReviews, //
+    totalReviews, //
   };
 };
 

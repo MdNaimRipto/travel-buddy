@@ -155,7 +155,7 @@ const BasicInfoSettings = () => {
           })`}
         />
         <div className="md:col-span-2 lg:w-3/4">
-          <DateOfBirthSelectBox typedUser={typedUser} />
+          <DateOfBirthSelectBox typedUser={typedUser} label="Date of birth" />
         </div>
         <BasicInputField
           label="Street"

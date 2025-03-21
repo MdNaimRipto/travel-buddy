@@ -28,7 +28,7 @@ function main() {
             const uri = config_1.default.database_url;
             yield mongoose_1.default.connect(`${uri}`);
             console.log(`🛢 Database Connected Successfully`);
-            app_1.default.listen(port, () => {
+            server = app_1.default.listen(port, () => {
                 console.log(`Server is running on  http://localhost:${port}`);
             });
         }

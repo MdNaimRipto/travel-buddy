@@ -26,8 +26,8 @@ export const businessProfileSchema = new Schema<IBusinessProfile>(
         index: true,
       },
       coordinates: {
-        latitude: { type: String, required: true },
-        longitude: { type: String, required: true },
+        latitude: { type: String, required: true, default: 0 },
+        longitude: { type: String, required: true, default: 0 },
       },
     },
     hotelImages: [{ type: String, required: true }],
@@ -39,6 +39,14 @@ export const businessProfileSchema = new Schema<IBusinessProfile>(
       instagram: { type: String, required: true, default: "Not Updated Yet!" },
       twitter: { type: String, required: true, default: "Not Updated Yet!" },
       linkedin: { type: String, required: true, default: "Not Updated Yet!" },
+      website: { type: String, required: true, default: "Not Updated Yet!" },
+    },
+    email: { type: String, required: true, unique: true },
+    contactNumber: { type: String, required: true },
+    establishedDate: {
+      date: { type: String, required: true },
+      month: { type: String, required: true },
+      year: { type: String, required: true },
     },
   },
   {
