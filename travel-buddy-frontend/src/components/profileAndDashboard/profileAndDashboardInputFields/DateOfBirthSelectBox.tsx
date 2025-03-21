@@ -1,7 +1,13 @@
 import { IUser } from "@/types/userTypes";
 import React from "react";
 
-const DateOfBirthSelectBox = ({ typedUser }: { typedUser: IUser }) => {
+const DateOfBirthSelectBox = ({
+  typedUser,
+  label,
+}: {
+  typedUser: IUser;
+  label: string;
+}) => {
   let dates = [];
   for (let i = 1; i <= 31; i++) {
     dates.push(String(i).padStart(2, "0"));
@@ -30,7 +36,7 @@ const DateOfBirthSelectBox = ({ typedUser }: { typedUser: IUser }) => {
   return (
     <div className="flex flex-col gap-3">
       <label className="font-inter font-medium text-sm text-black">
-        Date of Birth
+        {label}
       </label>
       <div className="md:grid grid-cols-2 lg:grid-cols-3 gap-4">
         <div className="w-full mb-3 lg:mb-0">

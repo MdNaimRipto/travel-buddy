@@ -5,7 +5,7 @@ import { IReservation } from "@/types/reservationTypes";
 import React, { ReactElement } from "react";
 import reservationImage from "@/assets/reservations/fakeReservationImage.jpg";
 import ReservationDetailsCard from "@/components/dashboardComponents/sellerDashboard/reservations/ReservationDetailsCard";
-import { MdOutlineAddToPhotos } from "react-icons/md";
+import AddReservationModal from "@/components/dashboardComponents/sellerDashboard/reservations/AddReservationModal";
 
 const MyReservations = () => {
   const stats = [
@@ -78,10 +78,7 @@ const MyReservations = () => {
           <h4 className="font-inter text-lg lg:text-base xl:text-xl underline inline-block text-darkGray">
             My Reservations:
           </h4>
-          <button className="flex items-center gap-2 text-black border border-black rounded-xl p-3">
-            <p className="text-base font-poppins font-medium">Edit Profile</p>
-            <MdOutlineAddToPhotos className="text-xs lg:text-3xl" />
-          </button>
+          <AddReservationModal />
         </div>
         {fakeReservations.map((r: IReservation, i: number) => (
           <ReservationDetailsCard key={i} reservation={r} />

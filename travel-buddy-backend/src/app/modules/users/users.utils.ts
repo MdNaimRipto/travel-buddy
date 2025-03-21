@@ -36,6 +36,9 @@ export function encryptData(user: IUserWithoutPassword) {
     location: user.location,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
+    socialLinks: user.socialLinks,
+    gender: user?.gender,
+    dateOfBirth: user.dateOfBirth,
   };
 
   const encryptedData = CryptoJS.AES.encrypt(

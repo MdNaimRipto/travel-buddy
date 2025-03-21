@@ -100,15 +100,15 @@ const getHotelStatistics = (hotelId, token) => __awaiter(void 0, void 0, void 0,
         rating: 3,
     });
     return {
-        totalBookings,
-        totalCompletedBookings,
-        totalOnGoingBookings,
-        totalCanceledBookings,
-        totalMixedReviews,
-        totalNegativeReviews,
-        totalPendingBookings,
-        totalPositiveReviews,
-        totalReviews,
+        totalBookings, //
+        totalCompletedBookings, //
+        totalOnGoingBookings, //
+        totalCanceledBookings, //
+        totalMixedReviews, //
+        totalNegativeReviews, //
+        totalPendingBookings, //
+        totalPositiveReviews, //
+        totalReviews, //
     };
 });
 // * Get Business Profile for Hotel Profile

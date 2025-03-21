@@ -24,6 +24,14 @@ export interface IBusinessProfile {
     instagram: string;
     twitter: string;
     linkedin: string;
+    website: string;
+  };
+  email: string;
+  contactNumber: string;
+  establishedDate: {
+    date: string;
+    month: string;
+    year: string;
   };
 }
 
