@@ -1,8 +1,9 @@
 import { apiConfig } from "@/configs/apiConfig";
-import { hotelApiSlice } from "../apis/hotelApiSlice";
 import { IBusinessProfile } from "@/types/hotelTypes";
+import { apiSlice } from "../apis/apiSlice";
+import Cookies from "js-cookie";
 
-const hotelApis = hotelApiSlice.injectEndpoints({
+const hotelApis = apiSlice.injectEndpoints({
   endpoints: builder => ({
     //
     // * Upload Hotel Details
@@ -13,24 +14,48 @@ const hotelApis = hotelApiSlice.injectEndpoints({
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${Cookies.get("token")}`,
         },
         body: JSON.stringify(data),
       }),
       invalidatesTags: [],
     }),
     //
+    // * Get Hotel Statistics
+    //
+    getHotelStatistics: builder.query({
+      query: ({ hotelId }: { hotelId: string }) => ({
+        url: `${apiConfig.HOTEL.BUSINESS_PROFILE.GET_STATISTICS}/${hotelId}`,
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }),
+    }),
+    //
+    // * Get Hotel Business Profile
+    //
+    getBusinessProfile: builder.query({
+      query: ({ hotelId }: { hotelId: string }) => ({
+        url: `${apiConfig.HOTEL.BUSINESS_PROFILE.GET_PROFILE}/${hotelId}`,
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
+      }),
+    }),
+    //
     // * Get Hotel Details
     //
     getHotelDetails: builder.query({
-      query: ({ hotelId, token }: { token: string; hotelId: string }) => ({
+      query: ({ hotelId }: { hotelId: string }) => ({
         url: `${apiConfig.HOTEL.BUSINESS_PROFILE.GET_DETAILS}/${hotelId}`,
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
       }),
     }),
   }),
 });
 
-export const { useUploadHotelDetailsMutation, useGetHotelDetailsQuery } =
-  hotelApis;
+export const {
+  useUploadHotelDetailsMutation,
+  useGetHotelDetailsQuery,
+  useGetHotelStatisticsQuery,
+  useGetBusinessProfileQuery,
+} = hotelApis;

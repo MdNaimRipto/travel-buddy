@@ -29,7 +29,7 @@ const DateOfBirthSelectBox = ({
   ];
 
   let years = [];
-  for (let i = 1980; i <= 2024; i++) {
+  for (let i = 1800; i <= 2024; i++) {
     years.push(String(i));
   }
 
@@ -80,7 +80,7 @@ const DateOfBirthSelectBox = ({
             required={false}
           >
             <option value="">yyyy</option>
-            {years.map((y, i) => (
+            {years.reverse().map((y, i) => (
               <option value={y} key={i}>
                 {y}
               </option>

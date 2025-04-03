@@ -1,17 +1,29 @@
 import { sellerSideNavItems } from "@/components/dashboardComponents/sellerDashboard/sellerUtils";
-import HotelLayoutWrapper from "@/layouts/layoutWrapper/HotelLayoutWrapper";
+import HotelLayoutWrapper, {
+  useHotelDetailsContext,
+} from "@/layouts/layoutWrapper/HotelLayoutWrapper";
 import ProfileDashboardLayout from "@/layouts/ProfileDashboardLayout";
 import React, { ReactElement } from "react";
 import Transition from "@/components/animation/Transition";
 import HotelDashboardProfile from "@/components/dashboardComponents/sellerDashboard/profile/HotelDashboardProfile";
 import CreateHotelProfile from "@/components/dashboardComponents/sellerDashboard/profile/CreateHotelProfile";
+import { IApiSuccessResponse } from "@/types/apiResponseTypes";
+import { IBusinessProfile } from "@/types/hotelTypes";
 
 const HotelProfile = () => {
-  const hotel = null;
+  const { hotelDetails, refetch } = useHotelDetailsContext();
+
+  const hotel = hotelDetails?.data as IBusinessProfile;
+
+  console.log(hotelDetails);
 
   return (
     <Transition>
-      {hotel ? <HotelDashboardProfile /> : <CreateHotelProfile />}
+      {hotel ? (
+        <HotelDashboardProfile />
+      ) : (
+        <CreateHotelProfile refetch={refetch} />
+      )}
     </Transition>
   );
 };

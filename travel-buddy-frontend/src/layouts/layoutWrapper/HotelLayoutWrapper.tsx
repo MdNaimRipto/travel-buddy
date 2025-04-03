@@ -1,6 +1,6 @@
 import Loader from "@/components/common/loader/Loader";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetHotelDetailsQuery } from "@/redux/features/hotelApis";
+import { useGetBusinessProfileQuery } from "@/redux/features/hotelApis";
 import { IUser } from "@/types/userTypes";
 import { UseCommonImports } from "@/utils/UseCommonImports";
 import React, {
@@ -23,9 +23,9 @@ const HotelLayoutWrapper = ({ children }: { children: ReactElement }) => {
     data: hotelDetails,
     isLoading: detailsLoading,
     error,
-  } = useGetHotelDetailsQuery({
-    hotelId: typedUser?._id,
-    token: String(Cookies.get("token")),
+    refetch,
+  } = useGetBusinessProfileQuery({
+    hotelId: typedUser?.uid,
   });
 
   const [isLoading, setIsLoading] = useState(true);
@@ -49,8 +49,13 @@ const HotelLayoutWrapper = ({ children }: { children: ReactElement }) => {
     return <p>No Details Found</p>;
   }
 
+  const value = {
+    hotelDetails,
+    refetch,
+  };
+
   return (
-    <HotelDetailsContext.Provider value={hotelDetails}>
+    <HotelDetailsContext.Provider value={value}>
       {children}
     </HotelDetailsContext.Provider>
   );

@@ -1,3 +1,5 @@
+import Loader from "@/components/common/loader/Loader";
+import NoHotelProfileMessage from "@/components/common/NoHotelProfileMessage";
 import { sellerSideNavItems } from "@/components/dashboardComponents/sellerDashboard/sellerUtils";
 import HotelBookingsQuickInfo from "@/components/dashboardComponents/sellerDashboard/statistics/HotelBookingsQuickInfo";
 import HotelReviewQuickInfo from "@/components/dashboardComponents/sellerDashboard/statistics/HotelReviewQuickInfo";
@@ -5,18 +7,29 @@ import HotelLayoutWrapper, {
   useHotelDetailsContext,
 } from "@/layouts/layoutWrapper/HotelLayoutWrapper";
 import ProfileDashboardLayout from "@/layouts/ProfileDashboardLayout";
+import { useGetHotelStatisticsQuery } from "@/redux/features/hotelApis";
 import { IApiSuccessResponse } from "@/types/apiResponseTypes";
-import { IBusinessProfile } from "@/types/hotelTypes";
+import { IBusinessProfile, IHotelStatistics } from "@/types/hotelTypes";
 import React, { ReactElement } from "react";
 
 const HotelStatistics = () => {
-  // const hotelDetails: IApiSuccessResponse = useHotelDetailsContext();
+  const { hotelDetails } = useHotelDetailsContext();
 
-  // const details = hotelDetails?.data as IBusinessProfile;
+  const details = hotelDetails?.data as IBusinessProfile;
 
-  // if (!details) {
-  //   return <p>No Profile Found</p>;
-  // }
+  const { isLoading, data } = useGetHotelStatisticsQuery({
+    hotelId: details ? String(details?._id) : "",
+  });
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!details || !data) {
+    return <NoHotelProfileMessage />;
+  }
+
+  const statistics = data?.data as IHotelStatistics;
 
   return (
     <div>

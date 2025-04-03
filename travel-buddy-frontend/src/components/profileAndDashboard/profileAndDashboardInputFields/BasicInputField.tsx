@@ -7,6 +7,7 @@ interface IBasicInputField {
   message?: string;
   required: boolean;
   name: string;
+  defaultValue?: string;
 }
 
 const BasicInputField = ({
@@ -16,6 +17,7 @@ const BasicInputField = ({
   message,
   required,
   name,
+  defaultValue,
 }: IBasicInputField) => {
   return (
     <div className="flex flex-col gap-3">
@@ -28,6 +30,7 @@ const BasicInputField = ({
         placeholder={placeholder}
         className="p-3 rounded-xl border border-lightGray focus:outline-darkGray font-inter font-normal text-sm appearance-none text-gray w-full"
         required={required}
+        defaultValue={defaultValue ? defaultValue : ""}
       />
       <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
         {message && message?.length >= 40

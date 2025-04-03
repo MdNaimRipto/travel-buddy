@@ -5,9 +5,10 @@ import {
   IUserRegister,
   linkedProvidersEnums,
 } from "@/types/userTypes";
-import { userApiSlice } from "../apis/userApiSlice";
+import { apiSlice } from "../apis/apiSlice";
+import Cookies from "js-cookie";
 
-const userApi = userApiSlice.injectEndpoints({
+const userApi = apiSlice.injectEndpoints({
   endpoints: builder => ({
     //
     // * Custom Register
@@ -62,20 +63,12 @@ const userApi = userApiSlice.injectEndpoints({
     // * Update User
     //
     updateUser: builder.mutation({
-      query: ({
-        data,
-        token,
-        userID,
-      }: {
-        data: Partial<IUser>;
-        userID: string;
-        token: string;
-      }) => ({
+      query: ({ data, userID }: { data: Partial<IUser>; userID: string }) => ({
         url: `${apiConfig.USER.UPDATE_USER}/${userID}`,
         method: "PATCH",
         headers: {
           "content-type": "application/json",
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${Cookies.get("token")}`,
         },
         body: JSON.stringify(data),
       }),
@@ -85,12 +78,12 @@ const userApi = userApiSlice.injectEndpoints({
     // * Update Password
     //
     updatePassword: builder.mutation({
-      query: ({ data, token }: { data: IUpdatePassword; token: string }) => ({
+      query: ({ data }: { data: IUpdatePassword }) => ({
         url: apiConfig.USER.UPDATE_PASSWORD,
         method: "PATCH",
         headers: {
           "content-type": "application/json",
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${Cookies.get("token")}`,
         },
         body: JSON.stringify(data),
       }),
