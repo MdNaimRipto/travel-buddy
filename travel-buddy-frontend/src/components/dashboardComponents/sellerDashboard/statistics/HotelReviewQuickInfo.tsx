@@ -1,28 +1,33 @@
 import React from "react";
 import PercentChart from "./charts/PercentChart";
 import StatsChart from "./charts/StatsChart";
+import { IHotelStatistics } from "@/types/hotelTypes";
 
-const HotelReviewQuickInfo = () => {
+const HotelReviewQuickInfo = ({
+  statistics,
+}: {
+  statistics: IHotelStatistics;
+}) => {
   const stats = [
     {
       bg: "from-[#8a46ff] to-[#6d44ca]",
       title: "Total Reviews",
-      value: 100,
+      value: statistics?.totalReviews,
     },
     {
       bg: "from-[#24b650] to-[#36b74e]",
       title: "Positive Reviews",
-      value: 60,
+      value: statistics?.totalPositiveReviews,
     },
     {
       bg: "from-[#fc4d4d] to-[#ff2f2f]",
       title: "Negative Reviews",
-      value: 30,
+      value: statistics?.totalNegativeReviews,
     },
     {
       bg: "from-[#ffa3ff] to-[#d98cd0]",
       title: "Mixed Reviews",
-      value: 10,
+      value: statistics?.totalMixedReviews,
     },
   ];
 

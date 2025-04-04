@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, IconButton } from "@mui/material";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import {
   IoChevronBack as BackwardIcon,
   IoChevronForward as ForwardIcon,
@@ -64,9 +64,10 @@ const DetailsPageImageViewer = ({
                 src={viewerImages[Number(currentImage)]}
                 alt={title}
                 className={`w-full h-full object-cover`}
+                unoptimized
                 priority
-                width={800}
-                height={800}
+                width={150}
+                height={150}
               />
               <IconButton
                 sx={{
@@ -125,8 +126,9 @@ const DetailsPageImageViewer = ({
                             : "brightness-75 opacity-70"
                         }`}
                         priority
-                        width={200}
-                        height={200}
+                        unoptimized
+                        width={50}
+                        height={50}
                       />
                     </Button>
                   ))}

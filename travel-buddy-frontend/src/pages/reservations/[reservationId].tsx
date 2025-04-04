@@ -24,23 +24,23 @@ const ReservationDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
 
   const images = [
-    { img: img1, gridStyle: "col-span-3 row-span-2" },
-    { img: img2, gridStyle: "col-span-2 row-span-1" },
-    { img: img3, gridStyle: "col-span-1 row-span-1" },
-    { img: img4, gridStyle: "col-span-1 row-span-1" },
+    { img: img1.src, gridStyle: "col-span-3 row-span-2" },
+    { img: img2.src, gridStyle: "col-span-2 row-span-1" },
+    { img: img3.src, gridStyle: "col-span-1 row-span-1" },
+    { img: img4.src, gridStyle: "col-span-1 row-span-1" },
   ];
 
   const viewerImages = [
-    { img: img1 },
-    { img: img2 },
-    { img: img3 },
-    { img: img4 },
-    { img: img5 },
-    { img: img1 },
-    { img: img2 },
-    { img: img3 },
-    { img: img4 },
-    { img: img5 },
+    img1.src,
+    img2.src,
+    img3.src,
+    img4.src,
+    img5.src,
+    img1.src,
+    img2.src,
+    img3.src,
+    img4.src,
+    img5.src,
   ];
 
   return (

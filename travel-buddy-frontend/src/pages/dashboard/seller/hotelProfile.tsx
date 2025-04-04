@@ -20,7 +20,7 @@ const HotelProfile = () => {
   return (
     <Transition>
       {hotel ? (
-        <HotelDashboardProfile />
+        <HotelDashboardProfile hotel={hotel} refetch={refetch} />
       ) : (
         <CreateHotelProfile refetch={refetch} />
       )}

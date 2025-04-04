@@ -1,38 +1,43 @@
 import React from "react";
 import PercentChart from "./charts/PercentChart";
 import StatsChart from "./charts/StatsChart";
+import { IHotelStatistics } from "@/types/hotelTypes";
 
-const HotelBookingsQuickInfo = () => {
+const HotelBookingsQuickInfo = ({
+  statistics,
+}: {
+  statistics: IHotelStatistics;
+}) => {
   const stats = [
     {
       bg: "from-[#0091ff] to-[#237ddf]",
       color: "#0091ff",
       title: "Total Bookings",
-      value: 350,
+      value: statistics?.totalBookings,
     },
     {
       bg: "from-[#24b650] to-[#36b74e]",
       color: "#24b650",
       title: "Successful Bookings",
-      value: 150,
+      value: statistics?.totalCompletedBookings,
     },
     {
       bg: "from-[#fc4d4d] to-[#ff2f2f]",
       color: "#fc4d4d",
       title: "Canceled Bookings",
-      value: 50,
+      value: statistics?.totalCanceledBookings,
     },
     {
       bg: "from-[#ffd300] to-[#f2b300]",
       color: "#ffd300",
       title: "Pending Bookings",
-      value: 60,
+      value: statistics?.totalPendingBookings,
     },
     {
       bg: "from-[#8a46ff] to-[#6d44ca]",
       color: "#8a46ff",
       title: "Ongoing Bookings",
-      value: 90,
+      value: statistics?.totalOnGoingBookings,
     },
   ];
 

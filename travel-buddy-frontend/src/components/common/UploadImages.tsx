@@ -4,6 +4,7 @@ import { CircularProgress, IconButton } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
 import { IoAddOutline, IoClose } from "react-icons/io5";
+import { ErrorToast } from "./toasts/ErrorToast";
 
 const UploadImages = ({
   images,
@@ -14,13 +15,60 @@ const UploadImages = ({
 }) => {
   const [isImageUploaded, setIsImageUploaded] = useState(false);
 
-  const handleImageUpload = (e: any) => {
+  const optimizeImage = (file: File, maxWidth = 1000, quality = 0.7) => {
+    return new Promise<File | null>(resolve => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = event => {
+        const img = new window.Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          // Set max width & height
+          let width = img.width;
+          let height = img.height;
+          if (width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          // Convert to JPEG/WebP with compression
+          canvas.toBlob(
+            blob => {
+              if (blob) {
+                resolve(new File([blob], file.name, { type: "image/jpeg" }));
+              } else {
+                resolve(null);
+              }
+            },
+            "image/jpeg", // Use WebP: "image/webp"
+            quality
+          );
+        };
+      };
+    });
+  };
+
+  const handleImageUpload = async (e: any) => {
     e.preventDefault();
     setIsImageUploaded(true);
     const img = e.target.files[0];
     if (img) {
+      const optimizedImage = await optimizeImage(img);
+
+      if (!optimizedImage) {
+        setIsImageUploaded(false);
+        return ErrorToast("Image optimization failed");
+      }
+
       const formData = new FormData();
-      formData.append("image", img);
+      formData.append("image", optimizedImage);
 
       const url = `https://api.imgbb.com/1/upload?key=${envConfig.image_api_key}`;
       fetch(url, {
@@ -73,8 +121,8 @@ const UploadImages = ({
             <Image
               src={img}
               alt={`Uploaded Image- ${i + 1}`}
-              width={50}
-              height={50}
+              width={300}
+              height={300}
               priority
               className="w-full h-full object-cover rounded-xl"
             />

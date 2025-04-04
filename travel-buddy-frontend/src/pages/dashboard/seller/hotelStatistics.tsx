@@ -8,7 +8,6 @@ import HotelLayoutWrapper, {
 } from "@/layouts/layoutWrapper/HotelLayoutWrapper";
 import ProfileDashboardLayout from "@/layouts/ProfileDashboardLayout";
 import { useGetHotelStatisticsQuery } from "@/redux/features/hotelApis";
-import { IApiSuccessResponse } from "@/types/apiResponseTypes";
 import { IBusinessProfile, IHotelStatistics } from "@/types/hotelTypes";
 import React, { ReactElement } from "react";
 
@@ -33,8 +32,8 @@ const HotelStatistics = () => {
 
   return (
     <div>
-      <HotelBookingsQuickInfo />
-      <HotelReviewQuickInfo />
+      <HotelBookingsQuickInfo statistics={statistics} />
+      <HotelReviewQuickInfo statistics={statistics} />
     </div>
   );
 };
