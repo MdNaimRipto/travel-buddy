@@ -53,19 +53,22 @@ const ReservationDetails = () => {
           mainCrumbPath="/reservations"
           path="/reservations/01"
           locationPath="/reservations?location=cox%27sBazar&area=inaniBeach%2B"
+          locationName="Inani Beach, Cox's Bazar"
         />
         <div className="lg:grid grid-cols-4 gap-4">
           <div className="col-span-3">
-            <DetailsPageBannerImages
-              images={images}
-              setIsImageViewerOpen={setIsImageViewerOpen}
-            />
+            <div className="h-[170px] md:h-[380px] xl:h-[500px]">
+              <DetailsPageBannerImages
+                images={images}
+                setIsImageViewerOpen={setIsImageViewerOpen}
+              />
+            </div>
             <ReservationTags />
             <div className="flex flex-col md:flex-row items-start gap-8">
               <MainFeatures />
               <AdditionalFeatures />
             </div>
-            <DetailsPageDescription name="Phi Phi Islands Adventure Day Trip" />
+            {/* <DetailsPageDescription name="Phi Phi Islands Adventure Day Trip" /> */}
           </div>
           <div className="col-span-1">
             <BookReservation />

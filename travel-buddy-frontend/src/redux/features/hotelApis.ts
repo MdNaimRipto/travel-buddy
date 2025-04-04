@@ -45,6 +45,14 @@ const hotelApis = apiSlice.injectEndpoints({
     //
     // * Get Hotel Details
     //
+    getAllHotels: builder.query({
+      query: () => ({
+        url: `${apiConfig.HOTEL.BUSINESS_PROFILE.GET_ALL}`,
+      }),
+    }),
+    //
+    // * Get Hotel Details
+    //
     getHotelDetails: builder.query({
       query: ({ hotelId }: { hotelId: string }) => ({
         url: `${apiConfig.HOTEL.BUSINESS_PROFILE.GET_DETAILS}/${hotelId}`,
@@ -57,5 +65,6 @@ export const {
   useUploadHotelDetailsMutation,
   useGetHotelDetailsQuery,
   useGetHotelStatisticsQuery,
+  useGetAllHotelsQuery,
   useGetBusinessProfileQuery,
 } = hotelApis;

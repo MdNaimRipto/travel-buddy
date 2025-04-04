@@ -6,20 +6,14 @@ import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { colorConfig } from "@/configs/colorConfig";
 import CommonBtnWithIcon from "../../buttons/CommonBtnWithIcon";
 import Link from "next/link";
+import { IBusinessProfile } from "@/types/hotelTypes";
 
-const HorizontalHotelCard = ({
-  card,
-}: {
-  card: {
-    img: string;
-  };
-}) => {
-  const { img } = card;
+const HorizontalHotelCard = ({ card }: { card: IBusinessProfile }) => {
   return (
     <div className="group">
       <div className="w-full h-[240px] overflow-hidden mb-5">
         <Image
-          src={img}
+          src={card?.hotelImages[0]}
           width={400}
           height={400}
           alt="Hotel-Images"
@@ -30,11 +24,13 @@ const HorizontalHotelCard = ({
       <div className="px-3 overflow-hidden">
         <h2 className="titleFont text-lg font-medium text-black leading-[34px] mb-3">{`The Allure Italy's Rich Culture, History, And Cuisine.`}</h2>
         <div className="flex items-center gap-2 whitespace-nowrap text-sm text-gray pb-3 mb-3 border-b border-b-lightGray">
-          <p className="titleFont">{`Cox's Bazar`}</p>
+          <p className="titleFont text-sx">
+            {card?.hotelLocation?.destination}
+          </p>
           <EastIcon sx={{ fontSize: 16 }} />
-          <p className="titleFont">Inani Beach</p>
+          <p className="titleFont text-sx">{card?.hotelLocation?.area}</p>
           <EastIcon sx={{ fontSize: 16 }} />
-          <p className="titleFont">Road No.1905</p>
+          <p className="titleFont text-sx">{card?.hotelLocation?.street}</p>
         </div>
         <div>
           <p className="mb-1 pt-2 text-xs titleFont font-medium text-black">
@@ -42,9 +38,8 @@ const HorizontalHotelCard = ({
           </p>
           <div className="flex items-center justify-between">
             <p className="text-black">
-              <span className="text-base text-black titleFont">BDT.3000</span>{" "}
-              <span className="text-lightGray text-sm line-through">
-                BDT.3000
+              <span className="text-base text-black titleFont">
+                BDT.{card?.startingPrice}
               </span>
             </p>
             <Link href="/hotels/01">

@@ -26,8 +26,8 @@ export const apiConfig = {
       CREATE: "/hotel/businessProfile/createBusinessProfile", // ✅
       GET_PROFILE: "/hotel/businessProfile/getBusinessProfile", // ✅
       GET_STATISTICS: "/hotel/businessProfile/getHotelStatistics", // ✅
-      GET_ALL: "/hotel/businessProfile/getAllHotels",
-      GET_DETAILS: "/hotel/businessProfile/getHotelDetails",
+      GET_ALL: "/hotel/businessProfile/getAllHotels", // ✅
+      GET_DETAILS: "/hotel/businessProfile/getHotelDetails", // ✅
       UPDATE: "/hotel/businessProfile/updateBusinessProfile",
     },
     RESERVATIONS: {

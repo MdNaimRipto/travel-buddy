@@ -1,6 +1,6 @@
 import React from "react";
 import { CgMenuGridO as ExpandIcon } from "react-icons/cg";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 
@@ -12,19 +12,22 @@ const DetailsPageBannerImages = ({
   setIsImageViewerOpen: any;
 }) => {
   return (
-    <div className="h-full relative rounded-lg overflow-hidden">
-      <div className={`w-full h-full overflow-hidden`}>
-        <Image
-          src={images[0]?.img}
-          alt="Reservation Images"
-          className={`w-full h-full object-cover brightness-90`}
-          priority
-          width={300}
-          height={300}
-          unoptimized
-        />
-      </div>
-
+    <div className="md:grid grid-cols-5 grid-rows-2 gap-4 h-full relative rounded-lg overflow-hidden">
+      {images.map((img, i) => (
+        <div
+          key={i}
+          className={`${img.gridStyle} w-full h-full overflow-hidden`}
+        >
+          <Image
+            src={img.img}
+            alt="Reservation Images"
+            className={`w-full h-full object-cover brightness-90`}
+            priority
+            width={600}
+            height={600}
+          />
+        </div>
+      ))}
       <Button
         onClick={() => setIsImageViewerOpen(true)}
         variant="outlined"
