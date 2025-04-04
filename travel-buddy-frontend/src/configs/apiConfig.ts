@@ -1,5 +1,7 @@
 export const apiConfig = {
   BASE_URL: "https://travel-buddy-backend.vercel.app/api/v1.0",
+  // ? Admin APIs will be paused for now
+  // ? because of the new design and the new features that will be added in the future.
   ADMIN: {
     GET_DASHBOARD_INFO: "/admin/getDashboardInfo",
     GET_ALL_USERS: "/admin/getAllUsers",
@@ -9,21 +11,21 @@ export const apiConfig = {
     GET_ALL_REPORTS: "/admin/getAllReports",
   },
   USER: {
-    REGISTER: "/users/register",
-    LOGIN: "/users/login",
-    CHECK_PROVIDER_LOGIN: "/users/checkUserForProviderLogin",
-    PROVIDER_LOGIN: "/users/providerLogin",
-    UPDATE_USER: "/users/updateUser",
-    UPDATE_PASSWORD: "/users/updatePassword",
-    FIND_USER_FOR_FORGOT_PASSWORD: "/users/findUserForForgotPassword",
-    VERIFY_OTP_FOR_FORGOT_PASSWORD: "/users/verifyOtpForForgotPassword",
-    FORGOT_PASSWORD: "/users/forgotPassword",
+    REGISTER: "/users/register", // ✅
+    LOGIN: "/users/login", // ✅
+    CHECK_PROVIDER_LOGIN: "/users/checkUserForProviderLogin", // ✅
+    PROVIDER_LOGIN: "/users/providerLogin", // ✅
+    UPDATE_USER: "/users/updateUser", // ✅
+    UPDATE_PASSWORD: "/users/updatePassword", // ✅
+    FIND_USER_FOR_FORGOT_PASSWORD: "/users/findUserForForgotPassword", // ✅
+    VERIFY_OTP_FOR_FORGOT_PASSWORD: "/users/verifyOtpForForgotPassword", // ✅
+    FORGOT_PASSWORD: "/users/forgotPassword", // ✅
   },
   HOTEL: {
     BUSINESS_PROFILE: {
-      CREATE: "/hotel/businessProfile/createBusinessProfile",
-      GET: "/hotel/businessProfile/getBusinessProfile",
-      GET_STATISTICS: "/hotel/businessProfile/getHotelStatistics",
+      CREATE: "/hotel/businessProfile/createBusinessProfile", // ✅
+      GET_PROFILE: "/hotel/businessProfile/getBusinessProfile", // ✅
+      GET_STATISTICS: "/hotel/businessProfile/getHotelStatistics", // ✅
       GET_ALL: "/hotel/businessProfile/getAllHotels",
       GET_DETAILS: "/hotel/businessProfile/getHotelDetails",
       UPDATE: "/hotel/businessProfile/updateBusinessProfile",
@@ -52,6 +54,8 @@ export const apiConfig = {
     GET: "/reviews/getReviews",
     GET_MINI_COUNT: "/reviews/getMiniReviewsCount",
   },
+  // ? Report And Notification APis will be paused for now
+  // ? because of the new design and the new features that will be added in the future.
   REPORT: {
     REPORT_RESERVATION: "/report/reportReservation",
     CHECK_ALREADY_REPORTED: "/report/isAlreadyReported",

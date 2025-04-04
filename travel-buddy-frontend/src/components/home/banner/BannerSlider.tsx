@@ -5,22 +5,20 @@ import banner03 from "@/assets/banner/banner03.jpg";
 import Link from "next/link";
 import CommonButton from "@/components/common/buttons/CommonButton";
 import Transition from "@/components/animation/Transition";
+import Image from "next/image";
 
 const BannerSlider = () => {
   const bannerCards = [
     {
-      videoSrc: "https://travel-buddy-demo.vercel.app/videos/Banner001.mp4",
-      img: banner01.src,
+      img: banner01,
       title: "Explore the Serenity of the Mountains",
     },
     {
-      videoSrc: "https://travel-buddy-demo.vercel.app/videos/Banner002.mp4",
-      img: banner02.src,
+      img: banner02,
       title: "Explore Mount Fuji's City and Lake Charm",
     },
     {
-      videoSrc: "https://travel-buddy-demo.vercel.app/videos/Banner003.mp4",
-      img: banner03.src,
+      img: banner03,
       title: "Escape to the Charm of Countryside Living",
     },
   ];
@@ -47,17 +45,15 @@ const BannerSlider = () => {
             currentSlide === i ? "opacity-100" : "opacity-0"
           } transition-opacity duration-[2.5s] ease-in-out`}
         >
-          <video
-            poster={card.img}
-            src={card.videoSrc}
-            autoPlay
-            loop
-            muted
-            playsInline
+          <Image
+            src={card.img.src}
+            alt="Banner Image"
             className={`w-full bg-lightGray h-full object-cover absolute z-0 brightness-[.65] ${
               currentSlide === i ? "opacity-100" : "opacity-0"
             } duration-[2.5s]`}
-            preload="metadata"
+            width={card.img.width}
+            height={card.img.height}
+            priority
           />
           <Transition>
             <div className="relative z-10 w-full container flex items-center justify-center h-full lg:h-4/5 pt-0 md:pt-[50px] lg:pt-0">

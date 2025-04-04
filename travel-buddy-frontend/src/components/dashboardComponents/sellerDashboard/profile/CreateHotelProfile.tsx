@@ -1,7 +1,6 @@
 import BasicInputField from "@/components/profileAndDashboard/profileAndDashboardInputFields/BasicInputField";
 import BasicSelectBox from "@/components/profileAndDashboard/profileAndDashboardInputFields/BasicSelectBox";
 import DateOfBirthSelectBox from "@/components/profileAndDashboard/profileAndDashboardInputFields/DateOfBirthSelectBox";
-import LocationSelectBox from "@/components/profileAndDashboard/profileAndDashboardInputFields/LocationSelectBox";
 import SettingsTitle from "@/components/userComponents/settings/SettingsTitle";
 import { colorConfig } from "@/configs/colorConfig";
 import { useUserContext } from "@/context/AuthContext";
@@ -10,16 +9,16 @@ import { locations } from "@/utils/locations";
 import { UseCommonImports } from "@/utils/UseCommonImports";
 import { Button, CircularProgress, IconButton } from "@mui/material";
 import React, { useState } from "react";
-import { IoAddOutline } from "react-icons/io5";
 import AmenitiesInputField from "./AmenitiesInputField";
+import { postApiHandler } from "@/components/common/apiHandlers/postApiHandler";
+import { useUploadHotelDetailsMutation } from "@/redux/features/hotelApis";
+import UploadImages from "@/components/common/UploadImages";
+import { ErrorToast } from "@/components/common/toasts/ErrorToast";
 
-const CreateHotelProfile = () => {
-  const { user, setUser } = useUserContext();
-  const { Cookies } = UseCommonImports();
+const CreateHotelProfile = ({ refetch }: { refetch: any }) => {
+  const { user } = useUserContext();
 
   const typedUser = user as IUser;
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const [selectedDestination, setSelectedDestination] = useState("");
   const [areaOptions, setAreaOptions] = useState([
@@ -34,14 +33,14 @@ const CreateHotelProfile = () => {
 
     // Find the corresponding destination
     const selectedLocation = locations.find(
-      loc => loc.destination.value === selectedValue
+      loc => loc.destination.label === selectedValue
     );
 
     // Set the areas for the selected destination
     if (selectedLocation) {
       const updatedAreas = selectedLocation.areas.map(area => ({
         option: area.label,
-        value: area.value,
+        value: area.label,
       }));
       setAreaOptions([{ option: "Select Area", value: "" }, ...updatedAreas]);
     } else {
@@ -49,34 +48,99 @@ const CreateHotelProfile = () => {
     }
   };
 
+  // Create Hotel Profile State & Functions
+
+  const uploadedImages = JSON.parse(
+    String(window.sessionStorage.getItem("uploadedImages"))
+  );
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [images, setImages] = useState<Array<string>>(
+    uploadedImages && uploadedImages?.length ? uploadedImages : []
+  );
   const [amenities, setAmenities] = useState<string[]>([""]);
 
+  const [createHotelProfile] = useUploadHotelDetailsMutation();
+
+  const handleCreateProfile = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const hotelName = form.hotelName.value;
+    const email = form.email.value;
+    const contactNumber = form.contactNumber.value;
+    const totalReservations = form.totalReservations.value;
+    const date = form.date.value;
+    const month = form.month.value;
+    const year = form.year.value;
+    const destination = form.destination.value;
+    const area = form.area.value;
+    const street = form.street.value;
+    const description = form.description.value;
+    const website = form.website.value;
+    const facebook = form.facebook.value;
+    const instagram = form.instagram.value;
+    const twitter = form.twitter.value;
+    const linkedin = form.linkedin.value;
+
+    if (!images.length) {
+      ErrorToast("Minimum 1 Image is Required!");
+      return;
+    }
+
+    const option = {
+      data: {
+        hotelOwnerId: typedUser?.uid,
+        hotelName,
+        hotelLocation: {
+          street,
+          area,
+          destination,
+          coordinates: {
+            latitude: "0",
+            longitude: "0",
+          },
+        },
+        hotelImages: images,
+        amenities,
+        description,
+        totalReservations: Number(totalReservations),
+        ...((facebook || instagram || twitter || linkedin || website) && {
+          socialLinks: {
+            ...(facebook && { facebook }),
+            ...(instagram && { instagram }),
+            ...(twitter && { twitter }),
+            ...(linkedin && { linkedin }),
+            ...(website && { website }),
+          },
+        }),
+        email,
+        contactNumber,
+        establishedDate: {
+          date,
+          month,
+          year,
+        },
+      },
+    };
+
+    function optionalTasks() {
+      refetch();
+      form.reset();
+      window.sessionStorage.removeItem("Uploaded Image");
+    }
+
+    await postApiHandler({
+      mutateFn: createHotelProfile,
+      options: option,
+      setIsLoading: setIsLoading,
+      optionalTasksFn: optionalTasks,
+    });
+  };
+
   return (
-    <form>
+    <form onSubmit={handleCreateProfile}>
       <SettingsTitle title="Create Business Profile" />
-      <div className="flex flex-col gap-3 mb-8">
-        <label className="font-inter font-medium text-sm text-black">
-          Upload Images
-        </label>
-        <div className="grid grid-cols-6 gap-4 border border-lightGray rounded-xl p-4 w-full h-[180px]">
-          <IconButton
-            sx={{
-              border: `1px solid ${colorConfig.lightGray}`, // Equivalent to border-lightGray
-              width: "100%",
-              height: "100%",
-              fontSize: "1.125rem", // text-lg
-              borderRadius: "0.75rem", // rounded-xl
-              fontFamily: "Inter, sans-serif", // font-inter
-              fontWeight: 500, // font-medium
-            }}
-          >
-            <IoAddOutline className="text-4xl" /> {/* text-3xl */}
-          </IconButton>
-        </div>
-        <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
-          Max 5 images can be uploaded!
-        </span>
-      </div>
+      <UploadImages images={images} setImages={setImages} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <BasicInputField
           name="hotelName"
@@ -93,6 +157,7 @@ const CreateHotelProfile = () => {
           placeholder="Enter Email Address"
           message={`Current: (Not Update Yet!)`}
           required={true}
+          defaultValue={typedUser?.email}
         />
         <BasicInputField
           name="contactNumber"
@@ -101,6 +166,7 @@ const CreateHotelProfile = () => {
           placeholder="Add Contact Number"
           message={`Current: (Not Update Yet!)`}
           required={true}
+          defaultValue={typedUser?.contactNumber}
         />
         <BasicInputField
           name="totalReservations"
@@ -123,7 +189,7 @@ const CreateHotelProfile = () => {
             { option: "Select Destination", value: "" },
             ...locations.map(loc => ({
               option: loc.destination.label,
-              value: loc.destination.value,
+              value: loc.destination.label,
             })),
           ]}
           required={true}
@@ -170,41 +236,41 @@ const CreateHotelProfile = () => {
         <BasicInputField
           label="Website"
           type="text"
-          placeholder="Add Website Url"
+          placeholder="Add Website Url (Optional)"
           message={`Current(${typedUser?.socialLinks?.facebook})`}
-          required={true}
-          name="facebook"
+          required={false}
+          name="website"
         />
         <BasicInputField
           label="Facebook"
           type="text"
-          placeholder="Add / Update Facebook Url"
+          placeholder="Add / Update Facebook Url (Optional)"
           message={`Current(${typedUser?.socialLinks?.facebook})`}
-          required={true}
+          required={false}
           name="facebook"
         />
         <BasicInputField
           label="Instagram"
           type="text"
-          placeholder="Add / Update Instagram Url"
+          placeholder="Add / Update Instagram Url (Optional)"
           message={`Current(${typedUser?.socialLinks?.instagram})`}
-          required={true}
+          required={false}
           name="instagram"
         />
         <BasicInputField
           label="Twitter"
           type="text"
-          placeholder="Add / Update Twitter Url"
+          placeholder="Add / Update Twitter Url (Optional)"
           message={`Current(${typedUser?.socialLinks?.twitter})`}
-          required={true}
+          required={false}
           name="twitter"
         />
         <BasicInputField
           label="Linkedin"
           type="text"
-          placeholder="Add / Update Linkedin Url"
+          placeholder="Add / Update Linkedin Url (Optional)"
           message={`Current(${typedUser?.socialLinks?.linkedin})`}
-          required={true}
+          required={false}
           name="linkedin"
         />
       </div>
@@ -224,7 +290,7 @@ const CreateHotelProfile = () => {
           {isLoading ? (
             <span className="flex items-center gap-2">
               <CircularProgress size={20} sx={{ color: colorConfig.white }} />{" "}
-              Creating...
+              Uploading...
             </span>
           ) : (
             <span>Create Hotel Profile</span>

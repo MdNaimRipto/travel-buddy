@@ -40,7 +40,6 @@ const SecurityInfoSettings = () => {
         newPassword,
         confirmPassword,
       },
-      token: String(Cookies.get("token")),
     };
 
     try {

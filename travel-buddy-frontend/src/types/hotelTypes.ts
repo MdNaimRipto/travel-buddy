@@ -23,4 +23,17 @@ export interface IBusinessProfile {
     twitter?: string;
     linkedin?: string;
   };
+  _id?: string;
+}
+
+export interface IHotelStatistics {
+  totalBookings: number;
+  totalCompletedBookings: number;
+  totalPendingBookings: number;
+  totalOnGoingBookings: number;
+  totalCanceledBookings: number;
+  totalReviews: number;
+  totalPositiveReviews: number;
+  totalNegativeReviews: number;
+  totalMixedReviews: number;
 }
