@@ -1,42 +1,29 @@
 import React from "react";
 import CommonTitle from "../../common/titles/CommonTitle";
-import img1 from "@/assets/hotels/hotel1.jpg";
-import img2 from "@/assets/hotels/hotel2.jpg";
-import img3 from "@/assets/hotels/hotel3.jpg";
-import img4 from "@/assets/hotels/hotel4.jpg";
-import img5 from "@/assets/hotels/hotel5.jpg";
-import img6 from "@/assets/hotels/hotel6.jpg";
-import img7 from "@/assets/hotels/hotel7.jpg";
 import HorizontalHotelCard from "../../common/cards/hotelCards/HorizontalHotelCard";
 import OnScrollAnimation from "../../animation/OnScrollAnimation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import CustomSwiperButtons from "./CustomSwiperButtons";
+import { useGetAllHotelsQuery } from "@/redux/features/hotelApis";
+import { IBusinessProfile } from "@/types/hotelTypes";
 
 const BestHotels = () => {
-  const cards = [
-    {
-      img: img1.src,
-    },
-    {
-      img: img2.src,
-    },
-    {
-      img: img3.src,
-    },
-    {
-      img: img4.src,
-    },
-    {
-      img: img5.src,
-    },
-    {
-      img: img6.src,
-    },
-    {
-      img: img7.src,
-    },
-  ];
+  const { data, isLoading } = useGetAllHotelsQuery({});
+
+  if (isLoading) {
+    return <div></div>;
+  }
+
+  if (!data) {
+    return <div></div>;
+  }
+
+  const hotels = data?.data?.data as IBusinessProfile[];
+
+  if (!hotels?.length) {
+    return <div></div>;
+  }
 
   return (
     <OnScrollAnimation>
@@ -74,7 +61,7 @@ const BestHotels = () => {
           modules={[Autoplay, Pagination]}
           className="mySwiper"
         >
-          {cards.map((c, i) => (
+          {hotels.map((c, i) => (
             <SwiperSlide key={i}>
               <HorizontalHotelCard card={c} key={i} />
             </SwiperSlide>

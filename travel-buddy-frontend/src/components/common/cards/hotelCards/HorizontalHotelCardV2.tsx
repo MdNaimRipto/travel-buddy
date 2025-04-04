@@ -4,21 +4,19 @@ import EastIcon from "@mui/icons-material/East";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import CommonBtnWithIcon from "../../buttons/CommonBtnWithIcon";
 import Link from "next/link";
+import { IBusinessProfile } from "@/types/hotelTypes";
 
 const HorizontalHotelCardV2 = ({
   card,
 }: {
-  card: {
-    img: string;
-  };
+  card: IBusinessProfile;
   btnTextStyle?: string;
 }) => {
-  const { img } = card;
   return (
     <div className="group">
       <div className="w-full h-[220px] overflow-hidden mb-5">
         <Image
-          src={img}
+          src={card?.hotelImages[0]}
           width={400}
           height={400}
           alt="Hotel-Images"
@@ -27,13 +25,17 @@ const HorizontalHotelCardV2 = ({
         />
       </div>
       <div className="px-3 overflow-hidden">
-        <h2 className="titleFont text-base font-medium text-black leading-[30px] mb-3">{`The Allure Italy's Rich Culture, History, And Cuisine.`}</h2>
+        <h2 className="titleFont text-base font-medium text-black leading-[30px] mb-3">
+          {card?.hotelName}
+        </h2>
         <div className="flex items-center gap-2 whitespace-nowrap text-sm text-gray pb-3 mb-3 border-b border-b-lightGray">
-          <p className="titleFont text-xs">{`Cox's Bazar`}</p>
+          <p className="titleFont text-xs">
+            {card?.hotelLocation?.destination}
+          </p>
           <EastIcon sx={{ fontSize: 12 }} />
-          <p className="titleFont">Inani Beach</p>
+          <p className="titleFont text-xs">{card?.hotelLocation?.area}</p>
           <EastIcon sx={{ fontSize: 12 }} />
-          <p className="titleFont">Road No.1905</p>
+          <p className="titleFont text-xs">{card?.hotelLocation?.street}</p>
         </div>
         <div>
           <p className="mb-1 pt-2 text-xs titleFont font-medium text-black">
@@ -41,12 +43,14 @@ const HorizontalHotelCardV2 = ({
           </p>
           <div className="flex items-center justify-between">
             <p className="text-black">
-              <span className="text-base text-black titleFont">BDT.3000</span>{" "}
-              <span className="text-lightGray text-sm line-through">
+              <span className="text-base text-black titleFont">
+                BDT.{card.startingPrice}
+              </span>{" "}
+              {/* <span className="text-lightGray text-sm line-through">
                 BDT.3000
-              </span>
+              </span> */}
             </p>
-            <Link href="/hotels/01">
+            <Link href={`/hotels/${card?._id}`}>
               <CommonBtnWithIcon
                 title="Book Now"
                 icon={<FlightTakeoffIcon className="text-lg" />}

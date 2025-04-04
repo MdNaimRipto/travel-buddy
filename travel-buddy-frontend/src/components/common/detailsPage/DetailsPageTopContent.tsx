@@ -17,12 +17,14 @@ const DetailsPageTopContent = ({
   mainCrumbPath,
   path,
   locationPath,
+  locationName,
 }: {
   title: string;
   mainCrumbName: string;
   mainCrumbPath: string;
   path: string;
   locationPath: string;
+  locationName: string;
 }) => {
   return (
     <div>
@@ -64,7 +66,7 @@ const DetailsPageTopContent = ({
               className="flex items-center gap-1 text-xs lg:text-sm text-black hover:text-secondary duration-300"
             >
               <LocationIcon className="text-xs lg:text-xl" />
-              <span className="font-inter font-medium">{`Inani Beach, Cox's Bazar`}</span>
+              <span className="font-inter font-medium">{locationName}</span>
             </Link>
             <div className="flex items-center gap-2">
               <RatingComponent value={4} readonly={true} />
