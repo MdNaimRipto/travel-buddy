@@ -1,4 +1,3 @@
-import { IReservation } from "@/types/reservationTypes";
 import React from "react";
 import Image from "next/image";
 import { Button, Divider, Rating } from "@mui/material";
@@ -10,12 +9,17 @@ import { MdOutlineFreeCancellation as FreeCancelIcon } from "react-icons/md";
 import { AiOutlineTags as BestDealIcon } from "react-icons/ai";
 import Link from "next/link";
 import RatingComponent from "@/components/common/RatingComponent";
+import { IReservations } from "@/types/reservationTypes";
 
-const ReservationCard = ({ reservation: r }: { reservation: IReservation }) => {
+const ReservationCard = ({
+  reservation: r,
+}: {
+  reservation: IReservations;
+}) => {
   return (
     <div className="border border-extraLightGray rounded-xl md:grid grid-cols-3 gap-4 mb-5">
       <Link
-        href={`/reservations/01`}
+        href={`/reservations/${r?._id}`}
         className="w-full h-full overflow-hidden rounded-t-xl md:rounded-tr-none md:rounded-l-xl relative"
       >
         <Image
@@ -38,7 +42,7 @@ const ReservationCard = ({ reservation: r }: { reservation: IReservation }) => {
             <span className="font-inter text-black font-medium">{`Inani Beach, Cox's Bazar`}</span>
           </h6>
           <Link
-            href={`/reservations/01`}
+            href={`/reservations/${r?._id}`}
             className="titleFont text-sm md:text-xs lg:text-base leading-7 md:leading-6 lg:leading-8 text-black hover:text-secondary font-medium mb-2 block duration-300"
           >
             Phi Phi Islands Adventure Day Trip with Seaview Lunch by V. Marine
@@ -110,7 +114,7 @@ const ReservationCard = ({ reservation: r }: { reservation: IReservation }) => {
                 BDT 2400 <span className="hidden md:block">/ Per Night</span>
               </p>
             </div>
-            <Link href={`/reservations/01`} className="w-auto md:w-full">
+            <Link href={`/reservations/${r?._id}`} className="w-auto md:w-full">
               <Button
                 variant="outlined"
                 sx={{

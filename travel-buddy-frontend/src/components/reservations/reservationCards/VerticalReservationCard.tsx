@@ -4,17 +4,18 @@ import CommonBtnWithIcon from "@/components/common/buttons/CommonBtnWithIcon";
 import EastIcon from "@mui/icons-material/East";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import Link from "next/link";
+import { IReservations } from "@/types/reservationTypes";
 
 const VerticalReservationCard = ({
   reservation,
 }: {
-  reservation: { img: StaticImageData };
+  reservation: IReservations;
 }) => {
   return (
     <div className="group">
       <div className="w-full h-[220px] overflow-hidden mb-5">
         <Image
-          src={reservation.img.src}
+          src={reservation?.images[0]}
           width={400}
           height={400}
           alt="Hotel-Images"

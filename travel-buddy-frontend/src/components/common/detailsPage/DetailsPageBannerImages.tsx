@@ -13,10 +13,10 @@ const DetailsPageBannerImages = ({
 }) => {
   return (
     <div className="md:grid grid-cols-5 grid-rows-2 gap-4 h-full relative rounded-lg overflow-hidden">
-      {images.map((img, i) => (
+      {images?.map((img, i) => (
         <div
           key={i}
-          className={`${img.gridStyle} w-full h-full overflow-hidden`}
+          className={`${img?.gridStyle} w-full h-full overflow-hidden`}
         >
           <Image
             src={img.img}

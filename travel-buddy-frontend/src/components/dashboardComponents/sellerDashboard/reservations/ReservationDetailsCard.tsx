@@ -1,4 +1,3 @@
-import { IReservation } from "@/types/reservationTypes";
 import React from "react";
 import Image from "next/image";
 import { Button, Divider, Rating } from "@mui/material";
@@ -10,11 +9,12 @@ import { MdOutlineFreeCancellation as FreeCancelIcon } from "react-icons/md";
 import { AiOutlineTags as BestDealIcon } from "react-icons/ai";
 import Link from "next/link";
 import RatingComponent from "@/components/common/RatingComponent";
+import { IReservations } from "@/types/reservationTypes";
 
 const ReservationDetailsCard = ({
   reservation: r,
 }: {
-  reservation: IReservation;
+  reservation: IReservations;
 }) => {
   return (
     <div className="border border-extraLightGray rounded-xl md:grid grid-cols-3 gap-4 mb-5">

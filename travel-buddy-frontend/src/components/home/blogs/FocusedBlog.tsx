@@ -47,8 +47,8 @@ const FocusedBlog = ({
               <Image
                 src={b.img}
                 alt="Focused Blog Image"
-                width={600}
-                height={600}
+                width={400}
+                height={400}
                 className="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-75 duration-300"
                 priority
               />

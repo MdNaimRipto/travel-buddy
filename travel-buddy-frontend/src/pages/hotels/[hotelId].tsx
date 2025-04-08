@@ -11,7 +11,7 @@ import RelatedHotels from "@/components/hotels/hotelDetails/RelatedHotels";
 import HotelLocationMap from "@/components/hotels/hotelDetails/map/index";
 import HotelFeatures from "@/components/hotels/hotelDetails/HotelFeatures";
 import HotelReservations from "@/components/hotels/hotelDetails/hotelReservations/HotelReservations";
-import { useGetHotelDetailsQuery } from "@/redux/features/hotelApis";
+import { useGetHotelDetailsQuery } from "@/redux/features/hotelApis/hotelApis";
 import { useParams } from "next/navigation";
 import Loader from "@/components/common/loader/Loader";
 import { IBusinessProfile } from "@/types/hotelTypes";
@@ -55,7 +55,7 @@ const HotelDetails = () => {
         </div>
         <HotelFeatures amenities={hotel?.amenities} />
         <DetailsPageDescription hotel={hotel} />
-        <HotelReservations />
+        <HotelReservations id={hotel?.hotelId} />
         <HotelLocationMap />
         <div className="grid grid-cols-1 lg:grid-cols-4 pt-16">
           <div className="lg:col-span-3 order-last lg:order-first mt-16 lg:mt-0">

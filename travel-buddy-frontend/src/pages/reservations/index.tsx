@@ -2,45 +2,33 @@ import ReservationsTopContent from "@/components/reservations/ReservationsTopCon
 import SideNavLayout from "@/layouts/SideNavLayout";
 import ReservationsSideNav from "@/components/reservations/ReservationsSideNav";
 import React, { ReactElement } from "react";
-import { IReservation } from "@/types/reservationTypes";
 import reservationImage from "@/assets/reservations/fakeReservationImage.jpg";
 import ReservationCard from "@/components/reservations/reservationCards/ReservationCard";
+import { useGetAllReservationsQuery } from "@/redux/features/hotelApis/reservationApis";
+import Loader from "@/components/common/loader/Loader";
+import NotFoundMessage from "@/components/common/NotFoundMessage";
+import { IReservations } from "@/types/reservationTypes";
 
 const Reservations = () => {
-  // const reservationImage =
-  //   "https://i.ibb.co.com/X56GBJt/bangkok-thailand-august-12-2016-beautiful-luxury-bedroom-int.jpg";
+  const { data, isLoading } = useGetAllReservationsQuery({});
 
-  const generateReservation = (id: number): IReservation => {
-    return {
-      profileId: `profile_${id}`,
-      reservationId: `reservation_${id}`,
-      reservationType: "Single",
-      reservationClass: "First",
-      name: `Reservation ${id}`,
-      price: 100,
-      location: {
-        area: "Area",
-        destination: "Destination",
-      },
-      totalReservations: 10,
-      reservationsLeft: 5,
-      status: "Available",
-      description: "Description",
-      features: ["Feature 1", "Feature 2"],
-      additionalFacilities: ["Facility 1", "Facility 2"],
-      images: [reservationImage.src, "image2.jpg"],
-    };
-  };
+  if (isLoading) {
+    return <Loader />;
+  }
 
-  // Generate an array of fake reservations
-  const fakeReservations: IReservation[] = [];
-  for (let i = 1; i <= 12; i++) {
-    fakeReservations.push(generateReservation(i));
+  if (!data) {
+    return <NotFoundMessage title="No Reservations Found!" />;
+  }
+
+  const reservations = data?.data?.data as IReservations[];
+
+  if (!reservations?.length) {
+    return <NotFoundMessage title="No Reservations Found!" />;
   }
 
   return (
     <div className="my-12">
-      {fakeReservations.map((r: IReservation, i: number) => (
+      {reservations.map((r, i) => (
         <ReservationCard key={i} reservation={r} />
       ))}
     </div>

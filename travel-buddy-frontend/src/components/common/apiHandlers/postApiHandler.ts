@@ -20,13 +20,15 @@ export const postApiHandler = async ({
     setIsLoading(true);
 
     const res: IApiSuccessResponse = await mutateFn(options).unwrap();
-    if (res.success) {
+    if (res.success === true) {
+      console.log("success");
       SuccessToast(res.message);
       if (optionalTasksFn) {
         optionalTasksFn();
       }
     }
   } catch (e) {
+    console.log("error", e);
     const error = e as IApiErrorResponse;
 
     const errorMessage = error?.data?.message || "An unknown error occurred!";

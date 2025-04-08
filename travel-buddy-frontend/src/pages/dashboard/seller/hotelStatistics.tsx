@@ -7,7 +7,7 @@ import HotelLayoutWrapper, {
   useHotelDetailsContext,
 } from "@/layouts/layoutWrapper/HotelLayoutWrapper";
 import ProfileDashboardLayout from "@/layouts/ProfileDashboardLayout";
-import { useGetHotelStatisticsQuery } from "@/redux/features/hotelApis";
+import { useGetHotelStatisticsQuery } from "@/redux/features/hotelApis/hotelApis";
 import { IBusinessProfile, IHotelStatistics } from "@/types/hotelTypes";
 import React, { ReactElement } from "react";
 

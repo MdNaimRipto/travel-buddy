@@ -1,6 +1,6 @@
 import { apiConfig } from "@/configs/apiConfig";
 import { IBusinessProfile } from "@/types/hotelTypes";
-import { apiSlice } from "../apis/apiSlice";
+import { apiSlice } from "../../apis/apiSlice";
 import Cookies from "js-cookie";
 
 const hotelApis = apiSlice.injectEndpoints({

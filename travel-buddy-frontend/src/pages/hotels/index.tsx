@@ -3,7 +3,7 @@ import HotelsTopContent from "@/components/hotels/HotelsTopContent";
 import SideNavLayout from "@/layouts/SideNavLayout";
 import React, { ReactElement } from "react";
 import HorizontalHotelCardV2 from "@/components/common/cards/hotelCards/HorizontalHotelCardV2";
-import { useGetAllHotelsQuery } from "@/redux/features/hotelApis";
+import { useGetAllHotelsQuery } from "@/redux/features/hotelApis/hotelApis";
 import Loader from "@/components/common/loader/Loader";
 import { IBusinessProfile } from "@/types/hotelTypes";
 import NotFoundMessage from "@/components/common/NotFoundMessage";

@@ -3,18 +3,17 @@ import SettingsTitle from "@/components/userComponents/settings/SettingsTitle";
 import { colorConfig } from "@/configs/colorConfig";
 import { useUserContext } from "@/context/AuthContext";
 import { IUser } from "@/types/userTypes";
-import { UseCommonImports } from "@/utils/UseCommonImports";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  IconButton,
-  Modal,
-} from "@mui/material";
+import { Box, Button, CircularProgress, Modal } from "@mui/material";
 import React, { useState } from "react";
-import { IoAddOutline } from "react-icons/io5";
 import { MdOutlineAddToPhotos } from "react-icons/md";
 import AmenitiesInputField from "../profile/AmenitiesInputField";
+import { IBusinessProfile } from "@/types/hotelTypes";
+import { useHotelDetailsContext } from "@/layouts/layoutWrapper/HotelLayoutWrapper";
+import UploadImages from "@/components/common/UploadImages";
+import BasicSelectBox from "@/components/profileAndDashboard/profileAndDashboardInputFields/BasicSelectBox";
+import { postApiHandler } from "@/components/common/apiHandlers/postApiHandler";
+import { useUploadReservationMutation } from "@/redux/features/hotelApis/reservationApis";
+import { ErrorToast } from "@/components/common/toasts/ErrorToast";
 
 const style = {
   position: "absolute",
@@ -30,19 +29,80 @@ const style = {
   overflowY: "auto",
 };
 
-const AddReservationModal = () => {
+const AddReservationModal = ({ refetch }: { refetch: any }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const { user, setUser } = useUserContext();
-  const { Cookies } = UseCommonImports();
+  const { hotelDetails } = useHotelDetailsContext();
 
-  const typedUser = user as IUser;
+  const details = hotelDetails?.data as IBusinessProfile;
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const [amenities, setAmenities] = useState<string[]>([""]);
+  const uploadedImages = JSON.parse(
+    String(window.sessionStorage.getItem("uploadedImages"))
+  );
+
+  const [features, setFeatures] = useState<string[]>([""]);
+  const [additionalFeatures, setAdditionalFeatures] = useState<string[]>([""]);
+  const [images, setImages] = useState<Array<string>>(
+    uploadedImages && uploadedImages?.length ? uploadedImages : []
+  );
+
+  const [uploadReservation] = useUploadReservationMutation();
+
+  const handleUploadReservation = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+
+    if (images.length < 5) {
+      ErrorToast("Please upload at least 5 images for the reservation.");
+      return;
+    }
+
+    const form = e.target as HTMLFormElement;
+    const reservationType = form.reservationType.value;
+    const reservationClass = form.reservationClass.value;
+    const name = form.reservationName.value;
+    const price = form.price.value;
+    const discount = form.discount.value;
+    const totalReservations = form.totalReservations.value;
+    const description = form.description.value;
+
+    // Option
+    const option = {
+      data: {
+        profileId: details?.hotelId,
+        hotelId: String(details?._id),
+        reservationType: reservationType,
+        reservationClass: reservationClass,
+        name: name,
+        price: Number(price),
+        discount: Number(discount),
+        totalReservations: Number(totalReservations),
+        description: description,
+        images: images,
+        features: features,
+        additionalFacilities: additionalFeatures,
+      },
+    };
+
+    function optionalTasks() {
+      refetch();
+      form.reset();
+      handleClose();
+      window.sessionStorage.removeItem("Uploaded Image");
+    }
+
+    await postApiHandler({
+      mutateFn: uploadReservation,
+      options: option,
+      setIsLoading: setIsLoading,
+      optionalTasksFn: optionalTasks,
+    });
+  };
 
   return (
     <div>
@@ -60,39 +120,67 @@ const AddReservationModal = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <form>
+          <form onSubmit={handleUploadReservation}>
             <SettingsTitle title="Add New Reservation" />
-            <div className="flex flex-col gap-3 mb-8">
-              <label className="font-inter font-medium text-sm text-black">
-                Upload Images
-              </label>
-              <div className="grid grid-cols-6 gap-4 border border-lightGray rounded-xl p-4 w-full h-[180px]">
-                <IconButton
-                  sx={{
-                    border: `1px solid ${colorConfig.lightGray}`, // Equivalent to border-lightGray
-                    width: "100%",
-                    height: "100%",
-                    fontSize: "1.125rem", // text-lg
-                    borderRadius: "0.75rem", // rounded-xl
-                    fontFamily: "Inter, sans-serif", // font-inter
-                    fontWeight: 500, // font-medium
-                  }}
-                >
-                  <IoAddOutline className="text-4xl" /> {/* text-3xl */}
-                </IconButton>
-              </div>
-              <span className="block min-h-[16px] font-inter text-xs text-lightGray font-light">
-                Max 5 images can be uploaded!
-              </span>
-            </div>
+            <UploadImages images={images} setImages={setImages} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <BasicInputField
-                name="name"
-                label="Reservation Name"
-                type="text"
-                placeholder="Enter Reservation name"
-                message={`Current: (Not Update Yet!)`}
+              <div className="col-span-2">
+                <BasicInputField
+                  name="reservationName"
+                  label="Reservation Name"
+                  type="text"
+                  placeholder="Enter Reservation name"
+                  message={`Current: (Not Update Yet!)`}
+                  required={true}
+                />
+              </div>
+              <BasicSelectBox
+                name="reservationType"
+                label="Select Reservation Type"
+                options={[
+                  {
+                    value: "",
+                    option: "Select Reservation Type",
+                  },
+                  {
+                    value: "Single",
+                    option: "For Single",
+                  },
+                  {
+                    value: "Family",
+                    option: "For Family",
+                  },
+                  {
+                    value: "Couple",
+                    option: "For Couple",
+                  },
+                ]}
                 required={true}
+                message={`Current: (Not Update Yet!)`}
+              />
+              <BasicSelectBox
+                name="reservationClass"
+                label="Select Class"
+                options={[
+                  {
+                    value: "",
+                    option: "Select Reservation Class",
+                  },
+                  {
+                    value: "First",
+                    option: "First Class",
+                  },
+                  {
+                    value: "Second",
+                    option: "Second Class",
+                  },
+                  {
+                    value: "Third",
+                    option: "Business Class",
+                  },
+                ]}
+                required={true}
+                message={`Current: (Not Update Yet!)`}
               />
               <BasicInputField
                 name="price"
@@ -118,14 +206,15 @@ const AddReservationModal = () => {
                 message={`Current: (Not Update Yet!)`}
                 required={true}
               />
+              <div></div>
               <AmenitiesInputField
-                amenities={amenities}
-                setAmenities={setAmenities}
+                amenities={features}
+                setAmenities={setFeatures}
                 label="Add Reservation Features"
               />
               <AmenitiesInputField
-                amenities={amenities}
-                setAmenities={setAmenities}
+                amenities={additionalFeatures}
+                setAmenities={setAdditionalFeatures}
                 label="Add Additional Reservation Facilities"
               />
               <div className="col-span-2 flex flex-col gap-3">

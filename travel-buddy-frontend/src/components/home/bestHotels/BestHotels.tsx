@@ -5,7 +5,7 @@ import OnScrollAnimation from "../../animation/OnScrollAnimation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import CustomSwiperButtons from "./CustomSwiperButtons";
-import { useGetAllHotelsQuery } from "@/redux/features/hotelApis";
+import { useGetAllHotelsQuery } from "@/redux/features/hotelApis/hotelApis";
 import { IBusinessProfile } from "@/types/hotelTypes";
 
 const BestHotels = () => {
