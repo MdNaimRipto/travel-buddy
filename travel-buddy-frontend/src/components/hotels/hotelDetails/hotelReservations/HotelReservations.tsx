@@ -2,30 +2,27 @@ import DetailsPageTitle from "@/components/common/detailsPage/DetailsPageTitle";
 import React, { useState } from "react";
 import { Button, Divider } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
-
-import img1 from "@/assets/reservations/fakeReservationImage.jpg";
-import img2 from "@/assets/reservations/fakeReservationImage2.jpg";
-import img3 from "@/assets/reservations/fakeReservationImage3.jpg";
-import img4 from "@/assets/reservations/fakeReservationImage4.jpg";
 import VerticalReservationCard from "@/components/reservations/reservationCards/VerticalReservationCard";
+import { useGetHotelReservationsQuery } from "@/redux/features/hotelApis/reservationApis";
+import NotFoundMessage from "@/components/common/NotFoundMessage";
+import { IReservations } from "@/types/reservationTypes";
 
-const HotelReservations = () => {
+const HotelReservations = ({ id }: { id: string }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const reservations = [
-    {
-      img: img1,
-    },
-    {
-      img: img2,
-    },
-    {
-      img: img3,
-    },
-    {
-      img: img4,
-    },
-  ];
+  const { data, isLoading, refetch } = useGetHotelReservationsQuery({
+    hotelId: String(id),
+  });
+
+  if (!data) {
+    return <NotFoundMessage title="No Reservations Found!" />;
+  }
+
+  const reservations = data?.data?.data as IReservations[];
+
+  if (!reservations?.length) {
+    return <NotFoundMessage title="No Reservations Found!" />;
+  }
 
   return (
     <div className="pb-5">
@@ -52,7 +49,7 @@ const HotelReservations = () => {
             isExpanded ? "max-h-full" : "max-h-[440px]"
           } duration-300`}
         >
-          {[...reservations, ...reservations, ...reservations].map((r, i) => (
+          {reservations.map((r, i) => (
             <VerticalReservationCard reservation={r} key={i} />
           ))}
         </div>

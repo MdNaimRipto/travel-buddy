@@ -9,39 +9,38 @@ import Transition from "@/components/animation/Transition";
 import RelatedReservations from "@/components/reservations/reservationDetails/relatedReservations/RelatedReservations";
 import DetailsPageTopContent from "@/components/common/detailsPage/DetailsPageTopContent";
 import DetailsPageBannerImages from "@/components/common/detailsPage/DetailsPageBannerImages";
-import DetailsPageDescription from "@/components/common/detailsPage/DetailsPageDescription";
 import DetailsPageImageViewer from "@/components/common/detailsPage/DetailsPageImageViewer";
-
-import img1 from "@/assets/reservations/fakeReservationImage.jpg";
-import img2 from "@/assets/reservations/fakeReservationImage2.jpg";
-import img3 from "@/assets/reservations/fakeReservationImage3.jpg";
-import img4 from "@/assets/reservations/fakeReservationImage4.jpg";
-import img5 from "@/assets/reservations/fakeReservationImage5.jpg";
 import DetailsPageAddReview from "@/components/common/detailsPage/DetailsPageAddReview";
 import DetailsPageAllReviews from "@/components/common/detailsPage/DetailsPageAllReviews";
+import { useParams } from "next/navigation";
+import { useGetReservationByIdQuery } from "@/redux/features/hotelApis/reservationApis";
+import Loader from "@/components/common/loader/Loader";
+import { IReservations } from "@/types/reservationTypes";
 
 const ReservationDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
 
-  const images = [
-    { img: img1.src, gridStyle: "col-span-3 row-span-2" },
-    { img: img2.src, gridStyle: "col-span-2 row-span-1" },
-    { img: img3.src, gridStyle: "col-span-1 row-span-1" },
-    { img: img4.src, gridStyle: "col-span-1 row-span-1" },
-  ];
+  const { reservationId } = useParams();
 
-  const viewerImages = [
-    img1.src,
-    img2.src,
-    img3.src,
-    img4.src,
-    img5.src,
-    img1.src,
-    img2.src,
-    img3.src,
-    img4.src,
-    img5.src,
-  ];
+  const { data, isLoading } = useGetReservationByIdQuery({
+    reservationId: String(reservationId),
+  });
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  const reservation = data?.data as IReservations;
+
+  const gridImageView = reservation?.images?.slice(0, 4)?.map((img, index) => ({
+    img,
+    gridStyle:
+      index === 0
+        ? "col-span-3 row-span-2"
+        : index === 1
+        ? "col-span-2 row-span-1"
+        : "col-span-1 row-span-1",
+  }));
 
   return (
     <Transition>
@@ -59,7 +58,7 @@ const ReservationDetails = () => {
           <div className="col-span-3">
             <div className="h-[170px] md:h-[380px] xl:h-[500px]">
               <DetailsPageBannerImages
-                images={images}
+                images={gridImageView}
                 setIsImageViewerOpen={setIsImageViewerOpen}
               />
             </div>
@@ -78,7 +77,14 @@ const ReservationDetails = () => {
           </div>
         </div>
         <div className="pt-12">
-          <VisitHotel />
+          <VisitHotel
+            id={
+              typeof reservation?.hotelId === "object" &&
+              reservation?.hotelId?._id
+                ? String(reservation.hotelId._id)
+                : String(reservation?.hotelId)
+            }
+          />
           <div className="pt-16">
             <h4 className="text-xl font-medium titleFont mb-4">
               Reviews & Rating
@@ -90,7 +96,7 @@ const ReservationDetails = () => {
         <DetailsPageImageViewer
           isViewerOpen={isViewerOpen}
           setIsImageViewerOpen={setIsImageViewerOpen}
-          viewerImages={viewerImages}
+          viewerImages={reservation?.images}
           title="Reservation Images"
         />
       </div>

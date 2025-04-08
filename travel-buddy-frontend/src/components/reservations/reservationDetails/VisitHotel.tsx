@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import NavigateIcon from "@mui/icons-material/OpenInNew";
 
-const VisitHotel = () => {
+const VisitHotel = ({ id }: { id: string }) => {
   return (
     <Link
-      href={"/reservations/01"}
+      href={`/hotels/${id}`}
       className="relative h-24 md:h-48 overflow-hidden block"
     >
       <Image

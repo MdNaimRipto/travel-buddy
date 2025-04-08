@@ -1,15 +1,20 @@
+import { IBusinessProfile } from "./hotelTypes";
+
 export type ReservationsType = "Single" | "Couple" | "Family";
 export type ReservationsClass = "First" | "Second" | "Third";
 export type ReservationStatus = "Booked" | "Available" | "Blocked";
 
-export interface IReservation {
+export type IReservations = {
   profileId: string;
+  hotelId: string | Partial<IBusinessProfile>;
   reservationId: string;
   reservationType: ReservationsType;
   reservationClass: ReservationsClass;
   name: string;
   price: number;
+  discount: number;
   location: {
+    street: string;
     area: string;
     destination: string;
   };
@@ -20,4 +25,11 @@ export interface IReservation {
   features: string[];
   additionalFacilities: string[];
   images: string[];
-} // Have to add : Rating, Total Rated, Discount,
+  rating: {
+    total: number;
+    rating: number;
+  };
+  _id?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};

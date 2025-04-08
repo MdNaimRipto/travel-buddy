@@ -1,6 +1,6 @@
 import Loader from "@/components/common/loader/Loader";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetBusinessProfileQuery } from "@/redux/features/hotelApis";
+import { useGetBusinessProfileQuery } from "@/redux/features/hotelApis/hotelApis";
 import { IUser } from "@/types/userTypes";
 import { UseCommonImports } from "@/utils/UseCommonImports";
 import React, {

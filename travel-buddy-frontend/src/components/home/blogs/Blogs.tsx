@@ -14,22 +14,22 @@ const Blogs = () => {
     {
       title: "Our Begin Now What Your Will Bean Forest This Our Agency.",
       date: "Nov 10, 2023",
-      img: blogImg1.src,
+      img: "https://i.ibb.co.com/yc8sCBCn/blog1.jpg",
     },
     {
       title: "Our Begin Now What Your Will Bean Forest This Our Agency.",
       date: "Nov 10, 2023",
-      img: blogImg2.src,
+      img: "https://i.ibb.co.com/5XJ3HmYz/blog2.jpg",
     },
     {
       title: "Our Begin Now What Your Will Bean Forest This Our Agency.",
       date: "Nov 10, 2023",
-      img: blogImg3.src,
+      img: "https://i.ibb.co.com/yBdc8d8Y/blog3.jpg",
     },
     {
       title: "Our Begin Now What Your Will Bean Forest This Our Agency.",
       date: "Nov 10, 2023",
-      img: blogImg4.src,
+      img: "https://i.ibb.co.com/9ktVTfmH/blog4.jpg",
     },
   ];
 

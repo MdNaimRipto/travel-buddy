@@ -11,7 +11,7 @@ import { Button, CircularProgress, IconButton } from "@mui/material";
 import React, { useState } from "react";
 import AmenitiesInputField from "./AmenitiesInputField";
 import { postApiHandler } from "@/components/common/apiHandlers/postApiHandler";
-import { useUploadHotelDetailsMutation } from "@/redux/features/hotelApis";
+import { useUploadHotelDetailsMutation } from "@/redux/features/hotelApis/hotelApis";
 import UploadImages from "@/components/common/UploadImages";
 import { ErrorToast } from "@/components/common/toasts/ErrorToast";
 

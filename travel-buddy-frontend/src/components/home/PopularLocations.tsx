@@ -1,10 +1,4 @@
 import React from "react";
-import img1 from "@/assets/popular-locations/cox-bazar.jpg";
-import img2 from "@/assets/popular-locations/bandarban.jpg";
-import img3 from "@/assets/popular-locations/saint-martin.jpg";
-import img4 from "@/assets/popular-locations/sazek.jpg";
-import img5 from "@/assets/popular-locations/rangamati.jpg";
-import img6 from "@/assets/popular-locations/sundarban.jpg";
 import Link from "next/link";
 import NavigateIcon from "@mui/icons-material/OpenInNew";
 import CommonTitle from "@/components/common/titles/CommonTitle";
@@ -14,42 +8,42 @@ import OnScrollAnimation from "../animation/OnScrollAnimation";
 const PopularLocations = () => {
   const locations = [
     {
-      img: img1.src,
+      img: "https://i.ibb.co.com/vCsfm48p/cox-bazar.jpg",
       name: "Cox's Bazar",
       path: "/reservations?location=Cox%27s+Bazar",
       cols: "lg:col-span-1",
       rows: "lg:row-span-2",
     },
     {
-      img: img2.src,
+      img: "https://i.ibb.co.com/1YJVc4R3/bandarban.jpg",
       name: "Bandarban",
       path: "/reservations?location=Bandarban",
       cols: "lg:col-span-1",
       rows: "lg:row-span-1",
     },
     {
-      img: img3.src,
+      img: "https://i.ibb.co.com/whptkskY/saint-martin.jpg",
       name: "Saint Martin",
       path: "/reservations?location=Saint+Martin",
       cols: "lg:col-span-2",
       rows: "lg:row-span-1",
     },
     {
-      img: img4.src,
+      img: "https://i.ibb.co.com/d04PwW54/sazek.jpg",
       name: "Sajek",
       path: "/reservations?location=Sajek",
       cols: "lg:col-span-1",
       rows: "lg:row-span-1",
     },
     {
-      img: img5.src,
+      img: "https://i.ibb.co.com/zh3TcbH4/rangamati.jpg",
       name: "Rangamati",
       path: "/reservations?location=Rangamati",
       cols: "lg:col-span-1",
       rows: "lg:row-span-1",
     },
     {
-      img: img6.src,
+      img: "https://i.ibb.co.com/CKdLRz8s/sundarban.jpg",
       name: "Sundarban",
       path: "/reservations?location=Sundarban",
       cols: "lg:col-span-1",
@@ -74,8 +68,9 @@ const PopularLocations = () => {
             >
               <Image
                 src={location.img}
-                width={800}
-                height={800}
+                // width={300}
+                // height={300}
+                fill
                 alt="Location Image"
                 loading="lazy"
                 className="h-full w-full object-cover brightness-[.68]"

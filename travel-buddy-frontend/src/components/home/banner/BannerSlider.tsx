@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import banner01 from "@/assets/banner/banner01.jpg";
-import banner02 from "@/assets/banner/banner02.jpg";
-import banner03 from "@/assets/banner/banner03.jpg";
 import Link from "next/link";
 import CommonButton from "@/components/common/buttons/CommonButton";
 import Transition from "@/components/animation/Transition";
@@ -10,15 +7,15 @@ import Image from "next/image";
 const BannerSlider = () => {
   const bannerCards = [
     {
-      img: banner01,
+      img: "https://i.ibb.co.com/tpGLRxng/banner01.jpg",
       title: "Explore the Serenity of the Mountains",
     },
     {
-      img: banner02,
+      img: "https://i.ibb.co.com/20F4jbYt/banner02.jpg",
       title: "Explore Mount Fuji's City and Lake Charm",
     },
     {
-      img: banner03,
+      img: "https://i.ibb.co.com/TMS36RJW/banner03.jpg",
       title: "Escape to the Charm of Countryside Living",
     },
   ];
@@ -46,13 +43,14 @@ const BannerSlider = () => {
           } transition-opacity duration-[2.5s] ease-in-out`}
         >
           <Image
-            src={card.img.src}
+            src={card.img}
             alt="Banner Image"
             className={`w-full bg-lightGray h-full object-cover absolute z-0 brightness-[.65] ${
               currentSlide === i ? "opacity-100" : "opacity-0"
             } duration-[2.5s]`}
-            width={card.img.width}
-            height={card.img.height}
+            // width={card.img.width}
+            // height={card.img.height}
+            fill
             priority
           />
           <Transition>
