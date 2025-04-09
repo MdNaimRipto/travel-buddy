@@ -26,3 +26,17 @@ export interface IApiSuccessResponse {
   statusCode: number;
   success: boolean;
 }
+
+export interface IFilterApiSuccessResponse {
+  message: string;
+  statusCode: number;
+  success: boolean;
+  data: {
+    data: any;
+    meta: {
+      page: number;
+      limit: number;
+      total: number;
+    };
+  };
+}

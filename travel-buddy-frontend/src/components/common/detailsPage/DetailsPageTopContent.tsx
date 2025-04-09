@@ -8,8 +8,9 @@ import {
   FaRegThumbsUp as PositiveThumbIcon,
   FaRegThumbsDown as NegativeThumbIcon,
   FaRegShareFromSquare as ShareIcon,
-  FaPlus as WishlistIcon,
 } from "react-icons/fa6";
+import WishlistButton from "../WishlistButton";
+import { wishlistForEnumTypes } from "@/types/wishlist.types";
 
 const DetailsPageTopContent = ({
   title,
@@ -18,6 +19,9 @@ const DetailsPageTopContent = ({
   path,
   locationPath,
   locationName,
+  wishlistType,
+  hotelId,
+  reservationId,
 }: {
   title: string;
   mainCrumbName: string;
@@ -25,6 +29,9 @@ const DetailsPageTopContent = ({
   path: string;
   locationPath: string;
   locationName: string;
+  wishlistType: wishlistForEnumTypes;
+  reservationId?: string;
+  hotelId?: string;
 }) => {
   return (
     <div>
@@ -87,10 +94,11 @@ const DetailsPageTopContent = ({
             </div>
           </div>
           <div className="flex items-center gap-3 mt-4 md:mt-0">
-            <button className="flex items-center gap-2 text-black">
-              <WishlistIcon className="text-xs lg:text-xl" />
-              <p className="text-xs font-poppins font-medium">Wishlist</p>
-            </button>
+            <WishlistButton
+              wishlistType={wishlistType}
+              hotelId={hotelId}
+              reservationId={reservationId}
+            />
             <div className="flex items-center gap-2 text-black">
               <ShareIcon className="text-xs lg:text-xl" />
               <p className="text-xs font-poppins font-medium">Share</p>

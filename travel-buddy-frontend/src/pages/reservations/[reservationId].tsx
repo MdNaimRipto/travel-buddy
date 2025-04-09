@@ -53,6 +53,8 @@ const ReservationDetails = () => {
           path="/reservations/01"
           locationPath="/reservations?location=cox%27sBazar&area=inaniBeach%2B"
           locationName="Inani Beach, Cox's Bazar"
+          wishlistType="RESERVATION"
+          reservationId={reservation?._id}
         />
         <div className="lg:grid grid-cols-4 gap-4">
           <div className="col-span-3">

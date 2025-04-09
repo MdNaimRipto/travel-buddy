@@ -1,38 +1,93 @@
 import HorizontalHotelCardV2 from "@/components/common/cards/hotelCards/HorizontalHotelCardV2";
-import React from "react";
-import img1 from "@/assets/hotels/hotel1.jpg";
-import img2 from "@/assets/hotels/hotel2.jpg";
-import img3 from "@/assets/hotels/hotel3.jpg";
-import img4 from "@/assets/hotels/hotel4.jpg";
+import React, { useState } from "react";
+import Loader from "@/components/common/loader/Loader";
+import NotFoundMessage from "@/components/common/NotFoundMessage";
+import { IWishlist } from "@/types/wishlist.types";
+import { IBusinessProfile } from "@/types/hotelTypes";
+import {
+  useGetUserWishlistQuery,
+  useRemoveFromWishlistMutation,
+} from "@/redux/features/wishlistApis";
+import { useUserContext } from "@/context/AuthContext";
+import { IUser } from "@/types/userTypes";
+import { CircularProgress, IconButton } from "@mui/material";
+import { IoMdClose } from "react-icons/io";
+import { colorConfig } from "@/configs/colorConfig";
+import { postApiHandler } from "@/components/common/apiHandlers/postApiHandler";
 
 const HotelsWishlist = () => {
-  const generateHotel = (id: number) => {
-    return [
-      {
-        img: img1.src,
-      },
-      {
-        img: img2.src,
-      },
-      {
-        img: img3.src,
-      },
-      {
-        img: img4.src,
-      },
-    ];
-  };
+  const [loading, setLoading] = useState(false);
 
-  const fakeHotels: any[] = [];
-  for (let i = 1; i <= 2; i++) {
-    fakeHotels.push(...generateHotel(i));
+  const { user } = useUserContext();
+  const typedUser = user as IUser;
+
+  const { data, isLoading, refetch } = useGetUserWishlistQuery({
+    wishlistFor: "HOTEL",
+    userId: user ? typedUser?._id : "",
+  });
+
+  const [removeFromWishlist] = useRemoveFromWishlistMutation();
+
+  if (isLoading) {
+    return <Loader />;
   }
+
+  if (!data) {
+    return <NotFoundMessage title="No Hotels Found in Wishlist" />;
+  }
+
+  const hotels = data?.data?.data as IWishlist[];
+
+  if (!hotels?.length) {
+    return <NotFoundMessage title="No Hotels Found in Wishlist" />;
+  }
+
+  const handleRemoveFromWishlist = async () => {
+    const option = {
+      data: {
+        userId: typedUser?._id,
+      },
+    };
+
+    const optionalTask = () => {
+      refetch();
+    };
+
+    await postApiHandler({
+      mutateFn: removeFromWishlist,
+      options: option,
+      setIsLoading: setLoading,
+      optionalTasksFn: optionalTask,
+    });
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
-      {/* {fakeHotels.map((card, i) => (
-        <HorizontalHotelCardV2 key={i} card={card} btnTextStyle="text-xs" />
-      ))} */}
+      {hotels.map((card, i) => (
+        <div key={i} className="relative">
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 15,
+              right: 15,
+              backgroundColor: colorConfig.error,
+              color: colorConfig.white,
+              zIndex: 500,
+            }}
+            size="small"
+          >
+            {loading ? (
+              <CircularProgress size={18} sx={{ color: colorConfig.white }} />
+            ) : (
+              <IoMdClose />
+            )}
+          </IconButton>
+          <HorizontalHotelCardV2
+            card={card?.hotelId as IBusinessProfile}
+            btnTextStyle="text-xs"
+          />
+        </div>
+      ))}
     </div>
   );
 };
