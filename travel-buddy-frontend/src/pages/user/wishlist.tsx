@@ -8,10 +8,35 @@ import HotelsWishlist from "@/components/userComponents/wishlist/HotelsWishlist"
 import ReservationsWishlist from "@/components/userComponents/wishlist/ReservationsWishlist";
 import TopRatedWishlist from "@/components/userComponents/wishlist/TopRatedWishlist";
 import ProfileDashboardLayout from "@/layouts/ProfileDashboardLayout";
+import { wishlistForEnumTypes } from "@/types/wishlist.types";
+import { UseCommonImports } from "@/utils/UseCommonImports";
 import React, { ReactElement } from "react";
 
 const Wishlist = () => {
-  const [value, setValue] = React.useState(0);
+  const { Router } = UseCommonImports();
+  const { query } = Router;
+  const wishlistFor = query.wishlistFor as wishlistForEnumTypes;
+
+  const [value, setValue] = React.useState(
+    wishlistFor && wishlistFor === "RESERVATION" ? 1 : 0
+  );
+
+  const handleTabChange = (newValue: number) => {
+    setValue(newValue);
+
+    Router.push(
+      {
+        pathname: Router.pathname,
+        query: {
+          ...query,
+          wishlistFor: newValue === 1 ? "RESERVATION" : "HOTEL",
+        },
+      },
+      undefined,
+      { shallow: true } // Prevent full page reload
+    );
+  };
+
   return (
     <OpacityTransition>
       <div className="py-4">
@@ -23,7 +48,7 @@ const Wishlist = () => {
           <CustomTabPanelTabs
             tabs={["Hotels", "Reservations"]}
             value={value}
-            setValue={setValue}
+            setValue={handleTabChange}
           />
           <CustomTabPanel value={value} index={0}>
             <HotelsWishlist />

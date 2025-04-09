@@ -27,7 +27,7 @@ const NavSideOptions = ({
     <div className="flex items-center gap-1 justify-end w-full md:w-[70%] xl:w-auto">
       <SearchMenu isScrolled={isScrolled} isHomePage={isHomePage} />
       <Tooltip title={user ? "My Wishlist" : ""}>
-        <Link href={user ? "/user/wishlist" : ""}>
+        <Link href={user ? "/user/wishlist?wishlistFor=HOTEL" : ""}>
           <IconButton
             disabled={!user}
             sx={{

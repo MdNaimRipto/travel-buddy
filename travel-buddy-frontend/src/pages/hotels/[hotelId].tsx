@@ -46,6 +46,8 @@ const HotelDetails = () => {
           path={`/hotels/${hotel?._id}`}
           locationPath={`/hotels?destination=${hotel?.hotelLocation?.destination}&area=${hotel?.hotelLocation?.area}`}
           locationName={`${hotel?.hotelLocation?.area}, ${hotel?.hotelLocation?.destination}`}
+          wishlistType="HOTEL"
+          hotelId={hotel?._id}
         />
         <div className="h-[200px] md:h-[380px] xl:h-[500px]">
           <DetailsPageBannerImages
