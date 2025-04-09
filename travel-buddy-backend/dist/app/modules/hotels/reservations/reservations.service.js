@@ -65,6 +65,13 @@ const uploadReservation = (payload, token) => __awaiter(void 0, void 0, void 0, 
     if (images.length < 5) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Must Have to Upload 5 or More Images");
     }
+    // 🔽 New Logic to update startingPrice if this is the lowest price
+    const lowestReservation = yield reservations_schema_1.Reservations.findOne({ profileId })
+        .sort({ price: 1 })
+        .select("price");
+    if (!lowestReservation || payload.price < lowestReservation.price) {
+        yield businessProfile_schema_1.BusinessProfile.findOneAndUpdate({ _id: hotelId }, { startingPrice: payload.price });
+    }
     const result = (yield reservations_schema_1.Reservations.create(payload)).populate({
         path: "hotelId",
     });

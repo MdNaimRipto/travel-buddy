@@ -11,7 +11,7 @@ const reservations_controller_1 = require("./reservations.controller");
 const router = express_1.default.Router();
 router.post("/uploadReservation", (0, zodValidationRequest_1.default)(reservations_validation_1.ReservationsValidation.reservationZodSchema), reservations_controller_1.ReservationsController.uploadReservation);
 router.get("/getAllReservations", reservations_controller_1.ReservationsController.getAllReservations);
-router.get("/getReservationsByHotelId", reservations_controller_1.ReservationsController.getReservationsByHotelId);
+router.get("/getReservationsByHotelId/:id", reservations_controller_1.ReservationsController.getReservationsByHotelId);
 router.get("/getReservationDetails/:id", reservations_controller_1.ReservationsController.getReservationDetails);
 router.patch("/updateReservation", reservations_controller_1.ReservationsController.updateReservations);
 exports.ReservationRouter = router;

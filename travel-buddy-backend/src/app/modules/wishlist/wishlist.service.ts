@@ -86,6 +86,7 @@ const getUserWishlistedEntities = async (
 
   const query = {
     userId,
+    wishlistFor,
     ...checkAndCondition,
   };
 
@@ -115,10 +116,27 @@ const getUserWishlistedEntities = async (
 const isEntityWishlisted = async (
   userId: string,
   entityId: string,
+  wishlistFor: wishlistForEnumTypes,
 ): Promise<boolean> => {
-  const isEntityWishlisted = await Wishlist.exists({ userId, _id: entityId });
+  if (wishlistFor === "RESERVATION") {
+    const isEntityWishlisted = await Wishlist.findOne({
+      userId,
+      reservationId: entityId,
+    });
 
-  return !!isEntityWishlisted;
+    return isEntityWishlisted ? true : false;
+  }
+
+  if (wishlistFor === "HOTEL") {
+    const isEntityWishlisted = await Wishlist.findOne({
+      userId,
+      hotelId: entityId,
+    });
+
+    return isEntityWishlisted ? true : false;
+  }
+
+  return false;
 };
 
 const deleteWishlist = async (

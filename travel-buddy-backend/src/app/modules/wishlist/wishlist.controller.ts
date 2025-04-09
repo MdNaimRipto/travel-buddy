@@ -24,8 +24,7 @@ const addToWishlist = catchAsync(async (req: Request, res: Response) => {
 
 const getUserWishlistedEntities = catchAsync(
   async (req: Request, res: Response) => {
-    const userId = req.headers["user-id"];
-    const wishlistFor = req.headers["wishlist-for"];
+    const { userId, wishlistFor } = req.query;
     const options = pick(req.query, paginationFields);
     const token = verifyAuthToken(req);
 
@@ -46,12 +45,12 @@ const getUserWishlistedEntities = catchAsync(
 );
 
 const isEntityWishlisted = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.headers["user-id"];
-  const entityId = req.headers["entity-id"];
+  const { userId, entityId, wishlistFor } = req.query;
 
   const result = await WishlistService.isEntityWishlisted(
     userId as string,
     entityId as string,
+    wishlistFor as wishlistForEnumTypes,
   );
 
   sendResponse(res, {

@@ -14,7 +14,7 @@ router.post(
 router.get("/getAllReservations", ReservationsController.getAllReservations);
 
 router.get(
-  "/getReservationsByHotelId",
+  "/getReservationsByHotelId/:id",
   ReservationsController.getReservationsByHotelId,
 );
 

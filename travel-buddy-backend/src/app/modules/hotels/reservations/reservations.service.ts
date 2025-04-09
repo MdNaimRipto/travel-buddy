@@ -86,6 +86,18 @@ const uploadReservation = async (
     );
   }
 
+  // 🔽 New Logic to update startingPrice if this is the lowest price
+  const lowestReservation = await Reservations.findOne({ profileId })
+    .sort({ price: 1 })
+    .select("price");
+
+  if (!lowestReservation || payload.price < lowestReservation.price) {
+    await BusinessProfile.findOneAndUpdate(
+      { _id: hotelId },
+      { startingPrice: payload.price },
+    );
+  }
+
   const result = (await Reservations.create(payload)).populate({
     path: "hotelId",
   });

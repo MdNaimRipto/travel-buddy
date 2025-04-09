@@ -114,7 +114,7 @@ const getHotelStatistics = (hotelId, token) => __awaiter(void 0, void 0, void 0,
 // * Get Business Profile for Hotel Profile
 const getBusinessProfile = (id, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const result = yield businessProfile_schema_1.BusinessProfile.findOne({ _id: id });
+    const result = yield businessProfile_schema_1.BusinessProfile.findOne({ hotelOwnerId: id });
     return result;
 });
 //* Get All Hotels
@@ -163,11 +163,14 @@ const getAllHotels = (filters, paginationOptions) => __awaiter(void 0, void 0, v
     }
     //
     const checkAndCondition = (andConditions === null || andConditions === void 0 ? void 0 : andConditions.length) > 0 ? { $and: andConditions } : {};
-    const result = yield businessProfile_schema_1.BusinessProfile.find(checkAndCondition)
+    const query = Object.assign(Object.assign({}, checkAndCondition), { startingPrice: { $gt: 0 } });
+    const result = yield businessProfile_schema_1.BusinessProfile.find(query)
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
-    const total = yield businessProfile_schema_1.BusinessProfile.countDocuments();
+    const total = yield businessProfile_schema_1.BusinessProfile.countDocuments({
+        startingPrice: { $gt: 0 },
+    });
     return {
         meta: {
             page,
