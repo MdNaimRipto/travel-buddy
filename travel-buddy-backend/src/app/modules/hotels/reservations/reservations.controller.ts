@@ -43,11 +43,11 @@ const getAllReservations = catchAsync(async (req: Request, res: Response) => {
 // Get Reservations by HotelID
 const getReservationsByHotelId = catchAsync(
   async (req: Request, res: Response) => {
-    const { hotel_id } = req.headers;
+    const { id } = req.params;
     const options = pick(req.query, paginationFields);
 
     const result = await ReservationsService.getReservationsByHotelId(
-      hotel_id as string,
+      id as string,
       options,
     );
 

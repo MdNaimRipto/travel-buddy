@@ -143,7 +143,7 @@ const getBusinessProfile = async (
 ): Promise<IBusinessProfile | null> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const result = await BusinessProfile.findOne({ _id: id });
+  const result = await BusinessProfile.findOne({ hotelOwnerId: id });
   return result;
 };
 
@@ -203,12 +203,19 @@ const getAllHotels = async (
   const checkAndCondition =
     andConditions?.length > 0 ? { $and: andConditions } : {};
 
-  const result = await BusinessProfile.find(checkAndCondition)
+  const query = {
+    ...checkAndCondition,
+    startingPrice: { $gt: 0 },
+  };
+
+  const result = await BusinessProfile.find(query)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
-  const total = await BusinessProfile.countDocuments();
+  const total = await BusinessProfile.countDocuments({
+    startingPrice: { $gt: 0 },
+  });
 
   return {
     meta: {

@@ -64,7 +64,8 @@ const getUserWishlistedEntities = (userId, wishlistFor, paginationOptions, token
     }
     //
     const checkAndCondition = (andConditions === null || andConditions === void 0 ? void 0 : andConditions.length) > 0 ? { $and: andConditions } : {};
-    const query = Object.assign({ userId }, checkAndCondition);
+    const query = Object.assign({ userId,
+        wishlistFor }, checkAndCondition);
     const populatePath = wishlistFor === "RESERVATION" ? "reservationId" : "hotelId";
     const result = yield wishlist_schema_1.Wishlist.find(query)
         .populate({
@@ -83,9 +84,22 @@ const getUserWishlistedEntities = (userId, wishlistFor, paginationOptions, token
         data: result,
     };
 });
-const isEntityWishlisted = (userId, entityId) => __awaiter(void 0, void 0, void 0, function* () {
-    const isEntityWishlisted = yield wishlist_schema_1.Wishlist.exists({ userId, _id: entityId });
-    return !!isEntityWishlisted;
+const isEntityWishlisted = (userId, entityId, wishlistFor) => __awaiter(void 0, void 0, void 0, function* () {
+    if (wishlistFor === "RESERVATION") {
+        const isEntityWishlisted = yield wishlist_schema_1.Wishlist.findOne({
+            userId,
+            reservationId: entityId,
+        });
+        return isEntityWishlisted ? true : false;
+    }
+    if (wishlistFor === "HOTEL") {
+        const isEntityWishlisted = yield wishlist_schema_1.Wishlist.findOne({
+            userId,
+            hotelId: entityId,
+        });
+        return isEntityWishlisted ? true : false;
+    }
+    return false;
 });
 const deleteWishlist = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);

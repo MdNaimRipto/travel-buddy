@@ -58,9 +58,9 @@ const getAllReservations = (0, catchAsync_1.default)((req, res) => __awaiter(voi
 }));
 // Get Reservations by HotelID
 const getReservationsByHotelId = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { hotel_id } = req.headers;
+    const { id } = req.params;
     const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
-    const result = yield reservations_service_1.ReservationsService.getReservationsByHotelId(hotel_id, options);
+    const result = yield reservations_service_1.ReservationsService.getReservationsByHotelId(id, options);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,

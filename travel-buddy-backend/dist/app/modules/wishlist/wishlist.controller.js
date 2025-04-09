@@ -43,8 +43,7 @@ const addToWishlist = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
     });
 }));
 const getUserWishlistedEntities = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.headers["user-id"];
-    const wishlistFor = req.headers["wishlist-for"];
+    const { userId, wishlistFor } = req.query;
     const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
     const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
     const result = yield wishlist_service_1.WishlistService.getUserWishlistedEntities(userId, wishlistFor, options, token);
@@ -56,9 +55,8 @@ const getUserWishlistedEntities = (0, catchAsync_1.default)((req, res) => __awai
     });
 }));
 const isEntityWishlisted = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.headers["user-id"];
-    const entityId = req.headers["entity-id"];
-    const result = yield wishlist_service_1.WishlistService.isEntityWishlisted(userId, entityId);
+    const { userId, entityId, wishlistFor } = req.query;
+    const result = yield wishlist_service_1.WishlistService.isEntityWishlisted(userId, entityId, wishlistFor);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
