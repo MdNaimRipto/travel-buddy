@@ -17,6 +17,7 @@ import { postApiHandler } from "@/components/common/apiHandlers/postApiHandler";
 
 const HotelsWishlist = () => {
   const [loading, setLoading] = useState(false);
+  const [loadingId, setLoadingId] = useState<string | null>(null);
 
   const { user } = useUserContext();
   const typedUser = user as IUser;
@@ -42,10 +43,17 @@ const HotelsWishlist = () => {
     return <NotFoundMessage title="No Hotels Found in Wishlist" />;
   }
 
-  const handleRemoveFromWishlist = async () => {
+  const handleRemoveFromWishlist = async ({
+    wishlistId,
+  }: {
+    wishlistId: string;
+  }) => {
+    setLoadingId(wishlistId);
+
     const option = {
       data: {
         userId: typedUser?._id,
+        wishlistId,
       },
     };
 
@@ -75,8 +83,13 @@ const HotelsWishlist = () => {
               zIndex: 500,
             }}
             size="small"
+            onClick={() =>
+              handleRemoveFromWishlist({
+                wishlistId: String(card?._id),
+              })
+            }
           >
-            {loading ? (
+            {loading && loadingId === String(card?._id) ? (
               <CircularProgress size={18} sx={{ color: colorConfig.white }} />
             ) : (
               <IoMdClose />

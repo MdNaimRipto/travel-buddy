@@ -18,7 +18,7 @@ export const profileSideNavItems: Array<ISideNav> = [
   {
     icon: WishlistIcon,
     name: "Wishlist",
-    path: "/user/wishlist",
+    path: "/user/wishlist?wishlistFor=HOTEL",
   },
   {
     icon: SettingsIcon,

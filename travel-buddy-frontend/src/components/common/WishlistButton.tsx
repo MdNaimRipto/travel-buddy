@@ -10,6 +10,8 @@ import { FaPlus as WishlistIcon } from "react-icons/fa6";
 import { postApiHandler } from "./apiHandlers/postApiHandler";
 import { UseCommonImports } from "@/utils/UseCommonImports";
 import { IoCheckmarkOutline } from "react-icons/io5";
+import { CircularProgress } from "@mui/material";
+import { colorConfig } from "@/configs/colorConfig";
 
 const WishlistButton = ({
   wishlistType,
@@ -45,7 +47,7 @@ const WishlistButton = ({
     };
 
     const optionalTask = () => {
-      Router.push(`/user/wishlist?wishlistFor=${wishlistType}`);
+      window.location.replace(`/user/wishlist?wishlistFor=${wishlistType}`);
     };
 
     await postApiHandler({
@@ -74,10 +76,14 @@ const WishlistButton = ({
   ) : (
     <button
       className="flex items-center gap-2 text-black disabled:opacity-50 disabled:cursor-not-allowed"
-      disabled={!user}
+      disabled={!user || isLoading}
       onClick={handleAddToWishlist}
     >
-      <WishlistIcon className="text-xs lg:text-xl" />
+      {isLoading ? (
+        <CircularProgress size={18} sx={{ color: colorConfig.secondary }} />
+      ) : (
+        <WishlistIcon className="text-xs lg:text-xl" />
+      )}
       <p className="text-xs font-poppins font-medium">Wishlist</p>
     </button>
   );

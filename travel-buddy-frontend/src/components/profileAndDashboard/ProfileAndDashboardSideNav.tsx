@@ -95,7 +95,13 @@ const ProfileAndDashboardSideNav = ({
                 title={item.name}
                 variant="text"
                 color={
-                  route === item.path ? colorConfig.primary : colorConfig.gray
+                  item.path.startsWith("/user/wishlist")
+                    ? route === "/user/wishlist"
+                      ? colorConfig.primary
+                      : colorConfig.gray
+                    : route === item.path
+                    ? colorConfig.primary
+                    : colorConfig.gray
                 }
                 backgroundColor={colorConfig.white}
                 hoverColor={colorConfig.secondary}

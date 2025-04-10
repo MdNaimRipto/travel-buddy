@@ -42,7 +42,7 @@ const HorizontalHotelCard = ({ card }: { card: IBusinessProfile }) => {
                 BDT.{card?.startingPrice}
               </span>
             </p>
-            <Link href="/hotels/01">
+            <Link href={`/hotels/${card?._id}`}>
               <CommonBtnWithIcon
                 title="Book Now"
                 icon={<FlightTakeoffIcon className="text-lg" />}
