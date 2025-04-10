@@ -4,6 +4,7 @@ import { IReservations } from "./reservationTypes";
 export type wishlistForEnumTypes = "HOTEL" | "RESERVATION";
 
 export interface IWishlist {
+  _id?: string;
   userId: string;
   reservationId?: string | IReservations;
   hotelId?: string | IBusinessProfile;
