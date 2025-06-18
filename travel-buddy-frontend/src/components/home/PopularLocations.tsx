@@ -4,46 +4,52 @@ import NavigateIcon from "@mui/icons-material/OpenInNew";
 import CommonTitle from "@/components/common/titles/CommonTitle";
 import Image from "next/image";
 import OnScrollAnimation from "../animation/OnScrollAnimation";
+import l1 from "@/assets/locations/l1.webp";
+import l2 from "@/assets/locations/l2.webp";
+import l3 from "@/assets/locations/l3.webp";
+import l4 from "@/assets/locations/l4.webp";
+import l5 from "@/assets/locations/l5.webp";
+import l6 from "@/assets/locations/l6.webp";
 
 const PopularLocations = () => {
   const locations = [
     {
-      img: "https://i.ibb.co.com/vCsfm48p/cox-bazar.jpg",
+      img: l1,
       name: "Cox's Bazar",
       path: "/reservations?location=Cox%27s+Bazar",
       cols: "lg:col-span-1",
       rows: "lg:row-span-2",
     },
     {
-      img: "https://i.ibb.co.com/1YJVc4R3/bandarban.jpg",
+      img: l2,
       name: "Bandarban",
       path: "/reservations?location=Bandarban",
       cols: "lg:col-span-1",
       rows: "lg:row-span-1",
     },
     {
-      img: "https://i.ibb.co.com/whptkskY/saint-martin.jpg",
+      img: l3,
       name: "Saint Martin",
       path: "/reservations?location=Saint+Martin",
       cols: "lg:col-span-2",
       rows: "lg:row-span-1",
     },
     {
-      img: "https://i.ibb.co.com/d04PwW54/sazek.jpg",
+      img: l4,
       name: "Sajek",
       path: "/reservations?location=Sajek",
       cols: "lg:col-span-1",
       rows: "lg:row-span-1",
     },
     {
-      img: "https://i.ibb.co.com/zh3TcbH4/rangamati.jpg",
+      img: l5,
       name: "Rangamati",
       path: "/reservations?location=Rangamati",
       cols: "lg:col-span-1",
       rows: "lg:row-span-1",
     },
     {
-      img: "https://i.ibb.co.com/CKdLRz8s/sundarban.jpg",
+      img: l6,
       name: "Sundarban",
       path: "/reservations?location=Sundarban",
       cols: "lg:col-span-1",
@@ -73,6 +79,8 @@ const PopularLocations = () => {
                 fill
                 alt="Location Image"
                 loading="lazy"
+                placeholder="blur"
+                quality={75}
                 className="h-full w-full object-cover brightness-[.68]"
               />
               <h6 className="text-white absolute bottom-4 left-4 xl:bottom-6 xl:left-5 text-lg md:text-base lg:text-lg font-semibold titleFont flex items-center gap-1">

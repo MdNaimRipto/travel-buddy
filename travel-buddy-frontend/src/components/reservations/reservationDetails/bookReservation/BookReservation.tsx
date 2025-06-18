@@ -1,18 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import BookCalendar from "./BookCalendar";
 import { colorConfig } from "@/configs/colorConfig";
-import { Button, Divider, IconButton } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import {
   calculateTotalNights,
   formatDateTime,
   getDateWithTime,
 } from "@/utils/bookReservation/bookReservationUtils";
 import { IoIosArrowBack as ArrowIcon } from "react-icons/io";
+import { IReservations } from "@/types/reservationTypes";
+import BookModal from "./BookModal";
 
-const BookReservation = () => {
+const BookReservation = ({ reservation }: { reservation: IReservations }) => {
   const sideNavRef = useRef<HTMLDivElement>(null);
   const [iconButtonLeft, setIconButtonLeft] = useState<number>(0);
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+
+  // Book Modal
+  const [openBookModal, setOpenBookModal] = useState(false);
 
   useEffect(() => {
     if (sideNavRef.current) {
@@ -32,7 +37,7 @@ const BookReservation = () => {
     {
       startDate: tomorrow,
       endDate: getDateWithTime(
-        new Date(tomorrow.getTime() + 4 * 24 * 60 * 60 * 1000),
+        new Date(tomorrow.getTime() + 1 * 24 * 60 * 60 * 1000),
         9,
         0
       ),
@@ -93,9 +98,13 @@ const BookReservation = () => {
       <h3 className="text-lg text-black font-medium mt-2 mb-3 titleFont">
         BDT{" "}
         <span className="line-through text-gray text-sm titleFont font-normal">
-          2800
+          {reservation?.price}
         </span>{" "}
-        <span className="titleFont">2400 Night</span>
+        <span className="titleFont">
+          {reservation?.price -
+            (reservation?.price * reservation?.discount) / 100}{" "}
+          Night
+        </span>
       </h3>
       <BookCalendar
         today={today}
@@ -165,10 +174,17 @@ const BookReservation = () => {
               color: colorConfig.white,
             },
           }}
+          onClick={() => setOpenBookModal(true)}
         >
           <span className="font-poppins text-xl normal-case">Book Now</span>
         </Button>
       </>
+      <BookModal
+        open={openBookModal}
+        setOpen={setOpenBookModal}
+        reservation={reservation}
+        dates={dates}
+      />
     </div>
   );
 };

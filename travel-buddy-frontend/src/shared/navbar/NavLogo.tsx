@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import logoOnly from "@/assets/logo-only.png";
+import logoOnly from "@/assets/logo-only.webp";
 import Link from "next/link";
 
 const NavLogo = ({
@@ -13,12 +13,14 @@ const NavLogo = ({
   return (
     <Link href={"/"} className="w-[90%] md:w-full xl:w-[36%] flex items-center">
       <Image
-        className="w-2/5 md:w-[28%] lg:w-[22%]"
-        src={logoOnly.src}
+        className="w-2/5 md:w-[28%] lg:min-w-[22%] lg:w-[22%]"
+        src={logoOnly}
         alt="Navbar-logo"
         width={80}
         height={80}
-        priority
+        loading="lazy"
+        placeholder="blur"
+        quality={75}
       />
       <div
         className={`w-3/5 md:w-[70%] whitespace-nowrap uppercase ${

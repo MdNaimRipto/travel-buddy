@@ -3,20 +3,35 @@ import Link from "next/link";
 import CommonButton from "@/components/common/buttons/CommonButton";
 import Transition from "@/components/animation/Transition";
 import Image from "next/image";
+import banner01 from "@/assets/banner/banner01.webp";
+import banner02 from "@/assets/banner/banner02.webp";
+import banner03 from "@/assets/banner/banner03.webp";
 
 const BannerSlider = () => {
   const bannerCards = [
     {
-      img: "https://i.ibb.co.com/tpGLRxng/banner01.jpg",
+      img: banner01,
       title: "Explore the Serenity of the Mountains",
+      subtitle: `Leave behind the chaos and step into deep stillness among towering peaks and cool, misty breezes. 
+        <span className="hidden md:contents">
+          Discover quiet forest trails, hidden valleys, and moments of reflection beneath the open sky.
+        </span>`,
     },
     {
-      img: "https://i.ibb.co.com/20F4jbYt/banner02.jpg",
-      title: "Explore Mount Fuji's City and Lake Charm",
+      img: banner02,
+      title: "Wander Endless Shores and Sunrise Bliss",
+      subtitle: `Embrace the golden sands, salt-kissed winds, and warmth of daybreak as the sun greets your every step. 
+        <span className="hidden md:contents">
+          Let the rhythm of waves and morning glow carry you away to calm and colorful horizons.
+        </span>`,
     },
     {
-      img: "https://i.ibb.co.com/TMS36RJW/banner03.jpg",
-      title: "Escape to the Charm of Countryside Living",
+      img: banner03,
+      title: "Drift Into Peace Where Mountains Touch the Sky",
+      subtitle: `Sink into nature’s dreamscape where drifting clouds meet quiet slopes of majestic mountain ranges. 
+        <span className="hidden md:contents">
+          Lose yourself in dawn’s colors, peaceful winds, and skyward serenity all around you.
+        </span>`,
     },
   ];
 
@@ -69,15 +84,10 @@ const BannerSlider = () => {
                     With Travel Buddy
                   </span>
                 </h2>
-                <p className="text-center md:text-start mt-5 text-white text-sm md:text-base leading-6 md:leading-7">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Soluta iusto impedit{" "}
-                  <span className="hidden md:contents">
-                    reiciendis eius repellat! Autem id, iure praesentium cumque
-                    molestiae ipsa porro cupiditate repellendus minima molestias
-                    rem
-                  </span>
-                </p>
+                <p
+                  className="text-center md:text-start mt-5 text-white text-sm md:text-base leading-6 md:leading-7"
+                  dangerouslySetInnerHTML={{ __html: card.subtitle }}
+                />
                 <Link
                   href="/reservations"
                   className="flex justify-center md:justify-start mt-5 w-full md:w-[33%] lg:hidden"

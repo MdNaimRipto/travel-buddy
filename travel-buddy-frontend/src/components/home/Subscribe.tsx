@@ -1,5 +1,5 @@
 import React from "react";
-import banner from "@/assets/subscribe.jpg";
+import banner from "@/assets/subscribe.webp";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 import SubscribeIcon from "@mui/icons-material/MarkAsUnread";

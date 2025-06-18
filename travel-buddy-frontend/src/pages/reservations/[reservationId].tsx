@@ -72,7 +72,7 @@ const ReservationDetails = () => {
             {/* <DetailsPageDescription name="Phi Phi Islands Adventure Day Trip" /> */}
           </div>
           <div className="col-span-1">
-            <BookReservation />
+            <BookReservation reservation={reservation} />
             <div className="hidden lg:block">
               <RelatedReservations />
             </div>

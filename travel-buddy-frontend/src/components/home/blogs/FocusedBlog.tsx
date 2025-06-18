@@ -12,7 +12,7 @@ const FocusedBlog = ({
   blogs: Array<{
     title: string;
     date: string;
-    img: string;
+    img: any;
   }>;
   setCurrentFocusedBlog: any;
 }) => {
@@ -50,7 +50,9 @@ const FocusedBlog = ({
                 width={400}
                 height={400}
                 className="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-75 duration-300"
-                priority
+                loading="lazy"
+                quality={75}
+                placeholder="blur"
               />
             </div>
             <div className="px-6 flex flex-col gap-1 mt-3">
