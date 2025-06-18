@@ -1,6 +1,6 @@
 import React from "react";
 import Countdown from "react-countdown";
-import bg from "@/assets/great-deals/banner.jpg";
+import bg from "@/assets/great-deals/banner.webp";
 import CommonBtnWithIcon from "@/components/common/buttons/CommonBtnWithIcon";
 import NavigateIcon from "@mui/icons-material/OpenInNew";
 import { Box } from "@mui/material";

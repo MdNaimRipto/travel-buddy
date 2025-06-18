@@ -20,13 +20,14 @@ const AboutContent = () => {
       </div>
       <div>
         <p className="leading-7 md:leading-8 text-black text-justify text-sm md:text-base">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate,
-          dolorem eaque accusantium culpa rem delectus autem, tenetur blanditiis
-          ducimus distinctio unde deserunt aliquid porro earum eius provident
-          perspiciatis cumque sint ut praesentium! Vel, praesentium! Soluta
-          voluptas possimus deserunt nemo maxime, accusantium veritatis
-          perspiciatis omnis libero consequuntur recusandae molestiae incidunt
-          dolorem?
+          {`Travel Buddy is your reliable companion in crafting the perfect trip.
+          Whether you're planning a quick getaway or a long-awaited vacation,
+          our platform helps you discover the best hotels tailored to your
+          budget and preferences. With smart recommendations, personalized
+          filters, and a simple booking process, we make travel stress-free and
+          enjoyable. From beachside resorts to cozy mountain lodges, Travel
+          Buddy ensures every journey feels just right. Trust us to turn your
+          travel dreams into well-planned realities—every time, everywhere.`}
         </p>
         <div className="mt-5 flex items-center justify-between">
           <CommonButton title="Read More" />
@@ -44,7 +45,7 @@ const AboutContent = () => {
                 500+
               </h6>
               <p className="titleFont text-xs md:text-sm text-black">
-                Customers
+                Travelers
               </p>
             </Link>
           </div>

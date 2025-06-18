@@ -13,7 +13,7 @@ const OtherBlogs = ({
   blogs: Array<{
     title: string;
     date: string;
-    img: string;
+    img: any;
   }>;
   currentFocusedBlog: number;
 }) => {
@@ -50,6 +50,9 @@ const OtherBlogs = ({
                 height={400}
                 alt="Blogs"
                 className="w-full h-full object-cover group-hover:scale-105 group-hover:brightness-75 duration-300"
+                loading="lazy"
+                quality={75}
+                placeholder="blur"
               />
             </div>
             <div className="px-6 flex flex-col gap-2">

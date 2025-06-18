@@ -37,17 +37,22 @@ const UploadImages = ({
           canvas.width = width;
           canvas.height = height;
           ctx?.drawImage(img, 0, 0, width, height);
+          if (ctx) {
+            ctx.fillStyle = "#00000000";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, width, height);
+          }
 
           // Convert to JPEG/WebP with compression
           canvas.toBlob(
             blob => {
               if (blob) {
-                resolve(new File([blob], file.name, { type: "image/jpeg" }));
+                resolve(new File([blob], file.name, { type: "image/webp" }));
               } else {
                 resolve(null);
               }
             },
-            "image/jpeg", // Use WebP: "image/webp"
+            "image/webp",
             quality
           );
         };

@@ -1,4 +1,4 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import React from "react";
 import CommonBtnWithIcon from "@/components/common/buttons/CommonBtnWithIcon";
 import EastIcon from "@mui/icons-material/East";
@@ -43,7 +43,7 @@ const VerticalReservationCard = ({
                 BDT.3000
               </span>
             </p>
-            <Link href="/reservations/01">
+            <Link href={`/reservations/${reservation?._id}`}>
               <CommonBtnWithIcon
                 title="Book Now"
                 icon={<FlightTakeoffIcon className="text-lg" />}

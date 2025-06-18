@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import CommonTitle from "@/components/common/titles/CommonTitle";
-import blogImg1 from "@/assets/blogs/blog1.jpg";
-import blogImg2 from "@/assets/blogs/blog2.jpg";
-import blogImg3 from "@/assets/blogs/blog3.jpg";
-import blogImg4 from "@/assets/blogs/blog4.jpg";
+import blogImg1 from "@/assets/blogs/blog1.webp";
+import blogImg2 from "@/assets/blogs/blog2.webp";
+import blogImg3 from "@/assets/blogs/blog3.webp";
+import blogImg4 from "@/assets/blogs/blog4.webp";
 import FocusedBlog from "./FocusedBlog";
 import OtherBlogs from "./OtherBlogs";
 
@@ -14,22 +14,26 @@ const Blogs = () => {
     {
       title: "Our Begin Now What Your Will Bean Forest This Our Agency.",
       date: "Nov 10, 2023",
-      img: "https://i.ibb.co.com/yc8sCBCn/blog1.jpg",
+      // img: "https://i.ibb.co.com/yc8sCBCn/blog1.jpg",
+      img: blogImg1,
     },
     {
       title: "Our Begin Now What Your Will Bean Forest This Our Agency.",
       date: "Nov 10, 2023",
-      img: "https://i.ibb.co.com/5XJ3HmYz/blog2.jpg",
+      // img: "https://i.ibb.co.com/5XJ3HmYz/blog2.jpg",
+      img: blogImg2,
     },
     {
       title: "Our Begin Now What Your Will Bean Forest This Our Agency.",
       date: "Nov 10, 2023",
-      img: "https://i.ibb.co.com/yBdc8d8Y/blog3.jpg",
+      // img: "https://i.ibb.co.com/yBdc8d8Y/blog3.jpg",
+      img: blogImg3,
     },
     {
       title: "Our Begin Now What Your Will Bean Forest This Our Agency.",
       date: "Nov 10, 2023",
-      img: "https://i.ibb.co.com/9ktVTfmH/blog4.jpg",
+      // img: "https://i.ibb.co.com/9ktVTfmH/blog4.jpg",
+      img: blogImg4,
     },
   ];
 
