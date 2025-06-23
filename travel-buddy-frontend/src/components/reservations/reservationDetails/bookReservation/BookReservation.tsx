@@ -184,6 +184,11 @@ const BookReservation = ({ reservation }: { reservation: IReservations }) => {
         setOpen={setOpenBookModal}
         reservation={reservation}
         dates={dates}
+        discount={discount}
+        totalBill={totalBill}
+        totalNights={totalNights}
+        totalPrice={totalPrice}
+        banner={reservation.images[0]}
       />
     </div>
   );

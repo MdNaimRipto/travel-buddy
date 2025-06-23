@@ -12,26 +12,23 @@ const BannerSlider = () => {
     {
       img: banner01,
       title: "Explore the Serenity of the Mountains",
-      subtitle: `Leave behind the chaos and step into deep stillness among towering peaks and cool, misty breezes. 
-        <span className="hidden md:contents">
-          Discover quiet forest trails, hidden valleys, and moments of reflection beneath the open sky.
-        </span>`,
+      subtitle: `Leave behind the chaos and step into deep stillness among towering peaks and cool, misty breezes.`,
+      subMini:
+        "Discover quiet forest trails, hidden valleys, and moments of reflection beneath the open sky.",
     },
     {
       img: banner02,
       title: "Wander Endless Shores and Sunrise Bliss",
-      subtitle: `Embrace the golden sands, salt-kissed winds, and warmth of daybreak as the sun greets your every step. 
-        <span className="hidden md:contents">
-          Let the rhythm of waves and morning glow carry you away to calm and colorful horizons.
-        </span>`,
+      subtitle: `Embrace the golden sands, salt-kissed winds, and warmth of daybreak as the sun greets your every step.`,
+      subMini:
+        "Let the rhythm of waves and morning glow carry you away to calm and colorful horizons.",
     },
     {
       img: banner03,
       title: "Drift Into Peace Where Mountains Touch the Sky",
-      subtitle: `Sink into nature’s dreamscape where drifting clouds meet quiet slopes of majestic mountain ranges. 
-        <span className="hidden md:contents">
-          Lose yourself in dawn’s colors, peaceful winds, and skyward serenity all around you.
-        </span>`,
+      subtitle: `Sink into nature’s dreamscape where drifting clouds meet quiet slopes of majestic mountain ranges.`,
+      subMini:
+        "Lose yourself in dawn’s colors, peaceful winds, and skyward serenity all around you.",
     },
   ];
 
@@ -84,10 +81,10 @@ const BannerSlider = () => {
                     With Travel Buddy
                   </span>
                 </h2>
-                <p
-                  className="text-center md:text-start mt-5 text-white text-sm md:text-base leading-6 md:leading-7"
-                  dangerouslySetInnerHTML={{ __html: card.subtitle }}
-                />
+                <p className="text-center md:text-start mt-5 text-white text-sm md:text-base leading-6 md:leading-7">
+                  {card.subtitle}{" "}
+                  <span className="hidden md:contents">{card.subMini}</span>
+                </p>
                 <Link
                   href="/reservations"
                   className="flex justify-center md:justify-start mt-5 w-full md:w-[33%] lg:hidden"
