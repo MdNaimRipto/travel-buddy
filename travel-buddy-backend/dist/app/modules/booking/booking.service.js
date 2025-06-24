@@ -23,15 +23,12 @@ const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const config_1 = __importDefault(require("../../../config/config"));
 const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const businessProfile_schema_1 = require("../hotels/businessProfile/businessProfile.schema");
-const bookReservation = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
-    jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { userId, reservationId, hotelId } = payload;
-    const isUserExists = yield users_schema_1.Users.findOne({ _id: userId });
+const booking_utils_1 = require("./booking.utils");
+const bookReservation = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, reservationId, hotelId } = payload;
+    const isUserExists = yield users_schema_1.Users.findOne({ email });
     if (!isUserExists) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "User Doesn't Exist");
-    }
-    if (isUserExists.role === "hotelOwner") {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Permission Denied! Please Try With Another account");
     }
     const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({
         _id: hotelId,
@@ -49,12 +46,12 @@ const bookReservation = (payload, token) => __awaiter(void 0, void 0, void 0, fu
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Cannot Book a Blocked Reservation");
     }
     const isReservationBooked = yield booking_schema_1.Booking.findOne({
-        userId,
+        email,
         reservationId,
         status: { $in: ["pending", "ongoing"] },
     });
     if (isReservationBooked) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Reservation Already Booked and Cannot Booked Before it's End");
+        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "You Have Already Booked and Cannot Book Again Before it's End/Canceled");
     }
     const session = yield mongoose_1.default.startSession();
     try {
@@ -73,6 +70,8 @@ const bookReservation = (payload, token) => __awaiter(void 0, void 0, void 0, fu
         if (!updatedReservation) {
             throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "No reservations left");
         }
+        // Send Confirmation Mail
+        yield (0, booking_utils_1.sendBookingConfirmation)(payload);
         yield session.commitTransaction();
         session.endSession();
         return bookedReservation[0];
@@ -83,7 +82,7 @@ const bookReservation = (payload, token) => __awaiter(void 0, void 0, void 0, fu
         throw error;
     }
 });
-const getUsersReservations = (userId, paginationOptions, token) => __awaiter(void 0, void 0, void 0, function* () {
+const getUsersReservations = (email, paginationOptions, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const andConditions = [];
     const { page, limit, skip, sortBy, sortOrder } = (0, paginationHelpers_1.calculatePaginationFunction)(paginationOptions);
@@ -93,7 +92,7 @@ const getUsersReservations = (userId, paginationOptions, token) => __awaiter(voi
     }
     //
     const checkAndCondition = (andConditions === null || andConditions === void 0 ? void 0 : andConditions.length) > 0 ? { $and: andConditions } : {};
-    const query = Object.assign({ userId }, checkAndCondition);
+    const query = Object.assign({ email }, checkAndCondition);
     const bookings = yield booking_schema_1.Booking.find(query)
         .populate({
         path: "reservationId",
@@ -101,7 +100,7 @@ const getUsersReservations = (userId, paginationOptions, token) => __awaiter(voi
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
-    const total = yield booking_schema_1.Booking.countDocuments({ userId });
+    const total = yield booking_schema_1.Booking.countDocuments({ email });
     return {
         meta: {
             page,

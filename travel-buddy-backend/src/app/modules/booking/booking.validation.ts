@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const bookingZodSchema = z.object({
   body: z.object({
-    userId: z.string({
+    email: z.string({
       required_error: "User ID Is Required",
     }),
     reservationId: z.string({
@@ -22,6 +22,9 @@ const bookingZodSchema = z.object({
     }),
     reservationPrice: z.number({
       required_error: "Reservation Price is Required",
+    }),
+    isAsGuest: z.boolean({
+      required_error: "isAsGuest is Required",
     }),
   }),
 });

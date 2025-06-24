@@ -14,25 +14,16 @@ import { Secret } from "jsonwebtoken";
 import config from "../../../config/config";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import { BusinessProfile } from "../hotels/businessProfile/businessProfile.schema";
+import { sendBookingConfirmation } from "./booking.utils";
 
-const bookReservation = async (
-  payload: IBooking,
-  token: string,
-): Promise<IBooking> => {
-  jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
+const bookReservation = async (payload: IBooking): Promise<IBooking> => {
+  const { email, reservationId, hotelId, isAsGuest } = payload;
 
-  const { userId, reservationId, hotelId } = payload;
-
-  const isUserExists = await Users.findOne({ _id: userId });
-  if (!isUserExists) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "User Doesn't Exist");
-  }
-
-  if (isUserExists.role === "hotelOwner") {
-    throw new ApiError(
-      httpStatus.UNAUTHORIZED,
-      "Permission Denied! Please Try With Another account",
-    );
+  if (!isAsGuest) {
+    const isUserExists = await Users.findOne({ email });
+    if (!isUserExists) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, "User Doesn't Exist");
+    }
   }
 
   const isHotelExists = await BusinessProfile.findOne({
@@ -57,14 +48,14 @@ const bookReservation = async (
   }
 
   const isReservationBooked = await Booking.findOne({
-    userId,
+    email,
     reservationId,
     status: { $in: ["pending", "ongoing"] },
   });
   if (isReservationBooked) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
-      "Reservation Already Booked and Cannot Booked Before it's End",
+      "You Have Already Booked and Cannot Book Again Before it's End/Canceled",
     );
   }
 
@@ -99,6 +90,9 @@ const bookReservation = async (
       throw new ApiError(httpStatus.BAD_REQUEST, "No reservations left");
     }
 
+    // Send Confirmation Mail
+    await sendBookingConfirmation(payload);
+
     await session.commitTransaction();
     session.endSession();
 
@@ -111,7 +105,7 @@ const bookReservation = async (
 };
 
 const getUsersReservations = async (
-  userId: string,
+  email: string,
   paginationOptions: IPaginationOptions,
   token: string,
 ): Promise<IGenericPaginationResponse<IBooking[]>> => {
@@ -132,7 +126,7 @@ const getUsersReservations = async (
     andConditions?.length > 0 ? { $and: andConditions } : {};
 
   const query = {
-    userId,
+    email,
     ...checkAndCondition,
   };
 
@@ -144,7 +138,7 @@ const getUsersReservations = async (
     .skip(skip)
     .limit(limit);
 
-  const total = await Booking.countDocuments({ userId });
+  const total = await Booking.countDocuments({ email });
 
   return {
     meta: {

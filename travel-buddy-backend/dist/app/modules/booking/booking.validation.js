@@ -4,7 +4,7 @@ exports.BookingValidation = void 0;
 const zod_1 = require("zod");
 const bookingZodSchema = zod_1.z.object({
     body: zod_1.z.object({
-        userId: zod_1.z.string({
+        email: zod_1.z.string({
             required_error: "User ID Is Required",
         }),
         reservationId: zod_1.z.string({
@@ -24,6 +24,9 @@ const bookingZodSchema = zod_1.z.object({
         }),
         reservationPrice: zod_1.z.number({
             required_error: "Reservation Price is Required",
+        }),
+        isAsGuest: zod_1.z.boolean({
+            required_error: "isAsGuest is Required",
         }),
     }),
 });
