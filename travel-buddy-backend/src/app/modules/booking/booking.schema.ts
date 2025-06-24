@@ -4,7 +4,9 @@ import { StatusEnums } from "./booking.constant";
 
 const bookingSchema = new Schema<IBooking>(
   {
-    userId: { type: String, required: true },
+    email: { type: String, required: true },
+    userName: { type: String, required: true },
+    userPhone: { type: String, required: true },
     reservationId: {
       type: Schema.Types.ObjectId,
       required: true,
@@ -25,6 +27,7 @@ const bookingSchema = new Schema<IBooking>(
       enum: StatusEnums,
       default: "pending",
     },
+    isAsGuest: { type: Boolean, required: true },
   },
   {
     timestamps: true,

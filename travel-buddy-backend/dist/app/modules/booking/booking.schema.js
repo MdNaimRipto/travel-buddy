@@ -4,7 +4,9 @@ exports.Booking = void 0;
 const mongoose_1 = require("mongoose");
 const booking_constant_1 = require("./booking.constant");
 const bookingSchema = new mongoose_1.Schema({
-    userId: { type: String, required: true },
+    email: { type: String, required: true },
+    userName: { type: String, required: true },
+    userPhone: { type: String, required: true },
     reservationId: {
         type: mongoose_1.Schema.Types.ObjectId,
         required: true,
@@ -25,6 +27,7 @@ const bookingSchema = new mongoose_1.Schema({
         enum: booking_constant_1.StatusEnums,
         default: "pending",
     },
+    isAsGuest: { type: Boolean, required: true },
 }, {
     timestamps: true,
 });

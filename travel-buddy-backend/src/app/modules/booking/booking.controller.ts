@@ -10,9 +10,8 @@ import { verifyAuthToken } from "../../../util/verifyAuthToken";
 // Book Reservation
 const bookedReservation = catchAsync(async (req: Request, res: Response) => {
   const { ...payload } = req.body;
-  const token = verifyAuthToken(req);
 
-  const result = await BookingService.bookReservation(payload, token);
+  const result = await BookingService.bookReservation(payload);
 
   sendResponse(res, {
     success: true,
@@ -24,12 +23,12 @@ const bookedReservation = catchAsync(async (req: Request, res: Response) => {
 
 // Get Reservation's
 const getUsersReservations = catchAsync(async (req: Request, res: Response) => {
-  const userId = req.headers["user-id"];
+  const { email } = req.query;
   const options = pick(req.query, paginationFields);
   const token = verifyAuthToken(req);
 
   const result = await BookingService.getUsersReservations(
-    userId as string,
+    email as string,
     options,
     token,
   );
@@ -44,7 +43,7 @@ const getUsersReservations = catchAsync(async (req: Request, res: Response) => {
 
 // Cancel Reservation
 const cancelBooking = catchAsync(async (req: Request, res: Response) => {
-  const bookingId = req.headers["booking-id"];
+  const { bookingId } = req.query;
   const token = verifyAuthToken(req);
   const result = await BookingService.cancelBooking(bookingId as string, token);
 

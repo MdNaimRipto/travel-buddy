@@ -34,8 +34,7 @@ const verifyAuthToken_1 = require("../../../util/verifyAuthToken");
 // Book Reservation
 const bookedReservation = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const payload = __rest(req.body, []);
-    const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield booking_service_1.BookingService.bookReservation(payload, token);
+    const result = yield booking_service_1.BookingService.bookReservation(payload);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -45,10 +44,10 @@ const bookedReservation = (0, catchAsync_1.default)((req, res) => __awaiter(void
 }));
 // Get Reservation's
 const getUsersReservations = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.headers["user-id"];
+    const { email } = req.query;
     const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
     const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield booking_service_1.BookingService.getUsersReservations(userId, options, token);
+    const result = yield booking_service_1.BookingService.getUsersReservations(email, options, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -58,7 +57,7 @@ const getUsersReservations = (0, catchAsync_1.default)((req, res) => __awaiter(v
 }));
 // Cancel Reservation
 const cancelBooking = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const bookingId = req.headers["booking-id"];
+    const { bookingId } = req.query;
     const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
     const result = yield booking_service_1.BookingService.cancelBooking(bookingId, token);
     (0, sendResponse_1.default)(res, {
