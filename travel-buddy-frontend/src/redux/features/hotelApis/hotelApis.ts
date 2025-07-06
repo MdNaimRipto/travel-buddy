@@ -47,7 +47,7 @@ const hotelApis = apiSlice.injectEndpoints({
     //
     getAllHotels: builder.query({
       query: () => ({
-        url: `${apiConfig.HOTEL.BUSINESS_PROFILE.GET_ALL}`,
+        url: `${apiConfig.HOTEL.BUSINESS_PROFILE.GET_ALL}?limit=null`,
       }),
     }),
     //

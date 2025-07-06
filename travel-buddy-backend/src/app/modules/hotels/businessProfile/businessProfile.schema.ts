@@ -26,11 +26,11 @@ export const businessProfileSchema = new Schema<IBusinessProfile>(
         index: true,
       },
       coordinates: {
-        latitude: { type: String, required: true, default: 0 },
-        longitude: { type: String, required: true, default: 0 },
+        latitude: { type: Number, required: true, default: 0 },
+        longitude: { type: Number, required: true, default: 0 },
       },
     },
-    hotelImages: [{ type: String, required: true }],
+    hotelImage: { type: String, required: true },
     totalReservations: { type: Number, required: true, min: 0, default: 0 },
     amenities: [{ type: String, required: true }],
     description: { type: String, required: true },
@@ -51,9 +51,7 @@ export const businessProfileSchema = new Schema<IBusinessProfile>(
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-    },
+    versionKey: false,
   },
 );
 

@@ -15,6 +15,11 @@ import { useGetHotelDetailsQuery } from "@/redux/features/hotelApis/hotelApis";
 import { useParams } from "next/navigation";
 import Loader from "@/components/common/loader/Loader";
 import { IBusinessProfile } from "@/types/hotelTypes";
+import r1 from "@/assets/hotels/r1.webp";
+import r2 from "@/assets/hotels/r2.webp";
+import r3 from "@/assets/hotels/r3.webp";
+import r4 from "@/assets/hotels/r4.webp";
+import NotFoundMessage from "@/components/common/NotFoundMessage";
 
 const HotelDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
@@ -31,10 +36,39 @@ const HotelDetails = () => {
 
   const hotel = data?.data as IBusinessProfile;
 
-  const gridImageView = hotel?.hotelImages?.map((img, index) => ({
-    img,
-    gridStyle: index === 0 ? "col-span-3 row-span-2" : "col-span-1 row-span-1",
-  }));
+  if (!hotel || hotel === null || hotel === undefined) {
+    return <NotFoundMessage title="Hotel does not exists" />;
+  }
+
+  // const gridImageView = hotel?.hotelImages?.map((img, index) => ({
+  //   img,
+  //   gridStyle: index === 0 ? "col-span-3 row-span-2" : "col-span-1 row-span-1",
+  // }));
+
+  const gridImageView = [
+    {
+      img: hotel?.hotelImage,
+      gridStyle: "col-span-3 row-span-2",
+    },
+    {
+      img: r1.src,
+      gridStyle: "col-span-1 row-span-1",
+    },
+    {
+      img: r2.src,
+      gridStyle: "col-span-1 row-span-1",
+    },
+    {
+      img: r3.src,
+      gridStyle: "col-span-1 row-span-1",
+    },
+    {
+      img: r4.src,
+      gridStyle: "col-span-1 row-span-1",
+    },
+  ];
+
+  const viewerImages = [hotel?.hotelImage, r1.src, r2.src, r3.src, r4.src];
 
   return (
     <Transition>
@@ -74,7 +108,7 @@ const HotelDetails = () => {
         <DetailsPageImageViewer
           isViewerOpen={isViewerOpen}
           setIsImageViewerOpen={setIsImageViewerOpen}
-          viewerImages={hotel?.hotelImages}
+          viewerImages={viewerImages}
           title="Hotel Images"
         />
       </div>

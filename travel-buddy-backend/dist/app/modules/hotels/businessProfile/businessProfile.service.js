@@ -38,7 +38,7 @@ const reviews_schema_1 = require("../../reviews/reviews.schema");
 // * Create Business Profile
 const createProfile = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { hotelOwnerId, totalReservations, hotelImages, totalRating, amenities, } = payload;
+    const { hotelOwnerId, totalReservations, totalRating, amenities } = payload;
     const isSellerExists = yield users_schema_1.Users.findOne({ uid: hotelOwnerId }, {
         uid: 1,
     });
@@ -48,9 +48,6 @@ const createProfile = (payload, token) => __awaiter(void 0, void 0, void 0, func
     const isExists = yield businessProfile_schema_1.BusinessProfile.findOne({ hotelOwnerId });
     if (isExists) {
         throw new ApiError_1.default(http_status_1.default.CONFLICT, "Hotel Already exists!");
-    }
-    if (hotelImages.length < 5) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Minimum 5 images required!");
     }
     if (amenities.length < 5) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Minimum 5 amenities required!");
@@ -163,13 +160,13 @@ const getAllHotels = (filters, paginationOptions) => __awaiter(void 0, void 0, v
     }
     //
     const checkAndCondition = (andConditions === null || andConditions === void 0 ? void 0 : andConditions.length) > 0 ? { $and: andConditions } : {};
-    const query = Object.assign(Object.assign({}, checkAndCondition), { startingPrice: { $gt: 0 } });
+    const query = Object.assign({}, checkAndCondition);
     const result = yield businessProfile_schema_1.BusinessProfile.find(query)
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
     const total = yield businessProfile_schema_1.BusinessProfile.countDocuments({
-        startingPrice: { $gt: 0 },
+    // startingPrice: { $gt: 0 },
     });
     return {
         meta: {
@@ -189,7 +186,7 @@ const getHotelDetails = (id) => __awaiter(void 0, void 0, void 0, function* () {
 const updateBusinessProfile = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const { hotelId: id, ownerId, updateData } = payload;
-    const { hotelId, hotelImages, hotelOwnerId, totalReservations, totalRating, startingPrice, hotelLocation, amenities } = updateData, updatePayload = __rest(updateData, ["hotelId", "hotelImages", "hotelOwnerId", "totalReservations", "totalRating", "startingPrice", "hotelLocation", "amenities"]);
+    const { hotelId, hotelOwnerId, totalReservations, totalRating, startingPrice, hotelLocation, amenities } = updateData, updatePayload = __rest(updateData, ["hotelId", "hotelOwnerId", "totalReservations", "totalRating", "startingPrice", "hotelLocation", "amenities"]);
     const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({ hotelId: id });
     if (!isHotelExists) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Hotel Profile Not Found!");
@@ -233,12 +230,6 @@ const updateBusinessProfile = (payload, token) => __awaiter(void 0, void 0, void
     }
     else if (amenities && amenities.length >= 5) {
         updatePayload.amenities = amenities;
-    }
-    if (hotelImages && hotelImages.length < 5) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Minimum 5 images required!");
-    }
-    else if (hotelImages && hotelImages.length >= 5) {
-        updatePayload.hotelImages = hotelImages;
     }
     const result = yield businessProfile_schema_1.BusinessProfile.findOneAndUpdate({ hotelId: id }, updatePayload, {
         new: true,

@@ -9,12 +9,12 @@ export interface IBusinessProfile {
     area: string; // * Hotel Area Ex: Inani Beach
     destination: string; // * Hotel Destination Ex: Cox's Bazar
     coordinates: {
-      latitude: string;
-      longitude: string;
+      latitude: number;
+      longitude: number;
     };
   };
   totalReservations: number;
-  hotelImages: string[];
+  hotelImage: string;
   amenities: string[];
   description: string;
   socialLinks?: {

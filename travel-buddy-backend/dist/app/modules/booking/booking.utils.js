@@ -21,6 +21,7 @@ const reservations_schema_1 = require("../hotels/reservations/reservations.schem
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const pdfkit_1 = __importDefault(require("pdfkit"));
 const config_1 = __importDefault(require("../../../config/config"));
+const businessProfile_schema_1 = require("../hotels/businessProfile/businessProfile.schema");
 const updateBooking = () => __awaiter(void 0, void 0, void 0, function* () {
     node_cron_1.default.schedule("56 14 * * *", () => __awaiter(void 0, void 0, void 0, function* () {
         const date = new Date();
@@ -69,7 +70,7 @@ const updateBooking = () => __awaiter(void 0, void 0, void 0, function* () {
     }));
 });
 exports.updateBooking = updateBooking;
-function generatePDFBuffer(booking) {
+function generatePDFBuffer(booking, reservationName, hotelName) {
     return new Promise((resolve, reject) => {
         const doc = new pdfkit_1.default();
         const chunks = [];
@@ -83,21 +84,28 @@ function generatePDFBuffer(booking) {
         doc.fontSize(12).text(`Name: ${booking.userName}`);
         doc.text(`Phone: ${booking.userPhone}`);
         doc.text(`Email: ${booking.email}`);
-        doc.text(`Reservation ID: ${booking.reservationId}`);
-        doc.text(`Hotel ID: ${booking.hotelId}`);
+        doc.text(`Reservation For: ${reservationName}`);
+        doc.text(`Hotel Name: ${hotelName}`);
         doc.text(`Reserved Days: ${booking.reservedDays}`);
-        doc.text(`Start Date: ${booking.startingDate.toDateString()}`);
-        doc.text(`End Date: ${booking.expireDate.toDateString()}`);
+        doc.text(`Start Date: ${new Date(booking.startingDate).toLocaleDateString()}`);
+        doc.text(`End Date: ${new Date(booking.expireDate).toLocaleDateString()}`);
         doc.text(`Price: $${booking.reservationPrice}`);
         doc.text(`Status: ${booking.status}`);
-        doc.text(`Booked as Guest: ${booking.isAsGuest ? "Yes" : "No"}`);
+        doc.text(`Booked as Guest: ${booking.isAsGuest === true ? "Yes" : "No"}`);
         doc.end();
     });
 }
 function sendBookingConfirmation(booking) {
     return __awaiter(this, void 0, void 0, function* () {
+        // Extract Names
+        const reservation = yield reservations_schema_1.Reservations.findOne({
+            _id: booking.reservationId,
+        });
+        const hotel = yield businessProfile_schema_1.BusinessProfile.findOne({
+            _id: booking.hotelId,
+        });
         // Create PDF
-        const pdfBuffer = yield generatePDFBuffer(booking);
+        const pdfBuffer = yield generatePDFBuffer(booking, String(reservation === null || reservation === void 0 ? void 0 : reservation.name), String(hotel === null || hotel === void 0 ? void 0 : hotel.hotelName));
         // Nodemailer transporter
         const transporter = nodemailer_1.default.createTransport({
             host: "smtp.gmail.com",
@@ -111,12 +119,12 @@ function sendBookingConfirmation(booking) {
         // HTML email content
         const htmlContent = `
     <div style="font-family: Arial, sans-serif; line-height: 1.6">
-      <h2>Booking Confirmation</h2>
+      <h2>Travel Buddy Booking Confirmation</h2>
       <p>Dear ${booking.userName},</p>
       <p>Thank you for your booking. Here are your reservation details:</p>
       <ul>
-        <li><strong>Reservation ID:</strong> ${booking.reservationId}</li>
-        <li><strong>Hotel ID:</strong> ${booking.hotelId}</li>
+        <li><strong>Reservation For:</strong> ${reservation === null || reservation === void 0 ? void 0 : reservation.name}</li>
+        <li><strong>Hotel Name:</strong> ${hotel === null || hotel === void 0 ? void 0 : hotel.hotelName}</li>
         <li><strong>Start Date:</strong> ${new Date(booking.startingDate).toDateString()}</li>
         <li><strong>End Date:</strong> ${new Date(booking.expireDate).toDateString()}</li>
         <li><strong>Reserved Days:</strong> ${booking.reservedDays}</li>

@@ -25,10 +25,12 @@ const jwtHelpers_1 = require("../../../helpers/jwtHelpers");
 const businessProfile_schema_1 = require("../hotels/businessProfile/businessProfile.schema");
 const booking_utils_1 = require("./booking.utils");
 const bookReservation = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, reservationId, hotelId } = payload;
-    const isUserExists = yield users_schema_1.Users.findOne({ email });
-    if (!isUserExists) {
-        throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "User Doesn't Exist");
+    const { email, reservationId, hotelId, isAsGuest } = payload;
+    if (!isAsGuest) {
+        const isUserExists = yield users_schema_1.Users.findOne({ email });
+        if (!isUserExists) {
+            throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "User Doesn't Exist");
+        }
     }
     const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({
         _id: hotelId,

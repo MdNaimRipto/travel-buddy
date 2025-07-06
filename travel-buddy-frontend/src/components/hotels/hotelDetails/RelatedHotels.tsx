@@ -7,10 +7,10 @@ import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 
 import img1 from "@/assets/hotels/hotel1.jpg";
-import img2 from "@/assets/hotels/hotel2.jpg";
-import img3 from "@/assets/hotels/hotel3.jpg";
-import img4 from "@/assets/hotels/hotel4.jpg";
-import img5 from "@/assets/hotels/hotel5.jpg";
+import img2 from "@/assets/hotels/r1.webp";
+import img3 from "@/assets/hotels/r2.webp";
+import img4 from "@/assets/hotels/r3.webp";
+import img5 from "@/assets/hotels/r4.webp";
 
 const RelatedHotels = () => {
   const relatedHotels = [
