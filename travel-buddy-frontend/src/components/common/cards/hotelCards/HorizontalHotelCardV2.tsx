@@ -16,7 +16,7 @@ const HorizontalHotelCardV2 = ({
     <div className="group">
       <div className="w-full h-[220px] overflow-hidden mb-5">
         <Image
-          src={card?.hotelImages[0]}
+          src={card?.hotelImage}
           width={400}
           height={400}
           alt="Hotel-Images"

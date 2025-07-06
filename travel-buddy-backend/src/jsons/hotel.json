@@ -1,0 +1,24 @@
+{
+  "hotelOwnerId": "",
+  "hotelName": "",
+  "hotelLocation": {
+    "street": "",
+    "area": "",
+    "destination": "",
+    "coordinates": {
+      "latitude": 0,
+      "longitude": 0
+    }
+  },
+  "totalReservations": 0,
+  "hotelImage": "",
+  "amenities": [],
+  "description": "",
+  "email": "",
+  "contactNumber": "",
+  "establishedDate": {
+    "date": "",
+    "month": "",
+    "year": ""
+  }
+}

@@ -22,10 +22,10 @@ const businessProfileZodSchema = zod_1.z.object({
                 required_error: "Hotel Destination is Required",
             }),
             coordinates: zod_1.z.object({
-                latitude: zod_1.z.string({
+                latitude: zod_1.z.number({
                     required_error: "latitude is Required",
                 }),
-                longitude: zod_1.z.string({
+                longitude: zod_1.z.number({
                     required_error: "longitude is Required",
                 }),
             }),
@@ -36,14 +36,31 @@ const businessProfileZodSchema = zod_1.z.object({
         })
             .min(0, "Total Reservation's Cannot be Less Then 0")
             .default(0),
-        hotelImages: zod_1.z.array(zod_1.z.string({
-            required_error: "Images Required",
-        })),
+        hotelImage: zod_1.z.string({
+            required_error: "Hotel Image is Required",
+        }),
         amenities: zod_1.z.array(zod_1.z.string({
             required_error: "Amenities Required",
         })),
         description: zod_1.z.string({
             required_error: "Description is Required",
+        }),
+        email: zod_1.z.string({
+            required_error: "Hotel Email is Required",
+        }),
+        contactNumber: zod_1.z.string({
+            required_error: "Hotel Contact Number is Required",
+        }),
+        establishedDate: zod_1.z.object({
+            date: zod_1.z.string({
+                required_error: "Date is Required",
+            }),
+            month: zod_1.z.string({
+                required_error: "Month is Required",
+            }),
+            year: zod_1.z.string({
+                required_error: "Year is Required",
+            }),
         }),
     }),
 });

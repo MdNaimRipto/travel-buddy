@@ -32,13 +32,7 @@ const createProfile = async (
 ): Promise<IBusinessProfile> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const {
-    hotelOwnerId,
-    totalReservations,
-    hotelImages,
-    totalRating,
-    amenities,
-  } = payload;
+  const { hotelOwnerId, totalReservations, totalRating, amenities } = payload;
 
   const isSellerExists = await Users.findOne(
     { uid: hotelOwnerId },
@@ -53,10 +47,6 @@ const createProfile = async (
   const isExists = await BusinessProfile.findOne({ hotelOwnerId });
   if (isExists) {
     throw new ApiError(httpStatus.CONFLICT, "Hotel Already exists!");
-  }
-
-  if (hotelImages.length < 5) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Minimum 5 images required!");
   }
 
   if (amenities.length < 5) {
@@ -205,7 +195,7 @@ const getAllHotels = async (
 
   const query = {
     ...checkAndCondition,
-    startingPrice: { $gt: 0 },
+    // startingPrice: { $gt: 0 },
   };
 
   const result = await BusinessProfile.find(query)
@@ -214,7 +204,7 @@ const getAllHotels = async (
     .limit(limit);
 
   const total = await BusinessProfile.countDocuments({
-    startingPrice: { $gt: 0 },
+    // startingPrice: { $gt: 0 },
   });
 
   return {
@@ -246,7 +236,6 @@ const updateBusinessProfile = async (
 
   const {
     hotelId,
-    hotelImages,
     hotelOwnerId,
     totalReservations,
     totalRating,
@@ -314,12 +303,6 @@ const updateBusinessProfile = async (
     throw new ApiError(httpStatus.BAD_REQUEST, "Minimum 5 amenities required!");
   } else if (amenities && amenities.length >= 5) {
     (updatePayload as any).amenities = amenities;
-  }
-
-  if (hotelImages && hotelImages.length < 5) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Minimum 5 images required!");
-  } else if (hotelImages && hotelImages.length >= 5) {
-    (updatePayload as any).hotelImages = hotelImages;
   }
 
   const result = await BusinessProfile.findOneAndUpdate(

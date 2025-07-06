@@ -23,11 +23,11 @@ exports.businessProfileSchema = new mongoose_1.Schema({
             index: true,
         },
         coordinates: {
-            latitude: { type: String, required: true, default: 0 },
-            longitude: { type: String, required: true, default: 0 },
+            latitude: { type: Number, required: true, default: 0 },
+            longitude: { type: Number, required: true, default: 0 },
         },
     },
-    hotelImages: [{ type: String, required: true }],
+    hotelImage: { type: String, required: true },
     totalReservations: { type: Number, required: true, min: 0, default: 0 },
     amenities: [{ type: String, required: true }],
     description: { type: String, required: true },
@@ -47,8 +47,6 @@ exports.businessProfileSchema = new mongoose_1.Schema({
     },
 }, {
     timestamps: true,
-    toJSON: {
-        virtuals: true,
-    },
+    versionKey: false,
 });
 exports.BusinessProfile = (0, mongoose_1.model)("BusinessProfile", exports.businessProfileSchema);
