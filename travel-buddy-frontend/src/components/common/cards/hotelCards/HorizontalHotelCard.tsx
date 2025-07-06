@@ -1,9 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import EastIcon from "@mui/icons-material/East";
-import { Button } from "@mui/material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import { colorConfig } from "@/configs/colorConfig";
 import CommonBtnWithIcon from "../../buttons/CommonBtnWithIcon";
 import Link from "next/link";
 import { IBusinessProfile } from "@/types/hotelTypes";
@@ -13,7 +11,7 @@ const HorizontalHotelCard = ({ card }: { card: IBusinessProfile }) => {
     <div className="group">
       <div className="w-full h-[240px] overflow-hidden mb-5">
         <Image
-          src={card?.hotelImages[0]}
+          src={card?.hotelImage}
           width={400}
           height={400}
           alt="Hotel-Images"
