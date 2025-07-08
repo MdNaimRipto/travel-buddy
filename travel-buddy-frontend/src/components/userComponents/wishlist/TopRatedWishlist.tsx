@@ -10,7 +10,7 @@ import { AiOutlineTags as BestDealIcon } from "react-icons/ai";
 import Link from "next/link";
 import RatingComponent from "@/components/common/RatingComponent";
 
-import hotelImg from "@/assets/hotels/hotel.jpg";
+import hotelImg from "@/assets/hotels/hotel.webp";
 
 const TopRatedWishlist = () => {
   return (
