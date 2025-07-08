@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
 
-import img1 from "@/assets/hotels/hotel1.jpg";
 import img2 from "@/assets/hotels/r1.webp";
 import img3 from "@/assets/hotels/r2.webp";
 import img4 from "@/assets/hotels/r3.webp";
@@ -16,14 +15,6 @@ const RelatedHotels = () => {
   const relatedHotels = [
     {
       id: "01",
-      location: "Inani Beach, Cox's Bazar",
-      title: "Capella Bangkok",
-      rating: 4.8,
-      total_reviews: 269,
-      img: img1,
-    },
-    {
-      id: "02",
       location: "Saint Martin's Island",
       title: "Mandarin Oriental, Bangkok",
       rating: 4.5,
@@ -31,7 +22,7 @@ const RelatedHotels = () => {
       img: img2,
     },
     {
-      id: "03",
+      id: "02",
       location: "Sajek Valley, Rangamati",
       title: "Padma Resort Ubud",
       rating: 4.9,
@@ -39,7 +30,7 @@ const RelatedHotels = () => {
       img: img3,
     },
     {
-      id: "04",
+      id: "03",
       location: "Jaflong, Sylhet",
       title: "Soneva Fushi",
       rating: 4.7,
@@ -47,7 +38,7 @@ const RelatedHotels = () => {
       img: img4,
     },
     {
-      id: "05",
+      id: "04",
       location: "Jaflong, Sylhet",
       title: "Belmond Hotel Caruso",
       rating: 4.8,

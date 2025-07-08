@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import User01 from "@/assets/users/user01.jpg";
-import User02 from "@/assets/users/user02.jpg";
-import User03 from "@/assets/users/user03.jpg";
-import User04 from "@/assets/users/user04.jpg";
+import User01 from "@/assets/users/user01.webp";
+import User02 from "@/assets/users/user02.webp";
+import User03 from "@/assets/users/user03.webp";
+import User04 from "@/assets/users/user04.webp";
 import { Avatar, Button, CircularProgress, Rating } from "@mui/material";
 import RatingFillIcon from "@mui/icons-material/GradeRounded";
 import RatingEmptyIcon from "@mui/icons-material/StarOutlineRounded";
