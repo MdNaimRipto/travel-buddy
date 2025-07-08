@@ -35,7 +35,7 @@ const jwtHelpers_1 = require("../../../../helpers/jwtHelpers");
 const config_1 = __importDefault(require("../../../../config/config"));
 const uploadReservation = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { profileId, hotelId, reservationClass, reservationType, images } = payload;
+    const { profileId, hotelId, reservationClass, reservationType } = payload;
     const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({
         $and: [{ hotelId: profileId }, { _id: hotelId }],
     });
@@ -62,9 +62,6 @@ const uploadReservation = (payload, token) => __awaiter(void 0, void 0, void 0, 
     }
     payload.reservationId = reservationId;
     payload.reservationsLeft = payload.totalReservations;
-    if (images.length < 5) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Must Have to Upload 5 or More Images");
-    }
     // 🔽 New Logic to update startingPrice if this is the lowest price
     const lowestReservation = yield reservations_schema_1.Reservations.findOne({ profileId })
         .sort({ price: 1 })
@@ -174,7 +171,7 @@ const updateReservations = (payload, token) => __awaiter(void 0, void 0, void 0,
     if (!id || !hotelId || !updateData) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Failed To Update! Please Try Again");
     }
-    const { profileId, hotelId: OwnerHotelId, reservationClass, reservationType, images, status, reservationId, features, additionalFacilities, totalReservations, reservationsLeft, rating, location } = updateData, updatePayload = __rest(updateData, ["profileId", "hotelId", "reservationClass", "reservationType", "images", "status", "reservationId", "features", "additionalFacilities", "totalReservations", "reservationsLeft", "rating", "location"]);
+    const { profileId, hotelId: OwnerHotelId, reservationClass, reservationType, status, reservationId, features, additionalFacilities, totalReservations, reservationsLeft, rating, location } = updateData, updatePayload = __rest(updateData, ["profileId", "hotelId", "reservationClass", "reservationType", "status", "reservationId", "features", "additionalFacilities", "totalReservations", "reservationsLeft", "rating", "location"]);
     const isHotelExists = yield businessProfile_schema_1.BusinessProfile.findOne({ hotelId });
     if (!isHotelExists) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "Unauthorized User! Please Create Business Profile First");
@@ -210,12 +207,6 @@ const updateReservations = (payload, token) => __awaiter(void 0, void 0, void 0,
             updatableData[locationKey] =
                 location[key];
         });
-    }
-    if (images && images.length < 5) {
-        throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Minimum 5 images required!");
-    }
-    else if (images && images.length >= 5) {
-        updatableData.images = images;
     }
     if (features && !features.length) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Features Cannot Be Empty");

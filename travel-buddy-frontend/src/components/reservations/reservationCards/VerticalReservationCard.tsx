@@ -15,7 +15,7 @@ const VerticalReservationCard = ({
     <div className="group">
       <div className="w-full h-[220px] overflow-hidden mb-5">
         <Image
-          src={reservation?.images[0]}
+          src={reservation?.image}
           width={400}
           height={400}
           alt="Hotel-Images"

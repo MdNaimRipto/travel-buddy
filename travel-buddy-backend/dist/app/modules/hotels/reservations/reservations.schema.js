@@ -34,8 +34,14 @@ exports.reservationsSchema = new mongoose_1.Schema({
         default: "Available",
     },
     description: { type: String, required: true },
-    images: [{ type: String, required: true, min: 5 }],
-    features: [{ type: String, required: true }],
+    image: { type: String, required: true },
+    features: [
+        {
+            type: String,
+            enum: reservations_constant_1.ReservationFeaturesConstant,
+            required: true,
+        },
+    ],
     additionalFacilities: [{ type: String, required: true, default: [] }],
     rating: {
         total: { type: Number, required: true, default: 0 },
@@ -43,8 +49,5 @@ exports.reservationsSchema = new mongoose_1.Schema({
     },
 }, {
     timestamps: true,
-    toJSON: {
-        virtuals: true,
-    },
 });
 exports.Reservations = (0, mongoose_1.model)("Reservations", exports.reservationsSchema);

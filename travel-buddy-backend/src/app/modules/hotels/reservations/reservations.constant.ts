@@ -11,15 +11,34 @@ export const ReservationsTypeConstant: ReservationsType[] = [
 ];
 
 export const ReservationsClassConstant: ReservationsClass[] = [
-  "First",
-  "Second",
-  "Third",
+  "Standard",
+  "Deluxe",
+  "Executive",
+  "Suite",
+  "Presidential",
 ];
 
 export const ReservationsStatusConstant: ReservationStatus[] = [
   "Available",
   "Booked",
   "Blocked",
+];
+
+export const ReservationFeaturesConstant: string[] = [
+  "Free Wi-Fi",
+  "Air Conditioning",
+  "Private Balcony",
+  "Hot Bath Tub",
+  "Smart TV",
+  "Room Service",
+  "Ocean View",
+  "24/7 Front Desk",
+  "Daily Housekeeping",
+  "Kitchenette",
+  "In-Room Safe",
+  "Complimentary Breakfast",
+  "Luxury Bedding",
+  "City View",
 ];
 
 export const ReservationSearchableFields = [

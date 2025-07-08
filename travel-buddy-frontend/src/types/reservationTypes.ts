@@ -1,8 +1,32 @@
 import { IBusinessProfile } from "./hotelTypes";
 
 export type ReservationsType = "Single" | "Couple" | "Family";
-export type ReservationsClass = "First" | "Second" | "Third";
+export type ReservationsClass =
+  | "Standard"
+  | "Deluxe"
+  | "Executive"
+  | "Suite"
+  | "Presidential";
 export type ReservationStatus = "Booked" | "Available" | "Blocked";
+
+export const ReservationFeaturesConstant = [
+  "Free Wi-Fi",
+  "Air Conditioning",
+  "Private Balcony",
+  "Hot Bath Tub",
+  "Smart TV",
+  "Room Service",
+  "Ocean View",
+  "24/7 Front Desk",
+  "Daily Housekeeping",
+  "Kitchenette",
+  "In-Room Safe",
+  "Complimentary Breakfast",
+  "Luxury Bedding",
+  "City View",
+] as const;
+
+export type ReservationFeature = (typeof ReservationFeaturesConstant)[number];
 
 export type IReservations = {
   profileId: string;
@@ -22,9 +46,9 @@ export type IReservations = {
   reservationsLeft: number;
   status: ReservationStatus;
   description: string;
-  features: string[];
+  features: ReservationFeature[];
   additionalFacilities: string[];
-  images: string[];
+  image: string;
   rating: {
     total: number;
     rating: number;

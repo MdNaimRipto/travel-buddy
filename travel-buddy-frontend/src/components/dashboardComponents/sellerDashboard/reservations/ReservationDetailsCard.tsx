@@ -23,7 +23,7 @@ const ReservationDetailsCard = ({
         className="w-full h-full overflow-hidden rounded-t-xl md:rounded-tr-none md:rounded-l-xl relative"
       >
         <Image
-          src={r.images[0]}
+          src={r.image}
           alt="Reservation Image"
           width={400}
           height={400}
