@@ -1,5 +1,5 @@
 import React from "react";
-import hotelImg from "@/assets/hotels/hotel.jpg";
+import hotelImg from "@/assets/hotels/hotel.webp";
 import Image from "next/image";
 import Link from "next/link";
 import NavigateIcon from "@mui/icons-material/OpenInNew";
