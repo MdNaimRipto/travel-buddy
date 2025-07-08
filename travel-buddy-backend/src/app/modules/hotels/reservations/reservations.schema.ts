@@ -1,6 +1,7 @@
 import { model, Schema, Types } from "mongoose";
 import { IReservations } from "./reservations.interface";
 import {
+  ReservationFeaturesConstant,
   ReservationsClassConstant,
   ReservationsStatusConstant,
   ReservationsTypeConstant,
@@ -38,8 +39,14 @@ export const reservationsSchema = new Schema<IReservations>(
       default: "Available",
     },
     description: { type: String, required: true },
-    images: [{ type: String, required: true, min: 5 }],
-    features: [{ type: String, required: true }],
+    image: { type: String, required: true },
+    features: [
+      {
+        type: String,
+        enum: ReservationFeaturesConstant,
+        required: true,
+      },
+    ],
     additionalFacilities: [{ type: String, required: true, default: [] }],
     rating: {
       total: { type: Number, required: true, default: 0 },
@@ -48,9 +55,6 @@ export const reservationsSchema = new Schema<IReservations>(
   },
   {
     timestamps: true,
-    toJSON: {
-      virtuals: true,
-    },
   },
 );
 

@@ -3,10 +3,10 @@ import Image from "next/image";
 import { CiLocationOn as LocationIcon } from "react-icons/ci";
 import { FaStar as RatingIcon } from "react-icons/fa6";
 
-import img1 from "@/assets/reservations/fakeReservationImage.jpg";
-import img2 from "@/assets/reservations/fakeReservationImage2.jpg";
-import img3 from "@/assets/reservations/fakeReservationImage3.jpg";
-import img4 from "@/assets/reservations/fakeReservationImage4.jpg";
+import img1 from "@/assets/reservations/rp01.webp";
+import img2 from "@/assets/reservations/rp02.webp";
+import img3 from "@/assets/reservations/rp03.webp";
+import img4 from "@/assets/reservations/rp04.webp";
 import Link from "next/link";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";

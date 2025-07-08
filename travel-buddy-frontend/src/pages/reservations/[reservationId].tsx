@@ -16,6 +16,10 @@ import { useParams } from "next/navigation";
 import { useGetReservationByIdQuery } from "@/redux/features/hotelApis/reservationApis";
 import Loader from "@/components/common/loader/Loader";
 import { IReservations } from "@/types/reservationTypes";
+import rp01 from "@/assets/reservations/rp01.webp";
+import rp02 from "@/assets/reservations/rp02.webp";
+import rp03 from "@/assets/reservations/rp03.webp";
+import rp04 from "@/assets/reservations/rp04.webp";
 
 const ReservationDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
@@ -32,15 +36,42 @@ const ReservationDetails = () => {
 
   const reservation = data?.data as IReservations;
 
-  const gridImageView = reservation?.images?.slice(0, 4)?.map((img, index) => ({
-    img,
-    gridStyle:
-      index === 0
-        ? "col-span-3 row-span-2"
-        : index === 1
-        ? "col-span-2 row-span-1"
-        : "col-span-1 row-span-1",
-  }));
+  // const gridImageView = reservation?.images?.slice(0, 4)?.map((img, index) => ({
+  //   img,
+  //   gridStyle:
+  //     index === 0
+  //       ? "col-span-3 row-span-2"
+  //       : index === 1
+  //       ? "col-span-2 row-span-1"
+  //       : "col-span-1 row-span-1",
+  // }));
+
+  const gridImageView = [
+    {
+      img: reservation.image,
+      gridStyle: "col-span-3 row-span-2",
+    },
+    {
+      img: rp01.src,
+      gridStyle: "col-span-2 row-span-1",
+    },
+    {
+      img: rp02.src,
+      gridStyle: "col-span-1 row-span-1",
+    },
+    {
+      img: rp03.src,
+      gridStyle: "col-span-1 row-span-1",
+    },
+  ];
+
+  const viewerImages = [
+    reservation.image,
+    rp01.src,
+    rp02.src,
+    rp03.src,
+    rp04.src,
+  ];
 
   return (
     <Transition>
@@ -98,7 +129,7 @@ const ReservationDetails = () => {
         <DetailsPageImageViewer
           isViewerOpen={isViewerOpen}
           setIsImageViewerOpen={setIsImageViewerOpen}
-          viewerImages={reservation?.images}
+          viewerImages={viewerImages}
           title="Reservation Images"
         />
       </div>

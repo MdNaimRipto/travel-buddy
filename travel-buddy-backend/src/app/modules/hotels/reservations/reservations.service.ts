@@ -30,8 +30,7 @@ const uploadReservation = async (
 ): Promise<IReservations> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const { profileId, hotelId, reservationClass, reservationType, images } =
-    payload;
+  const { profileId, hotelId, reservationClass, reservationType } = payload;
 
   const isHotelExists = await BusinessProfile.findOne({
     $and: [{ hotelId: profileId }, { _id: hotelId }],
@@ -78,13 +77,6 @@ const uploadReservation = async (
   payload.reservationId = reservationId;
 
   payload.reservationsLeft = payload.totalReservations;
-
-  if (images.length < 5) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "Must Have to Upload 5 or More Images",
-    );
-  }
 
   // 🔽 New Logic to update startingPrice if this is the lowest price
   const lowestReservation = await Reservations.findOne({ profileId })
@@ -250,7 +242,6 @@ const updateReservations = async (
     hotelId: OwnerHotelId,
     reservationClass,
     reservationType,
-    images,
     status,
     reservationId,
     features,
@@ -321,12 +312,6 @@ const updateReservations = async (
       (updatableData as any)[locationKey] =
         location[key as keyof typeof location];
     });
-  }
-
-  if (images && images.length < 5) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Minimum 5 images required!");
-  } else if (images && images.length >= 5) {
-    updatableData.images = images;
   }
 
   if (features && !features.length) {

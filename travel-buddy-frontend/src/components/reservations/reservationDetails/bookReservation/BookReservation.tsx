@@ -188,7 +188,7 @@ const BookReservation = ({ reservation }: { reservation: IReservations }) => {
         totalBill={totalBill}
         totalNights={totalNights}
         totalPrice={totalPrice}
-        banner={reservation.images[0]}
+        banner={reservation.image}
       />
     </div>
   );

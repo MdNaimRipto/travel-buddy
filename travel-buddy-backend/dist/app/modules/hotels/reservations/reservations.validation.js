@@ -32,9 +32,9 @@ const reservationZodSchema = zod_1.z.object({
         description: zod_1.z.string({
             required_error: "Description is Required",
         }),
-        images: zod_1.z.array(zod_1.z.string({
-            required_error: "Images Are Required",
-        })),
+        image: zod_1.z.string({
+            required_error: "Image is Required",
+        }),
         features: zod_1.z.array(zod_1.z.string({
             required_error: "Features Are Required",
         })),

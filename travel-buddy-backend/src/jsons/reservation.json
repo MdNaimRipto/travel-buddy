@@ -1,0 +1,20 @@
+{
+  "profileId": "",
+  "hotelId": "",
+  "reservationType": "",
+  "reservationClass": "",
+  "name": "",
+  "price": 0,
+  "discount": 0,
+  "location": {
+    "street": "",
+    "area": "",
+    "destination": ""
+  },
+  "totalReservations": 0,
+  "reservationsLeft": 0,
+  "description": "",
+  "image": "",
+  "features": [],
+  "additionalFacilities": []
+}
