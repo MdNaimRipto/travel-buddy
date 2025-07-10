@@ -129,6 +129,13 @@ const getAllReservations = async (
         filterConditions.push({
           ["rating.rating"]: { $gte: minRating, $lte: maxRating } as any,
         });
+      } else if (field === "price") {
+        const maxPrice = parseInt(value);
+        if (!isNaN(maxPrice)) {
+          filterConditions.push({
+            price: { $lte: maxPrice } as any,
+          });
+        }
       } else {
         filterConditions.push({ [field]: value });
       }
@@ -161,7 +168,7 @@ const getAllReservations = async (
     .skip(skip)
     .limit(limit);
 
-  const total = await Reservations.countDocuments();
+  const total = await Reservations.countDocuments(query);
 
   return {
     meta: {

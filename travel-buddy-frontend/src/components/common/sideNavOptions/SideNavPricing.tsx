@@ -21,11 +21,19 @@ const SideNavPricing = ({ title }: { title: string }) => {
           Router.push(
             {
               pathname: Router.pathname,
-              query: { ...Router.query, maxPrice: e.target.value.toString() },
+              query: {
+                ...Router.query,
+                maxPrice: e.target.value.toString(),
+                page: 1,
+              },
             },
             undefined,
             { scroll: false }
           );
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
         }}
         aria-label="Small steps"
         value={maxPrice ? Number(maxPrice) : 20000}

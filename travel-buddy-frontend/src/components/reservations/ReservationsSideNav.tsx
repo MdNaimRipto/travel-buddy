@@ -1,5 +1,4 @@
 import Destinations from "@/components/common/sideNavOptions/Destinations";
-import ReservationAreas from "@/components/common/sideNavOptions/Areas";
 import ReservationClasses from "@/components/common/sideNavOptions/ReservationClasses";
 import ReservationTypes from "@/components/common/sideNavOptions/ReservationTypes";
 import SideNavPricing from "@/components/common/sideNavOptions/SideNavPricing";
@@ -14,7 +13,6 @@ const ReservationsSideNav = () => {
       </p>
       <div className="w-11/12 mx-auto">
         <Destinations title="Destination" />
-        <ReservationAreas title="Reservation Areas" />
         <ReservationTypes />
         <ReservationClasses />
         <SideNavRatings title="Reservations Rating" />

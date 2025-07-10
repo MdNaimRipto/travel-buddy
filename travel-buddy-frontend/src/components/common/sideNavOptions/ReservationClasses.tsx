@@ -12,16 +12,24 @@ const ReservationClasses = () => {
   const [isOpen, setIsOpen] = useState(false);
   const options = [
     {
-      label: "1st Class",
-      value: "first",
+      label: "Standard",
+      value: "Standard",
     },
     {
-      label: "2nd Class",
-      value: "second",
+      label: "Deluxe",
+      value: "Deluxe",
     },
     {
-      label: "3rd Class",
-      value: "third",
+      label: "Executive",
+      value: "Executive",
+    },
+    {
+      label: "Suite",
+      value: "Suite",
+    },
+    {
+      label: "Presidential",
+      value: "Presidential",
     },
   ];
   return (

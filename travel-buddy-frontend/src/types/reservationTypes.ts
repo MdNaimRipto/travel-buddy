@@ -57,3 +57,18 @@ export type IReservations = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export interface IReservationFilters {
+  searchTerm?: string;
+  name?: string;
+  reservationType?: ReservationsType[];
+  reservationClass?: ReservationsClass[];
+  area?: string;
+  destination?: string;
+  rating?: string[];
+  price?: string;
+  sortBy?: string;
+  sortOrder?: string;
+  page?: string;
+  limit?: string;
+}

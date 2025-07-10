@@ -103,6 +103,14 @@ const getAllReservations = (filters, paginationOptions) => __awaiter(void 0, voi
                     ["rating.rating"]: { $gte: minRating, $lte: maxRating },
                 });
             }
+            else if (field === "price") {
+                const maxPrice = parseInt(value);
+                if (!isNaN(maxPrice)) {
+                    filterConditions.push({
+                        price: { $lte: maxPrice },
+                    });
+                }
+            }
             else {
                 filterConditions.push({ [field]: value });
             }
@@ -124,7 +132,7 @@ const getAllReservations = (filters, paginationOptions) => __awaiter(void 0, voi
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
-    const total = yield reservations_schema_1.Reservations.countDocuments();
+    const total = yield reservations_schema_1.Reservations.countDocuments(query);
     return {
         meta: {
             page,
