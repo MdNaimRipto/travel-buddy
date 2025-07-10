@@ -13,15 +13,15 @@ const ReservationTypes = () => {
   const options = [
     {
       label: "Single",
-      value: "single",
+      value: "Single",
     },
     {
       label: "Family",
-      value: "family",
+      value: "Family",
     },
     {
       label: "Couple",
-      value: "couple",
+      value: "Couple",
     },
   ];
   return (

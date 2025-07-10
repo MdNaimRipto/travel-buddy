@@ -8,7 +8,6 @@ exports.ReservationFeaturesConstant = [
     "Hot Bath Tub",
     "Smart TV",
     "Room Service",
-    "Mini Bar",
     "Ocean View",
     "24/7 Front Desk",
     "Daily Housekeeping",

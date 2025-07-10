@@ -52,11 +52,15 @@ const SideNavCheckboxOptions = ({
     Router.push(
       {
         pathname: Router.pathname,
-        query: { ...Router.query, [queryParam]: updatedValues },
+        query: { ...Router.query, [queryParam]: updatedValues, page: 1 },
       },
       undefined,
       { scroll: false }
     );
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (

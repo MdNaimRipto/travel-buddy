@@ -39,17 +39,21 @@ const Destinations = ({ title }: { title: string }) => {
               Router.push(
                 {
                   pathname: Router.pathname,
-                  query: { ...Router.query, location: e.target.value },
+                  query: { ...Router.query, location: e.target.value, page: 1 },
                 },
                 undefined,
                 { scroll: false }
               );
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
             }}
           >
             {locations.map((o, i) => (
               <FormControlLabel
                 key={i}
-                value={o.destination.value}
+                value={o.destination.label}
                 control={<Radio sx={muiCheckedStyle} />}
                 label={
                   <p className="font-inter text-xs md:text-sm text-black font-medium md:font-normal whitespace-nowrap">
