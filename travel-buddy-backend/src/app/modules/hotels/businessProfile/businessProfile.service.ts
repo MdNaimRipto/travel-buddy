@@ -171,6 +171,13 @@ const getAllHotels = async (
         filterConditions.push({
           totalRating: { $gte: minRating, $lte: maxRating } as any,
         });
+      } else if (field === "startingPrice") {
+        const maxPrice = parseInt(value);
+        if (!isNaN(maxPrice)) {
+          filterConditions.push({
+            startingPrice: { $lte: maxPrice } as any,
+          });
+        }
       } else {
         filterConditions.push({ [field]: value });
       }

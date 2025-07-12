@@ -2,6 +2,7 @@ import React from "react";
 import { Breadcrumbs } from "@mui/material";
 import Link from "next/link";
 import { IoHome as HomeIcon } from "react-icons/io5";
+import TopNavFilters from "../common/sideNavOptions/TopNavFilters";
 
 const HotelsTopContent = () => {
   return (
@@ -27,19 +28,7 @@ const HotelsTopContent = () => {
         <h2 className="titleFont text-sm md:text-xl lg:text-3xl font-medium text-black">
           Explore The Best Hotel to Stay
         </h2>
-        <div className="lg:w-1/4 flex items-center gap-4">
-          <select className="w-1/2 p-2 border border-lightGray focus:outline-none font-inter text-sm cursor-pointer">
-            <option value="">Set Price</option>
-            <option value="">Low to High</option>
-            <option value="">High to Low</option>
-          </select>
-          <select className="w-1/2 p-2 border border-lightGray focus:outline-none font-inter text-sm cursor-pointer">
-            <option value="">Set Limit</option>
-            <option value="">10</option>
-            <option value="">16</option>
-            <option value="">20</option>
-          </select>
-        </div>
+        <TopNavFilters limits={[9, 12, 15]} />
       </div>
     </div>
   );

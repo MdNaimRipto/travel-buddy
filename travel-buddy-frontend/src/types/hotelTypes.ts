@@ -37,3 +37,16 @@ export interface IHotelStatistics {
   totalNegativeReviews: number;
   totalMixedReviews: number;
 }
+
+export interface IHotelFilters {
+  searchTerm?: string;
+  hotelName?: string;
+  area?: string;
+  destination?: string;
+  totalRating?: string[];
+  startingPrice?: string;
+  sortBy?: string;
+  sortOrder?: string;
+  page?: string;
+  limit?: string;
+}
