@@ -74,46 +74,48 @@ const Reservations = () => {
     total: number;
   };
 
-  console.log({ page, total, limit, reservations: reservations.length });
-
   if (!reservations?.length) {
     return <NotFoundMessage title="No Reservations Found!" />;
   }
 
   return (
     <div className="my-12">
-      {reservations.map((r, i) => (
-        <ReservationCard key={i} reservation={r} />
-      ))}
-      <Pagination
-        page={filterPage}
-        count={Math.ceil(total / Number(limit ?? 10))}
-        onChange={(event: React.ChangeEvent<unknown>, value: number) => {
-          Router.push(
-            {
-              pathname: Router.pathname,
-              query: { ...Router.query, page: value },
-            },
-            undefined,
-            { shallow: true }
-          );
-          window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-          });
-        }}
-        sx={{
-          "& .MuiPaginationItem-root.Mui-selected": {
-            backgroundColor: colorConfig.secondary,
-            color: colorConfig.white,
-            ":hover": {
+      <div className="min-h-[100vh]">
+        {reservations.map((r, i) => (
+          <ReservationCard key={i} reservation={r} />
+        ))}
+      </div>
+      <div className="my-12 flex items-center justify-center">
+        <Pagination
+          page={filterPage}
+          count={Math.ceil(total / Number(limit ?? 10))}
+          onChange={(event: React.ChangeEvent<unknown>, value: number) => {
+            Router.push(
+              {
+                pathname: Router.pathname,
+                query: { ...Router.query, page: value },
+              },
+              undefined,
+              { shallow: true }
+            );
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+          sx={{
+            "& .MuiPaginationItem-root.Mui-selected": {
               backgroundColor: colorConfig.secondary,
+              color: colorConfig.white,
+              ":hover": {
+                backgroundColor: colorConfig.secondary,
+              },
             },
-          },
-        }}
-        showFirstButton
-        showLastButton
-      />
+          }}
+          showFirstButton
+          showLastButton
+        />
+      </div>
     </div>
   );
 };

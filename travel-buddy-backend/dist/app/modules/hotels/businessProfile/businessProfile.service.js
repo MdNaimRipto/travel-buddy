@@ -144,6 +144,14 @@ const getAllHotels = (filters, paginationOptions) => __awaiter(void 0, void 0, v
                     totalRating: { $gte: minRating, $lte: maxRating },
                 });
             }
+            else if (field === "startingPrice") {
+                const maxPrice = parseInt(value);
+                if (!isNaN(maxPrice)) {
+                    filterConditions.push({
+                        startingPrice: { $lte: maxPrice },
+                    });
+                }
+            }
             else {
                 filterConditions.push({ [field]: value });
             }

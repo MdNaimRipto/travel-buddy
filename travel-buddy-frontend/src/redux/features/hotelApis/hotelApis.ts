@@ -1,5 +1,5 @@
 import { apiConfig } from "@/configs/apiConfig";
-import { IBusinessProfile } from "@/types/hotelTypes";
+import { IBusinessProfile, IHotelFilters } from "@/types/hotelTypes";
 import { apiSlice } from "../../apis/apiSlice";
 import Cookies from "js-cookie";
 
@@ -46,9 +46,50 @@ const hotelApis = apiSlice.injectEndpoints({
     // * Get Hotel Details
     //
     getAllHotels: builder.query({
-      query: () => ({
-        url: `${apiConfig.HOTEL.BUSINESS_PROFILE.GET_ALL}?limit=null`,
-      }),
+      query: (data: IHotelFilters) => {
+        console.log({ data });
+        const queryParameters = new URLSearchParams();
+        if (data.searchTerm) {
+          queryParameters.append("searchTerm", data.searchTerm);
+        }
+        if (data.sortBy) {
+          queryParameters.append("sortBy", data.sortBy);
+        }
+        if (data.sortOrder) {
+          queryParameters.append("sortOrder", data.sortOrder);
+        }
+        if (data.page) {
+          queryParameters.append("page", data.page);
+        }
+        if (data.limit) {
+          queryParameters.append("limit", data.limit);
+        }
+        if (data.destination) {
+          queryParameters.append("destination", data.destination);
+        }
+        if (data.startingPrice) {
+          queryParameters.append("startingPrice", data.startingPrice);
+        }
+        if (data.area) {
+          queryParameters.append("area", data.area);
+        }
+        if (data.hotelName) {
+          queryParameters.append("hotelName", data.hotelName);
+        }
+        if (data.totalRating) {
+          if (Array.isArray(data.totalRating)) {
+            data.totalRating.forEach(cls =>
+              queryParameters.append("totalRating", cls)
+            );
+          } else {
+            queryParameters.append("totalRating", data.totalRating);
+          }
+        }
+        return `${
+          apiConfig.HOTEL.BUSINESS_PROFILE.GET_ALL
+        }?${queryParameters.toString()}`;
+      },
+      providesTags: [],
     }),
     //
     // * Get Hotel Details
