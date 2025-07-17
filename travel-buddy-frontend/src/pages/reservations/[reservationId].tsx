@@ -20,6 +20,7 @@ import rp01 from "@/assets/reservations/rp01.webp";
 import rp02 from "@/assets/reservations/rp02.webp";
 import rp03 from "@/assets/reservations/rp03.webp";
 import rp04 from "@/assets/reservations/rp04.webp";
+import DetailsPageDescription from "@/components/reservations/reservationDetails/DetailsPageDescription";
 
 const ReservationDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
@@ -77,13 +78,14 @@ const ReservationDetails = () => {
     <Transition>
       <div className="container px-4 py-12">
         <DetailsPageTopContent
-          title="Phi Phi Islands Adventure Day Trip with Seaview Lunch by V. Marine
-            Tour"
+          title={reservation.name}
           mainCrumbName="Reservations"
           mainCrumbPath="/reservations"
-          path="/reservations/01"
-          locationPath="/reservations?location=cox%27sBazar&area=inaniBeach%2B"
-          locationName="Inani Beach, Cox's Bazar"
+          path={`/reservations/${reservation._id}`}
+          locationPath={`/reservations?location=${reservation.location.destination}`}
+          locationName={
+            reservation.location.area + ", " + reservation.location.destination
+          }
           wishlistType="RESERVATION"
           reservationId={reservation?._id}
         />
@@ -95,12 +97,15 @@ const ReservationDetails = () => {
                 setIsImageViewerOpen={setIsImageViewerOpen}
               />
             </div>
-            <ReservationTags />
+            <ReservationTags
+              rClass={reservation.reservationClass}
+              type={reservation.reservationType}
+            />
             <div className="flex flex-col md:flex-row items-start gap-8">
-              <MainFeatures />
-              <AdditionalFeatures />
+              <MainFeatures features={reservation.features} />
+              <AdditionalFeatures features={reservation.additionalFacilities} />
             </div>
-            {/* <DetailsPageDescription name="Phi Phi Islands Adventure Day Trip" /> */}
+            <DetailsPageDescription reservation={reservation} />
           </div>
           <div className="col-span-1">
             <BookReservation reservation={reservation} />

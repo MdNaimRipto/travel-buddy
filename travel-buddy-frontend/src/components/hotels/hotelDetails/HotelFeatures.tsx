@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import FeaturesPng from "@/assets/featured-icons/feature-list/check-mark.png";
+import FeaturesPng from "@/assets/featured-icons/feature-list/check-mark.webp";
 import DetailsPageTitle from "@/components/common/detailsPage/DetailsPageTitle";
 
 const HotelFeatures = ({ amenities }: { amenities: Array<string> }) => {

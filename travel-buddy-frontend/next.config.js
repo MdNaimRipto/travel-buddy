@@ -4,7 +4,6 @@ const nextConfig = {
   env: {
     SECRET_KEY: process.env.SECRET_KEY,
     IMAGE_KEY: process.env.IMAGE_KEY,
-    ADMIN_UID: process.env.ADMIN_UID,
     GOOGLE_ID: process.env.GOOGLE_ID,
     GOOGLE_SECRET: process.env.GOOGLE_SECRET,
     FACEBOOK_ID: process.env.FACEBOOK_ID,

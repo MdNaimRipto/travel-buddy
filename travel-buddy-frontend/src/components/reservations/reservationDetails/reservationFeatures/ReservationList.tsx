@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import FeaturesPng from "@/assets/featured-icons/feature-list/check-mark.png";
+import FeaturesPng from "@/assets/featured-icons/feature-list/check-mark.webp";
 
 const ReservationList = ({ list }: { list: string }) => {
   return (

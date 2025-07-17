@@ -1,56 +1,62 @@
 import React from "react";
 import Link from "next/link";
-import BestDealPng from "@/assets/featured-icons/percentage.png";
-import FirstClassPng from "@/assets/featured-icons/crown.png";
-import FamilyTypePng from "@/assets/featured-icons/family.png";
-import NatureViewPng from "@/assets/featured-icons/view.png";
-import RoomsPng from "@/assets/featured-icons/room.png";
-import BedsPng from "@/assets/featured-icons/bed.png";
-import HotTubPng from "@/assets/featured-icons/hot-tub.png";
-import TourGuidePng from "@/assets/featured-icons/guide.png";
+import BestDealPng from "@/assets/featured-icons/percentage.webp";
+import FirstClassPng from "@/assets/featured-icons/crown.webp";
+import FamilyTypePng from "@/assets/featured-icons/family.webp";
+import NatureViewPng from "@/assets/featured-icons/view.webp";
+import RoomsPng from "@/assets/featured-icons/room.webp";
+import BedsPng from "@/assets/featured-icons/bed.webp";
+import HotTubPng from "@/assets/featured-icons/hot-tub.webp";
+import TourGuidePng from "@/assets/featured-icons/guide.webp";
 import Image from "next/image";
 
-const ReservationTags = () => {
+const ReservationTags = ({
+  rClass,
+  type,
+}: {
+  rClass: string;
+  type: string;
+}) => {
   const tags = [
     {
       icon: BestDealPng,
       tag: "Best Deal",
-      link: "01",
+      link: "",
     },
     {
       icon: FirstClassPng,
-      tag: "First Class",
-      link: "/reservations?reservationClasses=first%2B",
+      tag: rClass + " Class",
+      link: `/reservations?reservationClasses=${rClass}`,
     },
     {
       icon: FamilyTypePng,
-      tag: "Family Type",
-      link: "/reservations?reservationTypes=family%2B",
+      tag: type + " Type",
+      link: `/reservations?reservationTypes=${type}`,
     },
     {
       icon: NatureViewPng,
       tag: "Balcony View",
-      link: "01",
+      link: "",
     },
     {
       icon: RoomsPng,
       tag: "2 Rooms",
-      link: "01",
+      link: "",
     },
     {
       icon: BedsPng,
       tag: "2 Beds",
-      link: "01",
+      link: "",
     },
     {
       icon: HotTubPng,
       tag: "Hot Bath Tub",
-      link: "01",
+      link: "",
     },
     {
       icon: TourGuidePng,
       tag: "Personal Guide",
-      link: "01",
+      link: "",
     },
   ];
 

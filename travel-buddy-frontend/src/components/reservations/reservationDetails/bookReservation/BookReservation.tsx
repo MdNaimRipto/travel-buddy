@@ -53,8 +53,8 @@ const BookReservation = ({ reservation }: { reservation: IReservations }) => {
   );
 
   // Calculate total price (assuming the price is 2400 per night)
-  const pricePerNight = 2800;
-  const discount = 15;
+  const pricePerNight = reservation.price;
+  const discount = reservation.discount;
   const totalPrice = totalNights * pricePerNight;
 
   const discountAmount = (totalPrice * discount) / 100;
@@ -151,7 +151,7 @@ const BookReservation = ({ reservation }: { reservation: IReservations }) => {
               <span>{discount}%</span>
             </p>
             <p className="flex items-center justify-between text-xs xl:text-sm font-inter font-medium mb-2">
-              <span className="underline font-normal">{`${totalNights} x ${`2800BDT`}:`}</span>
+              <span className="underline font-normal">{`${totalNights} x ${pricePerNight}BDT:`}</span>
               <span>{totalPrice}BDT</span>
             </p>
             <Divider orientation="horizontal" />

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 
-import FeaturesMenuPng from "@/assets/featured-icons/feature-list/menu.png";
+import FeaturesMenuPng from "@/assets/featured-icons/feature-list/menu.webp";
 
 const DetailsPageTitle = ({ title }: { title: string }) => {
   return (
