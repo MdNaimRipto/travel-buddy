@@ -96,9 +96,14 @@ const getUsersReservations = (email, paginationOptions, token) => __awaiter(void
     const checkAndCondition = (andConditions === null || andConditions === void 0 ? void 0 : andConditions.length) > 0 ? { $and: andConditions } : {};
     const query = Object.assign({ email }, checkAndCondition);
     const bookings = yield booking_schema_1.Booking.find(query)
-        .populate({
-        path: "reservationId",
-    })
+        .populate([
+        {
+            path: "reservationId",
+        },
+        {
+            path: "hotelId",
+        },
+    ])
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);

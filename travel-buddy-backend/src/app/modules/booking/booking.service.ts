@@ -131,9 +131,14 @@ const getUsersReservations = async (
   };
 
   const bookings = await Booking.find(query)
-    .populate({
-      path: "reservationId",
-    })
+    .populate([
+      {
+        path: "reservationId",
+      },
+      {
+        path: "hotelId",
+      },
+    ])
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);

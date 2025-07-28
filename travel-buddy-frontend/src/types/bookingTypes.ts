@@ -8,14 +8,12 @@ export interface IBooking {
   userName: string;
   userPhone: string;
   email: string;
-  reservationId: string | IReservations;
-  hotelId: string | IBusinessProfile;
+  reservationId: IReservations;
+  hotelId: IBusinessProfile;
   reservedDays: number;
   startingDate: Date;
   expireDate: Date;
   reservationPrice: number;
   status: statusEnums;
   isAsGuest: boolean;
-  createdAt: string;
-  updatedAt: string;
 }

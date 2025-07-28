@@ -22,7 +22,7 @@ const bookingApis = apiSlice.injectEndpoints({
     //
     // * Get users Reservations
     //
-    getUserReservations: builder.query({
+    getUserBookings: builder.query({
       query: ({ email }: { email: string }) => ({
         url:
           apiConfig.BOOKING.GET_USERS_RESERVATIONS +
@@ -36,7 +36,7 @@ const bookingApis = apiSlice.injectEndpoints({
     //
     // * Cancel Reservation
     //
-    cancelReservation: builder.mutation({
+    cancelBooking: builder.mutation({
       query: ({ bookingId }: { bookingId: string }) => ({
         url: apiConfig.BOOKING.CANCEL + `?bookingId=${bookingId}`,
         method: "PATCH",
@@ -52,6 +52,6 @@ const bookingApis = apiSlice.injectEndpoints({
 
 export const {
   useBookReservationMutation,
-  useGetUserReservationsQuery,
-  useCancelReservationMutation,
+  useGetUserBookingsQuery,
+  useCancelBookingMutation,
 } = bookingApis;

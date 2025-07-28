@@ -8,6 +8,7 @@ import { IBusinessProfile } from "@/types/hotelTypes";
 import { IReservations } from "@/types/reservationTypes";
 import { IUser } from "@/types/userTypes";
 import { formatDateTime } from "@/utils/bookReservation/bookReservationUtils";
+import { UseCommonImports } from "@/utils/UseCommonImports";
 import { Box, Button, Divider, Modal, Typography } from "@mui/material";
 import Image from "next/image";
 import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
@@ -65,6 +66,8 @@ const BookModal = ({
   const { user } = useUserContext();
   const typedUser = user as IUser;
 
+  const { Router } = UseCommonImports();
+
   const handleClose = () => setOpen(false);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -100,6 +103,7 @@ const BookModal = ({
 
     const optionalTask = () => {
       handleClose();
+      Router.push("/user/myBookings");
     };
 
     await postApiHandler({
@@ -197,7 +201,11 @@ const BookModal = ({
                 name="contactNumber"
                 required={true}
                 type="tel"
-                defaultValue={user ? typedUser.contactNumber : ""}
+                defaultValue={
+                  user && typedUser.contactNumber !== "Not Updated Yet!"
+                    ? typedUser.contactNumber
+                    : ""
+                }
               />
             </div>
           </div>
