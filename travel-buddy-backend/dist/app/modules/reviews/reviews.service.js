@@ -24,8 +24,8 @@ const config_1 = __importDefault(require("../../../config/config"));
 const businessProfile_schema_1 = require("../hotels/businessProfile/businessProfile.schema");
 const addReview = (payload, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
-    const { userId, reviewForId, reviewFor } = payload;
-    const isUserExists = yield users_schema_1.Users.findOne({ _id: userId });
+    const { email, reviewForId, reviewFor } = payload;
+    const isUserExists = yield users_schema_1.Users.findOne({ email: email });
     if (!isUserExists) {
         throw new ApiError_1.default(http_status_1.default.UNAUTHORIZED, "User Dose not Exists!");
     }
@@ -37,7 +37,7 @@ const addReview = (payload, token) => __awaiter(void 0, void 0, void 0, function
             throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Hotel Doesn't Exists!");
         }
         const latestBooking = yield booking_schema_1.Booking.findOne({
-            userId: userId,
+            email: email,
             hotelId: reviewForId,
             status: "completed",
         });
@@ -53,7 +53,7 @@ const addReview = (payload, token) => __awaiter(void 0, void 0, void 0, function
             throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "Reservation Doesn't Exists!");
         }
         const isBookedReservationExists = yield booking_schema_1.Booking.findOne({
-            userId,
+            email,
             reservationId: reviewForId,
             status: "completed",
         });
@@ -62,7 +62,7 @@ const addReview = (payload, token) => __awaiter(void 0, void 0, void 0, function
         }
     }
     const isAlreadyReviewed = yield reviews_schema_1.Reviews.findOne({
-        userId,
+        email,
         reviewForId,
         reviewFor,
     });

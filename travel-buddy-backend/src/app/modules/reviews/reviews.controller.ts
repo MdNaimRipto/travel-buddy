@@ -22,10 +22,10 @@ const addReview = catchAsync(async (req: Request, res: Response) => {
 
 // getMiniReviewsCount
 const getMiniReviewsCount = catchAsync(async (req: Request, res: Response) => {
-  const reservationId = req.headers["reservation-id"];
+  const { reviewForId } = req.query;
 
   const result = await ReviewsService.getMiniReviewsCount(
-    reservationId as string,
+    reviewForId as string,
   );
 
   sendResponse(res, {
@@ -38,9 +38,9 @@ const getMiniReviewsCount = catchAsync(async (req: Request, res: Response) => {
 
 // Get Review's
 const getReviews = catchAsync(async (req: Request, res: Response) => {
-  const reservationId = req.headers["reservation-id"];
+  const { reviewForId } = req.query;
 
-  const result = await ReviewsService.getReviews(reservationId as string);
+  const result = await ReviewsService.getReviews(reviewForId as string);
 
   sendResponse(res, {
     success: true,

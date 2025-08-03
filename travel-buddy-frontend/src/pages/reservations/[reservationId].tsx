@@ -21,6 +21,7 @@ import rp02 from "@/assets/reservations/rp02.webp";
 import rp03 from "@/assets/reservations/rp03.webp";
 import rp04 from "@/assets/reservations/rp04.webp";
 import DetailsPageDescription from "@/components/reservations/reservationDetails/DetailsPageDescription";
+import { useGetReviewsQuery } from "@/redux/features/reviewApis";
 
 const ReservationDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
@@ -30,6 +31,12 @@ const ReservationDetails = () => {
   const { data, isLoading } = useGetReservationByIdQuery({
     reservationId: String(reservationId),
   });
+
+  const {
+    data: reviewData,
+    isLoading: reviewIsLoading,
+    refetch: reviewRefetch,
+  } = useGetReviewsQuery({ reviewForId: reservationId.toString() });
 
   if (isLoading) {
     return <Loader />;
@@ -122,13 +129,26 @@ const ReservationDetails = () => {
                 ? String(reservation.hotelId._id)
                 : String(reservation?.hotelId)
             }
+            name={
+              typeof reservation?.hotelId === "object" &&
+              reservation?.hotelId?.hotelName
+                ? String(reservation.hotelId.hotelName)
+                : String("")
+            }
           />
           <div className="pt-16">
             <h4 className="text-xl font-medium titleFont mb-4">
               Reviews & Rating
             </h4>
-            <DetailsPageAddReview />
-            <DetailsPageAllReviews />
+            <DetailsPageAddReview
+              reviewFor="RESERVATION"
+              reviewForId={String(reservation._id)}
+              refetch={reviewRefetch}
+            />
+            <DetailsPageAllReviews
+              data={reviewData}
+              isLoading={reviewIsLoading}
+            />
           </div>
         </div>
         <DetailsPageImageViewer

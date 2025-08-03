@@ -7,10 +7,31 @@ import { Avatar, Button, CircularProgress, Rating } from "@mui/material";
 import RatingFillIcon from "@mui/icons-material/GradeRounded";
 import RatingEmptyIcon from "@mui/icons-material/StarOutlineRounded";
 import { colorConfig } from "@/configs/colorConfig";
+import { IApiSuccessResponse } from "@/types/apiResponseTypes";
+import Loader from "../loader/Loader";
+import { IGetReviews, IReviews } from "@/types/reviews.types";
+import NotFoundMessage from "../NotFoundMessage";
+import { IUser } from "@/types/userTypes";
 
-const DetailsPageAllReviews = () => {
+const DetailsPageAllReviews = ({
+  data,
+  isLoading,
+}: {
+  data: IApiSuccessResponse;
+  isLoading: any;
+}) => {
   const [loadedReviews, setLoadedReviews] = useState(6);
   const [isLoadedMore, setIsLoadedMore] = useState(false);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  const realReviews = data?.data.reviews as IReviews[];
+
+  if (!realReviews || realReviews === null || realReviews === undefined) {
+    return <NotFoundMessage title="No Reviews Found!" />;
+  }
 
   const handleLoadMoreReviews = () => {
     try {
@@ -21,177 +42,41 @@ const DetailsPageAllReviews = () => {
     }
   };
 
-  const reviews = [
+  const staticReviews = [
     {
-      user: "Alice Johnson",
+      userName: "Alice Johnson",
+      profileImage: User01.src,
       review:
         "Great experience! The service was excellent and the food was delicious. Great experience! The service was excellent and the food was delicious. Great experience! The service was excellent and the food was delicious.",
       rating: 5,
-      userImg: User01.src,
     },
     {
-      user: "Bob Smith",
+      userName: "Bob Smith",
+      profileImage: User02.src,
       review: "Good value for money. The room was clean and comfortable.",
       rating: 4,
-      userImg: User02.src,
     },
     {
-      user: "Catherine Lee",
+      userName: "Catherine Lee",
+      profileImage: User03.src,
       review:
         "Average stay. The location was convenient, but the amenities were lacking.",
       rating: 4,
-      userImg: User03.src,
-    },
-    {
-      user: "David Brown",
-      review:
-        "Not satisfied with the service. The staff was unresponsive and the room was noisy.",
-      rating: 2,
-      userImg: User04.src,
-    },
-    {
-      user: "Alice Johnson",
-      review:
-        "Great experience! The service was excellent and the food was delicious.",
-      rating: 5,
-      userImg: User01.src,
-    },
-    {
-      user: "Bob Smith",
-      review: "Good value for money. The room was clean and comfortable.",
-      rating: 4,
-      userImg: User02.src,
-    },
-    {
-      user: "Catherine Lee",
-      review:
-        "Average stay. The location was convenient, but the amenities were lacking.",
-      rating: 2,
-      userImg: User03.src,
-    },
-    {
-      user: "David Brown",
-      review:
-        "Not satisfied with the service. The staff was unresponsive and the room was noisy.",
-      rating: 1,
-      userImg: User04.src,
-    },
-    {
-      user: "Alice Johnson",
-      review:
-        "Great experience! The service was excellent and the food was delicious. Great experience! The service was excellent and the food was delicious. Great experience! The service was excellent and the food was delicious.",
-      rating: 5,
-      userImg: User01.src,
-    },
-    {
-      user: "Bob Smith",
-      review: "Good value for money. The room was clean and comfortable.",
-      rating: 4,
-      userImg: User02.src,
-    },
-    {
-      user: "Catherine Lee",
-      review:
-        "Average stay. The location was convenient, but the amenities were lacking.",
-      rating: 4,
-      userImg: User03.src,
-    },
-    {
-      user: "David Brown",
-      review:
-        "Not satisfied with the service. The staff was unresponsive and the room was noisy.",
-      rating: 2,
-      userImg: User04.src,
-    },
-    {
-      user: "Alice Johnson",
-      review:
-        "Great experience! The service was excellent and the food was delicious.",
-      rating: 5,
-      userImg: User01.src,
-    },
-    {
-      user: "Bob Smith",
-      review: "Good value for money. The room was clean and comfortable.",
-      rating: 4,
-      userImg: User02.src,
-    },
-    {
-      user: "Catherine Lee",
-      review:
-        "Average stay. The location was convenient, but the amenities were lacking.",
-      rating: 2,
-      userImg: User03.src,
-    },
-    {
-      user: "David Brown",
-      review:
-        "Not satisfied with the service. The staff was unresponsive and the room was noisy.",
-      rating: 1,
-      userImg: User04.src,
-    },
-    {
-      user: "Alice Johnson",
-      review:
-        "Great experience! The service was excellent and the food was delicious. Great experience! The service was excellent and the food was delicious. Great experience! The service was excellent and the food was delicious.",
-      rating: 5,
-      userImg: User01.src,
-    },
-    {
-      user: "Bob Smith",
-      review: "Good value for money. The room was clean and comfortable.",
-      rating: 4,
-      userImg: User02.src,
-    },
-    {
-      user: "Catherine Lee",
-      review:
-        "Average stay. The location was convenient, but the amenities were lacking.",
-      rating: 4,
-      userImg: User03.src,
-    },
-    {
-      user: "David Brown",
-      review:
-        "Not satisfied with the service. The staff was unresponsive and the room was noisy.",
-      rating: 2,
-      userImg: User04.src,
-    },
-    {
-      user: "Alice Johnson",
-      review:
-        "Great experience! The service was excellent and the food was delicious.",
-      rating: 5,
-      userImg: User01.src,
-    },
-    {
-      user: "Bob Smith",
-      review: "Good value for money. The room was clean and comfortable.",
-      rating: 4,
-      userImg: User02.src,
-    },
-    {
-      user: "Catherine Lee",
-      review:
-        "Average stay. The location was convenient, but the amenities were lacking.",
-      rating: 2,
-      userImg: User03.src,
-    },
-    {
-      user: "David Brown",
-      review:
-        "Not satisfied with the service. The staff was unresponsive and the room was noisy.",
-      rating: 1,
-      userImg: User04.src,
     },
   ];
+
+  const reviews = [...realReviews, ...staticReviews];
+
+  if (!reviews.length) {
+    return <NotFoundMessage title="No Reviews Found!" />;
+  }
 
   return (
     <div className="mt-12">
       {reviews.slice(0, loadedReviews).map((r, i) => (
         <div key={i} className="flex items-start gap-4 mb-5">
           <div className="flex flex-col items-center gap-2 mb-4">
-            <Avatar src={r.userImg} sx={{ width: 48, height: 48 }} />
+            <Avatar src={r.profileImage} sx={{ width: 48, height: 48 }} />
             <div className="ml-8">
               <span className="w-[1px] h-[18px] bg-gray block"></span>
               <span className="w-[36px] h-[1px] bg-gray block"></span>
@@ -199,7 +84,7 @@ const DetailsPageAllReviews = () => {
           </div>
           <div>
             <h4 className="text-sm md:text-xl font-inter text-black font-semibold mt-3 mb-5">
-              {r.user}
+              {r.userName}
             </h4>
             <p className="font-inter font-normal mb-3 text-xs md:text-sm leading-7 md:leading-7">
               {r.review}

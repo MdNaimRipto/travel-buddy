@@ -1,23 +1,62 @@
 import { colorConfig } from "@/configs/colorConfig";
+import { useUserContext } from "@/context/AuthContext";
+import { IReviews, reviewForEnumTypes } from "@/types/reviews.types";
+import { IUser } from "@/types/userTypes";
 import { Button, CircularProgress, Rating } from "@mui/material";
 import React, { useState } from "react";
+import { ErrorToast } from "../toasts/ErrorToast";
+import { useAddReviewMutation } from "@/redux/features/reviewApis";
+import { postApiHandler } from "../apiHandlers/postApiHandler";
 
-const DetailsPageAddReview = () => {
+const DetailsPageAddReview = ({
+  reviewFor,
+  reviewForId,
+  refetch,
+}: {
+  reviewForId: string;
+  reviewFor: reviewForEnumTypes;
+  refetch: any;
+}) => {
+  const { user } = useUserContext();
+  const typedUser = user as IUser;
+
   const [rating, setRating] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [addReview] = useAddReviewMutation();
 
-  const handleReviewSubmit = async (e: any) => {
+  const handleReviewSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoading(true);
+    const form = e.target as HTMLFormElement;
 
-    const form = e.target;
     const review = form.review.value;
+
     if (rating <= 0) {
-      //    toast.error("Please Add Rating!");
-      setIsLoading(false);
-    } else {
+      return ErrorToast("Please Add Rating First!");
     }
+
+    const option: {
+      data: IReviews;
+    } = {
+      data: {
+        reviewFor,
+        reviewForId,
+        email: typedUser.email,
+        userName: typedUser.userName,
+        profileImage: typedUser.profileImage,
+        rating: rating,
+        review: review,
+      },
+    };
+
+    await postApiHandler({
+      mutateFn: addReview,
+      options: option,
+      setIsLoading,
+      optionalTasksFn: () => {
+        refetch(), form.reset(), setRating(0);
+      },
+    });
   };
 
   return (
@@ -40,10 +79,7 @@ const DetailsPageAddReview = () => {
         />
         <Button
           type="submit"
-          //   disabled={
-          //     (!user && title === "Add Review") ||
-          //     (user?.uid === envConfig.admin_uid && title === "Add Review")
-          //   }
+          disabled={!user || isLoading}
           sx={{
             background: `linear-gradient(${colorConfig.secondary}, ${colorConfig.primary}) !important`,
             color: colorConfig.white,
@@ -55,14 +91,7 @@ const DetailsPageAddReview = () => {
             },
           }}
         >
-          {isLoading ? (
-            <CircularProgress
-              sx={{ color: colorConfig.white, marginLeft: 1 }}
-              size={24}
-            />
-          ) : (
-            "Add Review"
-          )}
+          {isLoading ? "Adding Review..." : "Add Review"}
         </Button>
       </div>
     </form>

@@ -8,8 +8,14 @@ const reviewZodSchema = zod_1.z.object({
         reviewForId: zod_1.z.string({
             required_error: "Review For Id Id Required",
         }),
-        userId: zod_1.z.string({
+        email: zod_1.z.string({
             required_error: "User Id Required",
+        }),
+        userName: zod_1.z.string({
+            required_error: "User Id Required",
+        }),
+        profileImage: zod_1.z.string({
+            required_error: "Profile Image is Required",
         }),
         rating: zod_1.z
             .number({

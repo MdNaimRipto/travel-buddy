@@ -1,10 +1,9 @@
-import { Types } from "mongoose";
-import { IUser } from "../users/users.interface";
-
 export type reviewForEnumTypes = "HOTEL" | "RESERVATION";
 
 export interface IReviews {
-  userId: Types.ObjectId | Partial<IUser>;
+  email: string;
+  profileImage: string;
+  userName: string;
   reviewForId: string;
   reviewFor: reviewForEnumTypes;
   rating: number;

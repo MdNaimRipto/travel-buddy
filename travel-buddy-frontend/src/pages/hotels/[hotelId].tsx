@@ -20,6 +20,7 @@ import r2 from "@/assets/hotels/r2.webp";
 import r3 from "@/assets/hotels/r3.webp";
 import r4 from "@/assets/hotels/r4.webp";
 import NotFoundMessage from "@/components/common/NotFoundMessage";
+import { useGetReviewsQuery } from "@/redux/features/reviewApis";
 
 const HotelDetails = () => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
@@ -29,6 +30,12 @@ const HotelDetails = () => {
   const { data, isLoading } = useGetHotelDetailsQuery({
     hotelId: String(hotelId),
   });
+
+  const {
+    data: reviewData,
+    isLoading: reviewIsLoading,
+    refetch: reviewRefetch,
+  } = useGetReviewsQuery({ reviewForId: hotelId.toString() });
 
   if (isLoading) {
     return <Loader />;
@@ -98,8 +105,15 @@ const HotelDetails = () => {
             <h4 className="text-xl font-medium titleFont mb-4">
               Reviews & Rating
             </h4>
-            <DetailsPageAddReview />
-            <DetailsPageAllReviews />
+            <DetailsPageAddReview
+              reviewFor="HOTEL"
+              reviewForId={String(hotel._id)}
+              refetch={reviewRefetch}
+            />
+            <DetailsPageAllReviews
+              data={reviewData}
+              isLoading={reviewIsLoading}
+            />
           </div>
           <RelatedHotels />
         </div>

@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import NavigateIcon from "@mui/icons-material/OpenInNew";
 
-const VisitHotel = ({ id }: { id: string }) => {
+const VisitHotel = ({ id, name }: { id: string; name: string }) => {
   return (
     <Link
       href={`/hotels/${id}`}
@@ -20,7 +20,7 @@ const VisitHotel = ({ id }: { id: string }) => {
       />
       <p className="absolute bottom-1/2 md:bottom-8 translate-y-1/2 md:translate-y-0 md:left-8 px-4 md:px-0 text-white flex items-center gap-4 md:gap-2">
         <span className="text-xl md:text-5xl font-semibold titleFont">
-          Visit Hotel Sheraton
+          Visit {name}
         </span>
         <NavigateIcon
           sx={{

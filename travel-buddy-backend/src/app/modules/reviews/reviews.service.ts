@@ -20,9 +20,9 @@ const addReview = async (
 ): Promise<IReviews | null> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
 
-  const { userId, reviewForId, reviewFor } = payload;
+  const { email, reviewForId, reviewFor } = payload;
 
-  const isUserExists = await Users.findOne({ _id: userId });
+  const isUserExists = await Users.findOne({ email: email });
   if (!isUserExists) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "User Dose not Exists!");
   }
@@ -36,7 +36,7 @@ const addReview = async (
     }
 
     const latestBooking = await Booking.findOne({
-      userId: userId,
+      email: email,
       hotelId: reviewForId,
       status: "completed",
     });
@@ -58,7 +58,7 @@ const addReview = async (
     }
 
     const isBookedReservationExists = await Booking.findOne({
-      userId,
+      email,
       reservationId: reviewForId,
       status: "completed",
     });
@@ -71,7 +71,7 @@ const addReview = async (
   }
 
   const isAlreadyReviewed = await Reviews.findOne({
-    userId,
+    email,
     reviewForId,
     reviewFor,
   });

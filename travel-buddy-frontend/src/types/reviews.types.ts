@@ -1,9 +1,9 @@
-import { IUser } from "./userTypes";
-
 export type reviewForEnumTypes = "HOTEL" | "RESERVATION";
 
 export interface IReviews {
-  userId: string | Partial<IUser>;
+  userName: string;
+  email: string;
+  profileImage: string;
   reviewForId: string;
   reviewFor: reviewForEnumTypes;
   rating: number;

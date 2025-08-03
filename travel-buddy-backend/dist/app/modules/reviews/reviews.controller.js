@@ -43,8 +43,8 @@ const addReview = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void
 }));
 // getMiniReviewsCount
 const getMiniReviewsCount = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reservationId = req.headers["reservation-id"];
-    const result = yield reviews_service_1.ReviewsService.getMiniReviewsCount(reservationId);
+    const { reviewForId } = req.query;
+    const result = yield reviews_service_1.ReviewsService.getMiniReviewsCount(reviewForId);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -54,8 +54,8 @@ const getMiniReviewsCount = (0, catchAsync_1.default)((req, res) => __awaiter(vo
 }));
 // Get Review's
 const getReviews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const reservationId = req.headers["reservation-id"];
-    const result = yield reviews_service_1.ReviewsService.getReviews(reservationId);
+    const { reviewForId } = req.query;
+    const result = yield reviews_service_1.ReviewsService.getReviews(reviewForId);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
