@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import CloseSearchIcon from "@mui/icons-material/CloseRounded";
 import { IconButton, Tooltip } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
+import { useGetAllReservationsQuery } from "@/redux/features/hotelApis/reservationApis";
+import { useGetAllHotelsQuery } from "@/redux/features/hotelApis/hotelApis";
+import SearchResult from "./SearchResult";
 
 const SearchPage = ({
   isSearchPageOpen,
@@ -10,9 +13,22 @@ const SearchPage = ({
   isSearchPageOpen: boolean;
   setIsSearchPageOpen: any;
 }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const { data: reservationRes, isLoading: reservationLoading } =
+    useGetAllReservationsQuery({
+      limit: String("3"),
+      searchTerm: searchTerm,
+    });
+
+  const { data: hotelRes, isLoading: hotelLoading } = useGetAllHotelsQuery({
+    limit: String("3"),
+    searchTerm: searchTerm,
+  });
+
   return (
     <div
-      className={`bg-white pt-12 xl:pt-24 fixed top-1/2 -translate-y-1/2 -translate-x-1/2 left-1/2 z-50 overflow-hidden ${
+      className={`bg-white pt-12 xl:pt-24 fixed inset-0 -translate-x-1/2 left-1/2 z-50 ${
         isSearchPageOpen ? "h-screen w-full opacity-100" : "w-0 h-0 opacity-0"
       } duration-500`}
     >
@@ -48,10 +64,22 @@ const SearchPage = ({
           </IconButton>
         </Tooltip>
         <input
+          onChange={e => setSearchTerm(e.target.value)}
+          type="text"
           placeholder="Search Here..."
-          className="w-[96%] lg:w-[80%] py-3 md:py-5 border-b border-b-gray px-4 md:px-10 text-xl md:text-2xl lg:text-4xl placeholder:text-gray focus:outline-none"
+          className="container py-3 md:py-5 border-b border-b-gray px-4 md:px-10 text-xl md:text-2xl lg:text-4xl placeholder:text-gray focus:outline-none"
         />
       </div>
+      {searchTerm.length ? (
+        <SearchResult
+          hotelLoading={hotelLoading}
+          hotelRes={hotelRes}
+          reservationLoading={reservationLoading}
+          reservationRes={reservationRes}
+        />
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 };
