@@ -9,6 +9,29 @@ const ReservationClassSelectBox = () => {
     setReservationClass(event.target.value);
   };
 
+  const options = [
+    {
+      label: "Standard",
+      value: "Standard",
+    },
+    {
+      label: "Deluxe",
+      value: "Deluxe",
+    },
+    {
+      label: "Executive",
+      value: "Executive",
+    },
+    {
+      label: "Suite",
+      value: "Suite",
+    },
+    {
+      label: "Presidential",
+      value: "Presidential",
+    },
+  ];
+
   return (
     <Select
       value={reservationClass}
@@ -20,9 +43,11 @@ const ReservationClassSelectBox = () => {
       sx={style}
     >
       <MenuItem value="">Select Reservation Class</MenuItem>
-      <MenuItem value="first">First</MenuItem>
-      <MenuItem value="second">Second</MenuItem>
-      <MenuItem value="third">Third</MenuItem>
+      {options.map((o, i) => (
+        <MenuItem key={i} value={o.value}>
+          {o.label}
+        </MenuItem>
+      ))}
     </Select>
   );
 };
