@@ -56,8 +56,6 @@ const ResetPassword = () => {
         window.sessionStorage.removeItem("otpMail");
         Router.push("/auth/login");
       }
-
-      console.log(option);
     } catch (e) {
       const error = e as IApiErrorResponse;
       ErrorToast(error.data.message);

@@ -48,8 +48,6 @@ const BookCalendar = ({
     ]);
   };
 
-  console.log({ dates });
-
   return (
     <DateRange
       editableDateInputs={true}

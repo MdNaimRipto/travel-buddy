@@ -47,7 +47,6 @@ const hotelApis = apiSlice.injectEndpoints({
     //
     getAllHotels: builder.query({
       query: (data: IHotelFilters) => {
-        console.log({ data });
         const queryParameters = new URLSearchParams();
         if (data.searchTerm) {
           queryParameters.append("searchTerm", data.searchTerm);

@@ -58,10 +58,6 @@ const AuthContext = ({ children }: { children: ReactNode }) => {
     contextLoading,
     setContextLoading,
   };
-  console.log({
-    user: value.user,
-    contextLoading,
-  });
 
   if (contextLoading) {
     return <Loader />;

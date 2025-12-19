@@ -65,7 +65,6 @@ const Login = () => {
 
       const res: IAuthApiSuccessResponse = await customLogin(option).unwrap();
       if (res.success) {
-        console.log(res);
         SuccessToast(res.message);
         const userData = decryptData(String(res.data?.userData));
         setUser(userData);

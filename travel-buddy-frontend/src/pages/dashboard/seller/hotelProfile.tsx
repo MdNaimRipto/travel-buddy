@@ -14,8 +14,6 @@ const HotelProfile = () => {
 
   const hotel = hotelDetails?.data as IBusinessProfile;
 
-  console.log(hotelDetails);
-
   return (
     <Transition>
       {hotel ? (

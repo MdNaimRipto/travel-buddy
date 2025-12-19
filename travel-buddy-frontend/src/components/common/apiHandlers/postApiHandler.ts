@@ -21,7 +21,6 @@ export const postApiHandler = async ({
 
     const res: IApiSuccessResponse = await mutateFn(options).unwrap();
     if (res.success === true) {
-      console.log("success");
       SuccessToast(res.message);
       if (optionalTasksFn) {
         optionalTasksFn();

@@ -54,8 +54,6 @@ const VerifyOtp = () => {
         SuccessToast(res.message);
         Router.push("/auth/forgetPassword/resetPassword");
       }
-
-      console.log(option);
     } catch (e) {
       const error = e as IApiErrorResponse;
       ErrorToast(error.data.message);

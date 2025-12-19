@@ -17,8 +17,6 @@ const Verify = () => {
   const filterQuery = query as unknown as IQueryType;
   const { tab, email } = filterQuery;
 
-  console.log({ tab, email });
-
   return (
     <div>
       {tab === "userRole" && <SelectUserRole />}

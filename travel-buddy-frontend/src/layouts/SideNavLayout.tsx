@@ -43,7 +43,6 @@ const SideNavLayout = ({
   useEffect(() => {
     if (sideNavRef.current) {
       const sideNavWidth = sideNavRef.current.getBoundingClientRect().width;
-      console.log(sideNavWidth);
       const iconButtonLeft = isSideNavOpen ? sideNavWidth + 0 : 0;
       setIconButtonLeft(iconButtonLeft);
     }
