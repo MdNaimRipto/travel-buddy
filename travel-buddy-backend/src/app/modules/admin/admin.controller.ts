@@ -7,7 +7,6 @@ import pick from "../../../shared/shared";
 import { paginationFields } from "../../../constants/pagination.constant";
 import { verifyAuthToken } from "../../../util/verifyAuthToken";
 import { userRoleEnums } from "../users/users.interface";
-import { ReservationStatus } from "../hotels/reservations/reservations.interface";
 
 const getDashboardInfo = catchAsync(async (req: Request, res: Response) => {
   const token = verifyAuthToken(req);
@@ -41,13 +40,8 @@ const getAllUsers = catchAsync(async (req: Request, res: Response) => {
 
 const getAllReservations = catchAsync(async (req: Request, res: Response) => {
   const options = pick(req.query, paginationFields);
-  const { status } = req.query;
   const token = verifyAuthToken(req);
-  const result = await AdminService.getAllReservations(
-    options,
-    status as ReservationStatus,
-    token,
-  );
+  const result = await AdminService.getAllReservations(options, token);
 
   sendResponse(res, {
     success: true,

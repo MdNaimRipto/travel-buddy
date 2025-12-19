@@ -113,9 +113,9 @@ const ProfileAndDashboardSideNav = ({
           ))}
         </div>
         <Divider sx={{ mx: 3 }} />
-        <div className="px-4 pt-12 flex flex-col gap-8 items-center justify-center">
-          {typedUser?.role === "hotelOwner" &&
-            !Router.pathname.includes("/dashboard/seller") && (
+        {typedUser?.role === "hotelOwner" && (
+          <div className="px-4 pt-12 flex flex-col gap-8 items-center justify-center">
+            {!Router.pathname.includes("/dashboard/seller") && (
               <Link
                 href={"/dashboard/seller/hotelStatistics"}
                 className={`text-gray flex items-center gap-6 ${
@@ -137,7 +137,34 @@ const ProfileAndDashboardSideNav = ({
                 />
               </Link>
             )}
-        </div>
+          </div>
+        )}
+        {typedUser?.role === "admin" && (
+          <div className="px-4 pt-12 flex flex-col gap-8 items-center justify-center">
+            {!Router.pathname.includes("/dashboard/admin") && (
+              <Link
+                href={"/dashboard/admin/analytics"}
+                className={`text-gray flex items-center gap-6 ${
+                  isSideNavOpen
+                    ? "w-full lg:w-auto xl:w-full"
+                    : "w-full lg:w-full xl:w-auto"
+                }`}
+              >
+                <ProfileAndDashboardSideNavButton
+                  Icon={SellerDashboardIcon}
+                  title={"Admin Dashboard"}
+                  variant="text"
+                  color={colorConfig.gray}
+                  backgroundColor={colorConfig.white}
+                  hoverColor={colorConfig.secondary}
+                  hoverBackgroundColor={colorConfig.white}
+                  radiusStyle="0px"
+                  isSideNavOpen={isSideNavOpen}
+                />
+              </Link>
+            )}
+          </div>
+        )}
       </div>
       <div className="px-4 mb-4 h-14 flex flex-col gap-8 items-center justify-center">
         <ProfileAndDashboardSideNavButton

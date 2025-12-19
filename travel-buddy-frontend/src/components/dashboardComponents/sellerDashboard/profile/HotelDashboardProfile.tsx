@@ -20,48 +20,6 @@ const HotelDashboardProfile = ({
 }) => {
   const [isViewerOpen, setIsImageViewerOpen] = useState(false);
 
-  // const sampleBusinessProfile: IBusinessProfile = {
-  //   hotelId: "hotel-12345",
-  //   hotelOwnerId: "owner-67890",
-  //   hotelName: "Paradise Beach Resort",
-  //   totalRating: 4.5,
-  //   startingPrice: 1500,
-  //   hotelLocation: {
-  //     street: "123 Seaside Avenue",
-  //     area: "Inani Beach",
-  //     destination: "Cox's Bazar",
-  //     coordinates: {
-  //       latitude: "21.4375",
-  //       longitude: "91.9832",
-  //     },
-  //   },
-  //   totalReservations: 250,
-  //   hotelImages: [
-  //     hotel01.src,
-  //     hotel02.src,
-  //     hotel03.src,
-  //     hotel04.src,
-  //     hotel05.src,
-  //   ],
-  //   amenities: [
-  //     "Free WiFi",
-  //     "Swimming Pool",
-  //     "Gym",
-  //     "Spa",
-  //     "24/7 Room Service",
-  //     "Beach View",
-  //     "Restaurant",
-  //   ],
-  //   description:
-  //     "Paradise Beach Resort offers a luxurious stay with breathtaking ocean views, top-notch amenities, and world-class service. Experience tranquility and comfort at its finest.",
-  //   socialLinks: {
-  //     facebook: "https://facebook.com/paradisebeachresort",
-  //     instagram: "https://instagram.com/paradisebeachresort",
-  //     twitter: "https://twitter.com/paradisebeach",
-  //     linkedin: "https://linkedin.com/company/paradisebeachresort",
-  //   },
-  // };
-
   const gridImageView = [
     {
       img: hotel?.hotelImage,

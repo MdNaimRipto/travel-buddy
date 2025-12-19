@@ -131,12 +131,12 @@ const getAllUsers = (paginationOptions, userType, token) => __awaiter(void 0, vo
     }
     //
     const checkAndCondition = (andConditions === null || andConditions === void 0 ? void 0 : andConditions.length) > 0 ? { $and: andConditions } : {};
-    const query = Object.assign({ role: userType }, checkAndCondition);
+    const query = Object.assign({}, checkAndCondition);
     const owners = yield users_schema_1.Users.find(query)
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
-    const total = yield users_schema_1.Users.countDocuments({ role: userType });
+    const total = yield users_schema_1.Users.countDocuments();
     return {
         meta: {
             page,
@@ -146,7 +146,7 @@ const getAllUsers = (paginationOptions, userType, token) => __awaiter(void 0, vo
         data: owners,
     };
 });
-const getAllReservations = (paginationOptions, reservationStatus, token) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllReservations = (paginationOptions, token) => __awaiter(void 0, void 0, void 0, function* () {
     jwtHelpers_1.jwtHelpers.jwtVerify(token, config_1.default.jwt_secret);
     const andConditions = [];
     const { page, limit, skip, sortBy, sortOrder } = (0, paginationHelpers_1.calculatePaginationFunction)(paginationOptions);
@@ -156,14 +156,12 @@ const getAllReservations = (paginationOptions, reservationStatus, token) => __aw
     }
     //
     const checkAndCondition = (andConditions === null || andConditions === void 0 ? void 0 : andConditions.length) > 0 ? { $and: andConditions } : {};
-    const query = Object.assign({ status: reservationStatus }, checkAndCondition);
+    const query = Object.assign({}, checkAndCondition);
     const result = yield reservations_schema_1.Reservations.find(query)
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
-    const total = yield reservations_schema_1.Reservations.countDocuments({
-        status: reservationStatus,
-    });
+    const total = yield reservations_schema_1.Reservations.countDocuments({});
     return {
         meta: {
             page,

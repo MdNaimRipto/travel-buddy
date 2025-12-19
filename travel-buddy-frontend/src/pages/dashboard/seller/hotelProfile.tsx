@@ -7,7 +7,6 @@ import React, { ReactElement } from "react";
 import Transition from "@/components/animation/Transition";
 import HotelDashboardProfile from "@/components/dashboardComponents/sellerDashboard/profile/HotelDashboardProfile";
 import CreateHotelProfile from "@/components/dashboardComponents/sellerDashboard/profile/CreateHotelProfile";
-import { IApiSuccessResponse } from "@/types/apiResponseTypes";
 import { IBusinessProfile } from "@/types/hotelTypes";
 
 const HotelProfile = () => {

@@ -44,9 +44,8 @@ const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
 }));
 const getAllReservations = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const options = (0, shared_1.default)(req.query, pagination_constant_1.paginationFields);
-    const { status } = req.query;
     const token = (0, verifyAuthToken_1.verifyAuthToken)(req);
-    const result = yield admin_service_1.AdminService.getAllReservations(options, status, token);
+    const result = yield admin_service_1.AdminService.getAllReservations(options, token);
     (0, sendResponse_1.default)(res, {
         success: true,
         statusCode: http_status_1.default.OK,

@@ -156,7 +156,10 @@ const ProfileAndDashboardDropDown = ({
         </MenuItem>
         {user.role === "admin" && (
           <MenuItem onClick={handleClose} disabled={isLoading}>
-            <Link href="/" className="w-44 flex items-center gap-3">
+            <Link
+              href="/dashboard/admin/analytics"
+              className="w-44 flex items-center gap-3"
+            >
               <SpaceDashboard color="action" />{" "}
               <span className="font-inter font-normal">Admin Dashboard</span>
             </Link>

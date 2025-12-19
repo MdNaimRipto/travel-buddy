@@ -1,11 +1,6 @@
-import httpStatus from "http-status";
-import ApiError from "../../../errors/ApiError";
 import { IBooking } from "../booking/booking.interface";
 import { Booking } from "../booking/booking.schema";
-import {
-  IReservations,
-  ReservationStatus,
-} from "../hotels/reservations/reservations.interface";
+import { IReservations } from "../hotels/reservations/reservations.interface";
 import { Reservations } from "../hotels/reservations/reservations.schema";
 import { IReport } from "../report/report.interface";
 import { Report } from "../report/report.schema";
@@ -170,7 +165,6 @@ const getAllUsers = async (
     andConditions?.length > 0 ? { $and: andConditions } : {};
 
   const query = {
-    role: userType,
     ...checkAndCondition,
   };
 
@@ -178,7 +172,7 @@ const getAllUsers = async (
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
-  const total = await Users.countDocuments({ role: userType });
+  const total = await Users.countDocuments();
 
   return {
     meta: {
@@ -192,7 +186,6 @@ const getAllUsers = async (
 
 const getAllReservations = async (
   paginationOptions: IPaginationOptions,
-  reservationStatus: ReservationStatus,
   token: string,
 ): Promise<IGenericPaginationResponse<IReservations[]>> => {
   jwtHelpers.jwtVerify(token, config.jwt_secret as Secret);
@@ -212,7 +205,6 @@ const getAllReservations = async (
     andConditions?.length > 0 ? { $and: andConditions } : {};
 
   const query = {
-    status: reservationStatus,
     ...checkAndCondition,
   };
 
@@ -221,9 +213,7 @@ const getAllReservations = async (
     .skip(skip)
     .limit(limit);
 
-  const total = await Reservations.countDocuments({
-    status: reservationStatus,
-  });
+  const total = await Reservations.countDocuments({});
 
   return {
     meta: {
