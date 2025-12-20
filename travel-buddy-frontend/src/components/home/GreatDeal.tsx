@@ -5,6 +5,7 @@ import CommonBtnWithIcon from "@/components/common/buttons/CommonBtnWithIcon";
 import NavigateIcon from "@mui/icons-material/OpenInNew";
 import { Box } from "@mui/material";
 import OnScrollAnimation from "@/components/animation/OnScrollAnimation";
+import Link from "next/link";
 
 const GreatDeal = () => {
   return (
@@ -53,19 +54,21 @@ const GreatDeal = () => {
                 className="text-3xl titleFont"
                 autoStart
               />
-              <CommonBtnWithIcon
-                title="Book Now"
-                icon={
-                  <NavigateIcon
-                    sx={{
-                      fontSize: {
-                        xs: 16,
-                        sm: 20,
-                      },
-                    }}
-                  />
-                }
-              />
+              <Link href="/reservations">
+                <CommonBtnWithIcon
+                  title="Book Now"
+                  icon={
+                    <NavigateIcon
+                      sx={{
+                        fontSize: {
+                          xs: 16,
+                          sm: 20,
+                        },
+                      }}
+                    />
+                  }
+                />
+              </Link>
             </div>
           </div>
         </OnScrollAnimation>

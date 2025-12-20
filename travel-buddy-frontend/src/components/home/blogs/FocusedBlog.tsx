@@ -43,7 +43,7 @@ const FocusedBlog = ({
       {blogs.map((b, i) => (
         <SwiperSlide key={i}>
           <div className="h-full w-full overflow-hidden group cursor-pointer">
-            <div className="w-[96%] lg:h-[300px] mx-auto overflow-hidden rounded-lg">
+            <div className="w-[96%] h-[280px] lg:h-[300px] mx-auto overflow-hidden rounded-lg">
               <Image
                 src={b.img}
                 alt="Focused Blog Image"

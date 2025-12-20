@@ -30,7 +30,9 @@ const AboutContent = () => {
           travel dreams into well-planned realities—every time, everywhere.`}
         </p>
         <div className="mt-5 flex items-center justify-between">
-          <CommonButton title="Read More" />
+          <Link href={"/aboutUs"}>
+            <CommonButton title="Read More" />
+          </Link>
           <div className="flex flex-col md:flex-row items-center gap-2">
             <Image
               className=""
