@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import { CommonListsLi, FooterTitle, commonListStyle } from "../footerCommon";
 
 const AboutUs = () => {
@@ -10,19 +9,19 @@ const AboutUs = () => {
     },
     {
       title: "FAQ",
-      path: "/faq",
+      path: "/aboutUs#faq",
     },
     {
       title: "Login",
-      path: "/login",
+      path: "/auth/login",
     },
     {
       title: "Register",
-      path: "/register",
+      path: "/auth/register",
     },
     {
       title: "Terms & Conditions",
-      path: "/termsAndConditions",
+      path: "/",
     },
   ];
   return (

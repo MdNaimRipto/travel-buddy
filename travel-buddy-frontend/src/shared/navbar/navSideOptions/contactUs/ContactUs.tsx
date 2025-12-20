@@ -53,7 +53,10 @@ const ContactUs = ({
       >
         <ContactHeading setIsContactOpen={setIsContactOpen} />
         <div className="px-3">
-          <ContactForm isContactOpen={isContactOpen} />
+          <ContactForm
+            isContactOpen={isContactOpen}
+            setIsContactOpen={setIsContactOpen}
+          />
           <Divider
             sx={{
               my: 3,

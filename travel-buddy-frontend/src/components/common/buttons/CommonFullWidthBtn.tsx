@@ -1,10 +1,15 @@
 import { colorConfig } from "@/configs/colorConfig";
-import { Button } from "@mui/material";
+import { Button, ButtonProps } from "@mui/material";
 import React from "react";
 
-const CommonFullWidthBtn = ({ title }: { title: string }) => {
+type CommonFullWidthBtnProps = {
+  title: string;
+} & ButtonProps;
+
+const CommonFullWidthBtn = ({ title, ...rest }: CommonFullWidthBtnProps) => {
   return (
     <Button
+      {...rest}
       className="titleFont"
       sx={{
         background: `linear-gradient(45deg, ${colorConfig.secondary}, ${colorConfig.primary}) !important`,
@@ -17,6 +22,7 @@ const CommonFullWidthBtn = ({ title }: { title: string }) => {
         "&:hover": {
           background: `linear-gradient(45deg, ${colorConfig.primary}, ${colorConfig.secondary}) !important`,
         },
+        ...(rest.sx || {}),
       }}
     >
       {title}

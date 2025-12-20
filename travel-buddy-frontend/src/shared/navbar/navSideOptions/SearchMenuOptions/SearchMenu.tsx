@@ -30,10 +30,12 @@ const SearchMenu = ({
           <SearchIcon />
         </IconButton>
       </Tooltip>
-      <SearchPage
-        isSearchPageOpen={isSearchPageOpen}
-        setIsSearchPageOpen={setIsSearchPageOpen}
-      />
+      <div className={`relative ${isSearchPageOpen ? "z-0" : "-z-50"}`}>
+        <SearchPage
+          isSearchPageOpen={isSearchPageOpen}
+          setIsSearchPageOpen={setIsSearchPageOpen}
+        />
+      </div>
     </>
   );
 };
