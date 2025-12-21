@@ -2,67 +2,39 @@ import React from "react";
 import Image from "next/image";
 import { CiLocationOn as LocationIcon } from "react-icons/ci";
 import { FaStar as RatingIcon } from "react-icons/fa6";
-
-import img1 from "@/assets/reservations/rp01.webp";
-import img2 from "@/assets/reservations/rp02.webp";
-import img3 from "@/assets/reservations/rp03.webp";
-import img4 from "@/assets/reservations/rp04.webp";
 import Link from "next/link";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
+import { useGetAllReservationsQuery } from "@/redux/features/adminApis";
+import { IReservations } from "@/types/reservationTypes";
 
-const RelatedReservations = () => {
-  const relatedReservations = [
-    {
-      id: "01",
-      location: "Inani Beach, Cox's Bazar",
-      title: "Phi Phi Islands Adventure",
-      rating: 4.8,
-      total_reviews: 269,
-      img: img1,
-    },
-    {
-      id: "02",
-      location: "Saint Martin's Island",
-      title: "Coral Island Experience Tour",
-      rating: 4.5,
-      total_reviews: 312,
-      img: img2,
-    },
-    {
-      id: "03",
-      location: "Sajek Valley, Rangamati",
-      title: "Sajek Valley Retreat Tour",
-      rating: 4.9,
-      total_reviews: 198,
-      img: img3,
-    },
-    {
-      id: "04",
-      location: "Jaflong, Sylhet",
-      title: "Jaflong River Cruise Tour",
-      rating: 4.7,
-      total_reviews: 174,
-      img: img4,
-    },
-  ];
+const RelatedReservations = ({ location }: { location: string }) => {
+  const { data, isLoading } = useGetAllReservationsQuery({
+    location: location,
+  });
+
+  if (isLoading) {
+    return <div></div>;
+  }
+
+  const relatedReservations = data?.data?.data as IReservations[];
 
   return (
     <div>
       <h3 className="text-xl text-black font-medium titleFont mt-8 mb-3">
         Related Reservations
       </h3>
-      {relatedReservations.map((r, i) => (
+      {relatedReservations.slice(0, 4).map((r, i) => (
         <div key={i} className="flex items-start gap-2 my-5">
           <Link
-            href={`/reservations/01`}
+            href={`/reservations/${r._id}`}
             className="w-28 h-28 overflow-hidden rounded-lg"
           >
             <Image
-              src={r.img.src}
+              src={r.image}
               alt="Reservation-Images"
-              width={r.img.width}
-              height={r.img.height}
+              width={80}
+              height={80}
               priority
               className="w-full h-full object-cover"
             />
@@ -71,26 +43,26 @@ const RelatedReservations = () => {
             <h6 className="flex lg:hidden xl:flex items-center gap-1 text-[10px] mb-2">
               <LocationIcon className="text-xs" />
               <span className="font-inter text-black font-medium">
-                {r.location}
+                {r.location.area}
               </span>
             </h6>
             <Link
-              href={`/reservations/01`}
+              href={`/reservations/${r._id}`}
               className="titleFont text-sm leading-6 text-black hover:text-secondary font-medium mb-2 block duration-300"
             >
-              {r.title}...
+              {r.name.slice(0, 20)}...
             </Link>
             <div className="flex flex-wrap lg:gap-2 items-center justify-between">
               <div className="flex items-center gap-1">
                 <RatingIcon className="text-xs text-primary mb-[2px]" />
                 <p className="text-xs font-poppins text-success font-medium">
-                  {r.rating}
+                  {r.rating.rating}
                 </p>
                 <p className="text-xs font-poppins text-black font-medium">
-                  ({r.total_reviews} Total)
+                  ({r.rating.total} Total)
                 </p>
               </div>
-              <Link href={`/reservations/01`}>
+              <Link href={`/reservations/${r._id}`}>
                 <Button
                   variant="outlined"
                   size="small"

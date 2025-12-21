@@ -117,7 +117,9 @@ const ReservationDetails = () => {
           <div className="col-span-1">
             <BookReservation reservation={reservation} />
             <div className="hidden lg:block">
-              <RelatedReservations />
+              <RelatedReservations
+                location={reservation.location.destination}
+              />
             </div>
           </div>
         </div>

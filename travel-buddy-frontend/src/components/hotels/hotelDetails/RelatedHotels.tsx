@@ -5,92 +5,70 @@ import { FaStar as RatingIcon } from "react-icons/fa6";
 import Link from "next/link";
 import { Button } from "@mui/material";
 import { colorConfig } from "@/configs/colorConfig";
+import { useGetAllHotelsQuery } from "@/redux/features/hotelApis/hotelApis";
+import { IBusinessProfile } from "@/types/hotelTypes";
 
-import img2 from "@/assets/hotels/r1.webp";
-import img3 from "@/assets/hotels/r2.webp";
-import img4 from "@/assets/hotels/r3.webp";
-import img5 from "@/assets/hotels/r4.webp";
+const RelatedHotels = ({ location }: { location: string }) => {
+  const { data, isLoading } = useGetAllHotelsQuery({ destination: location });
 
-const RelatedHotels = () => {
-  const relatedHotels = [
-    {
-      id: "01",
-      location: "Saint Martin's Island",
-      title: "Mandarin Oriental, Bangkok",
-      rating: 4.5,
-      total_reviews: 312,
-      img: img2,
-    },
-    {
-      id: "02",
-      location: "Sajek Valley, Rangamati",
-      title: "Padma Resort Ubud",
-      rating: 4.9,
-      total_reviews: 198,
-      img: img3,
-    },
-    {
-      id: "03",
-      location: "Jaflong, Sylhet",
-      title: "Soneva Fushi",
-      rating: 4.7,
-      total_reviews: 174,
-      img: img4,
-    },
-    {
-      id: "04",
-      location: "Jaflong, Sylhet",
-      title: "Belmond Hotel Caruso",
-      rating: 4.8,
-      total_reviews: 194,
-      img: img5,
-    },
-  ];
+  if (isLoading) {
+    return <div></div>;
+  }
+
+  if (!data) {
+    return <div></div>;
+  }
+
+  const relatedHotels = data?.data?.data as IBusinessProfile[];
+
+  if (!relatedHotels?.length) {
+    return <div></div>;
+  }
 
   return (
     <div>
       <h3 className="text-xl text-black font-medium titleFont mb-3">
         Related Reservations
       </h3>
-      {relatedHotels.map((r, i) => (
+      {relatedHotels.slice(0, 4).map((r, i) => (
         <div key={i} className="flex items-start gap-2 my-5">
           <Link
-            href={`/reservations/01`}
+            href={`/hotels/${r._id}`}
             className="w-28 h-28 overflow-hidden rounded-lg"
           >
             <Image
-              src={r.img.src}
+              src={r.hotelImage}
               alt="Reservation-Images"
-              width={r.img.width}
-              height={r.img.height}
+              width={80}
+              height={80}
               priority
-              className="w-full h-full object-cover brightness-90"
+              className="w-full h-full object-cover"
             />
           </Link>
           <div className="w-3/5 md:w-[26%] lg:w-[60%]">
             <h6 className="flex lg:hidden xl:flex items-center gap-1 text-[10px] mb-2">
               <LocationIcon className="text-xs" />
               <span className="font-inter text-black font-medium">
-                {r.location}
+                {r.hotelLocation.destination}
               </span>
             </h6>
             <Link
-              href={`/reservations/01`}
+              href={`/hotels/${r._id}`}
               className="titleFont text-sm leading-6 text-black hover:text-secondary font-medium mb-2 block duration-300"
             >
-              {r.title}...
+              {r.hotelName.slice(0, 20)}...
             </Link>
             <div className="flex flex-wrap gap-2 items-center justify-between">
               <div className="flex items-center gap-1">
                 <RatingIcon className="text-xs text-primary mb-[2px]" />
                 <p className="text-xs font-poppins text-success font-medium">
-                  {r.rating}
+                  {4.5}
                 </p>
                 <p className="text-xs font-poppins text-black font-medium">
-                  ({r.total_reviews} Total)
+                  ({198} Total)
                 </p>
               </div>
-              <Link href={`/reservations/01`}>
+              <Link href={`/hotels/${r._id}`}>
                 <Button
                   variant="outlined"
                   size="small"

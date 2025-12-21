@@ -115,7 +115,7 @@ const HotelDetails = () => {
               isLoading={reviewIsLoading}
             />
           </div>
-          <RelatedHotels />
+          <RelatedHotels location={hotel.hotelLocation.destination} />
         </div>
 
         {/* Viewer: */}
