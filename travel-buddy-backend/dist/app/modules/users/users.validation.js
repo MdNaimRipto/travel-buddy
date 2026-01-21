@@ -11,9 +11,11 @@ const usersZodSchema = zod_1.z.object({
         email: zod_1.z.string({
             required_error: "Email is Required",
         }),
-        contactNumber: zod_1.z.string({
+        contactNumber: zod_1.z
+            .string({
             required_error: "Contact Number is Required",
-        }),
+        })
+            .optional(),
         password: zod_1.z.string({
             required_error: "Password is Required",
         }),

@@ -20,7 +20,7 @@ const user_constant_1 = require("./user.constant");
 exports.usersSchema = new mongoose_1.Schema({
     userName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    contactNumber: { type: String, required: true },
+    contactNumber: { type: String, required: true, unique: false },
     profileImage: {
         type: String,
         required: true,

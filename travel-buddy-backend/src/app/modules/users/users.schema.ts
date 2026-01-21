@@ -12,7 +12,7 @@ export const usersSchema = new Schema<IUser>(
   {
     userName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    contactNumber: { type: String, required: true },
+    contactNumber: { type: String, required: false, unique: false },
     profileImage: {
       type: String,
       required: true,

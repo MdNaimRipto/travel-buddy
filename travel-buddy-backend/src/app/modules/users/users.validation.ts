@@ -9,9 +9,11 @@ const usersZodSchema = z.object({
     email: z.string({
       required_error: "Email is Required",
     }),
-    contactNumber: z.string({
-      required_error: "Contact Number is Required",
-    }),
+    contactNumber: z
+      .string({
+        required_error: "Contact Number is Required",
+      })
+      .optional(),
     password: z.string({
       required_error: "Password is Required",
     }),
@@ -52,9 +54,11 @@ const providerLoginZodSchema = z.object({
       email: z.string({
         required_error: "Email is Required",
       }),
-      contactNumber: z.string({
-        required_error: "Contact Number is Required",
-      }),
+      contactNumber: z
+        .string({
+          required_error: "Contact Number is Required",
+        })
+        .optional(),
       password: z.string({
         required_error: "Password is Required",
       }),

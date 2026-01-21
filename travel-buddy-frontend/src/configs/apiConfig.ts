@@ -1,6 +1,6 @@
 export const apiConfig = {
-  BASE_URL: "https://travel-buddy-backend.vercel.app/api/v1.0",
-  // BASE_URL: "http://localhost:5835/api/v1.0",
+  // BASE_URL: "https://travel-buddy-backend.vercel.app/api/v1.0",
+  BASE_URL: "http://localhost:5835/api/v1.0",
   // ? Admin APIs will be paused for now
   // ? because of the new design and the new features that will be added in the future.
   ADMIN: {

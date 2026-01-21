@@ -5,7 +5,7 @@ export type genderEnums = "MALE" | "FEMALE";
 export interface IUser {
   userName: string;
   email: string;
-  contactNumber: string;
+  contactNumber?: string;
   password: string;
   profileImage: string;
   role: userRoleEnums;

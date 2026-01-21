@@ -49,16 +49,17 @@ const CreatePassword = () => {
     const password = form.password.value;
 
     const encryptedData = JSON.parse(
-      window.sessionStorage.getItem("tempProviderData") as string
+      window.sessionStorage.getItem("tempProviderData") as string,
     );
 
     const tempProviderData = decryptData(encryptedData);
+    const contactNumber = String(Math.floor(1e10 + Math.random() * 9e10));
 
     const option = {
       data: {
         userInfo: {
           userName: tempProviderData.name as string,
-          contactNumber: "Not Updated Yet!",
+          contactNumber: contactNumber,
           email: tempProviderData.email as string,
           password: password as string,
           role: userRole as IUserRoleEnums,
